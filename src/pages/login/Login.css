@@ -1,0 +1,14 @@
+.login__form,
+.login__social {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+.login__g {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  color: #4285f4;
+}
+.login__d {
+  color: #5865f2;
+}

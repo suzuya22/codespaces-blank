@@ -1,0 +1,39 @@
+.registro__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+.registro__roles {
+  margin: 0;
+  padding: var(--s-3);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  display: grid;
+  gap: var(--s-1);
+}
+.registro__roles legend {
+  padding: 0 var(--s-2);
+  font-family: var(--f-body);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.registro__opcion {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 36px;
+  font-family: var(--f-body);
+  font-weight: 600;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+.registro__opcion input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--c-primary);
+}
+@media (min-width: 768px) {
+  .registro__roles {
+    grid-template-columns: 1fr 1fr;
+  }
+}
