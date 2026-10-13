@@ -1,0 +1,27 @@
+.layout {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+.layout__main {
+  flex: 1;
+  padding-bottom: calc(var(--bottomnav-h) + var(--s-4));
+}
+.layout__skip {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 100;
+  padding: var(--s-2) var(--s-3);
+  background: var(--c-accent);
+  color: #000;
+  border: 0;
+}
+.layout__skip:focus {
+  left: var(--s-2);
+}
+@media (min-width: 768px) {
+  .layout__main {
+    padding-bottom: 0;
+  }
+}
