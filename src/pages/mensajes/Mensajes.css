@@ -1,0 +1,150 @@
+.mensajes {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  height: calc(100svh - var(--header-h) - var(--bottomnav-h));
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+.mensajes__lista {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) 0;
+  background: var(--c-header);
+  overflow-y: auto;
+}
+.mensajes__titulo {
+  display: none;
+}
+.mensajes__contacto {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: 4px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--c-text);
+  cursor: pointer;
+  text-align: left;
+}
+.mensajes__contacto--activo {
+  border-color: var(--c-accent);
+}
+.mensajes__nombre {
+  display: none;
+}
+.mensajes__chat {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.mensajes__head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  background: var(--c-primary);
+}
+.mensajes__head a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+.mensajes__head small {
+  display: none;
+}
+.mensajes__burbujas {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-3);
+}
+.mensajes__form {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: var(--s-2) var(--s-3) var(--s-3);
+  padding: 0 var(--s-2) 0 var(--s-3);
+  border-radius: 999px;
+  background: var(--c-input);
+  color: var(--c-input-text);
+}
+.mensajes__form input {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+.mensajes__form input:focus {
+  outline: none;
+}
+.mensajes__form button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--c-primary);
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Tablet: lista de conversaciones con nombres y vista previa */
+@media (min-width: 768px) {
+  .mensajes {
+    grid-template-columns: 280px minmax(0, 1fr);
+    height: calc(100svh - var(--header-h) - 170px);
+    min-height: 460px;
+    margin: var(--s-5) auto 0;
+    padding: 0 var(--s-5);
+    gap: var(--s-4);
+  }
+  .mensajes__lista {
+    align-items: stretch;
+    padding: var(--s-4) var(--s-3);
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+  }
+  .mensajes__titulo {
+    display: block;
+    font-size: 1.4rem;
+    margin-bottom: var(--s-2);
+  }
+  .mensajes__contacto {
+    border-radius: var(--radius);
+    padding: var(--s-2);
+  }
+  .mensajes__contacto--activo {
+    background: var(--c-primary-soft);
+  }
+  .mensajes__nombre {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .mensajes__nombre small {
+    color: var(--c-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mensajes__chat {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .mensajes__head small {
+    display: inline;
+    margin-left: auto;
+    color: #e4dcff;
+  }
+}

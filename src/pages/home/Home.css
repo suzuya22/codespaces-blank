@@ -1,0 +1,129 @@
+.home__hero {
+  position: relative;
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-5) var(--s-4) var(--s-4);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: radial-gradient(120% 90% at 50% 0%, #3d0f7a 0%, var(--c-surface) 70%);
+  border: 1px solid var(--c-border);
+  text-align: center;
+}
+.home__hero h1 {
+  font-size: 1.7rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.home__hero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-3);
+}
+.home__hero-art {
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border: 2px solid var(--c-header-2);
+}
+.home__hero-art svg {
+  width: 100%;
+  height: 100%;
+}
+.home__stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.75rem;
+  color: var(--c-text-muted);
+  text-transform: uppercase;
+}
+.home__stats strong {
+  display: block;
+  font-family: var(--f-pixel);
+  font-size: 1.1rem;
+  color: var(--c-accent);
+}
+
+/* Carruseles horizontales en móvil */
+.home__scroller {
+  display: grid;
+  grid-auto-flow: column;
+  gap: var(--s-3);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: var(--s-2);
+  margin: 0 calc(var(--s-4) * -1);
+  padding-inline: var(--s-4);
+  scrollbar-width: thin;
+}
+.home__scroller > * {
+  scroll-snap-align: start;
+}
+.home__scroller--games {
+  grid-auto-columns: 46%;
+}
+.home__scroller--assets {
+  grid-auto-columns: 40%;
+}
+.home__asset {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  padding-bottom: var(--s-2);
+}
+.home__asset-img {
+  width: 100%;
+  aspect-ratio: 1;
+}
+.home__asset p,
+.home__asset small {
+  display: block;
+  padding: 0 var(--s-2);
+  font-size: 0.85rem;
+}
+.home__asset p {
+  margin-top: var(--s-2);
+  font-weight: 600;
+}
+
+/* Tablet: hero en dos columnas y rejillas en lugar de carruseles */
+@media (min-width: 768px) {
+  .home__hero {
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    text-align: left;
+    padding: var(--s-6);
+  }
+  .home__hero h1 {
+    font-size: 2.4rem;
+  }
+  .home__hero-text {
+    align-items: flex-start;
+  }
+  .home__stats {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    gap: var(--s-7);
+  }
+  .home__scroller {
+    grid-auto-flow: row;
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+  }
+  .home__scroller--games {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .home__scroller--assets {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (min-width: 1100px) {
+  .home__scroller--games {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

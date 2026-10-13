@@ -1,0 +1,82 @@
+.creditos {
+  text-align: center;
+}
+.creditos__banner {
+  margin: calc(var(--s-4) * -1) calc(var(--s-4) * -1) 0;
+}
+.creditos__manifiesto h1 {
+  font-size: 1.3rem;
+  margin-bottom: var(--s-3);
+}
+.creditos__manifiesto blockquote {
+  margin: 0;
+  padding: var(--s-4);
+  border: 1px solid var(--c-primary);
+  border-radius: var(--radius);
+  font-family: var(--f-body);
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+}
+.creditos__bloque {
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--c-border);
+}
+.creditos__bloque h2 {
+  font-size: 1.1rem;
+  margin-bottom: var(--s-3);
+}
+.creditos__equipo,
+.creditos__redes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-3);
+}
+.creditos__equipo li {
+  display: flex;
+  flex-direction: column;
+}
+.creditos__redes a {
+  color: var(--c-text);
+  text-decoration: none;
+  font-family: var(--f-body);
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+.creditos__redes a:hover {
+  color: var(--c-accent);
+}
+.creditos__logo {
+  display: flex;
+  justify-content: center;
+}
+
+/* Tablet: manifiesto ancho y bloques en dos columnas */
+@media (min-width: 768px) {
+  .creditos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-5);
+  }
+  .creditos__banner {
+    grid-column: 1 / -1;
+    margin: 0;
+    height: 240px;
+  }
+  .creditos__manifiesto,
+  .creditos__logo {
+    grid-column: 1 / -1;
+  }
+  .creditos__manifiesto blockquote {
+    font-size: 1.35rem;
+    padding: var(--s-6);
+  }
+  .creditos__bloque {
+    padding: var(--s-5);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    background: var(--c-surface);
+  }
+}

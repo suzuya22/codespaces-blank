@@ -1,0 +1,85 @@
+.perfil__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--c-border);
+}
+.perfil__banner {
+  margin: calc(var(--s-4) * -1) calc(var(--s-4) * -1) 0;
+  height: 130px;
+  overflow: hidden;
+}
+.perfil__banner svg {
+  width: 100%;
+  height: 100%;
+}
+.perfil__head {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s-3);
+}
+.perfil__avatar {
+  border: 4px solid var(--c-bg);
+  flex-shrink: 0;
+  margin-top: -48px;
+}
+.perfil__user {
+  font-size: 1.4rem;
+}
+.perfil__insignias {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  font-size: 0.8rem;
+  color: var(--c-accent);
+}
+.perfil__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+.perfil__content h2 {
+  margin-bottom: var(--s-2);
+  font-size: 1.15rem;
+}
+.perfil__skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+.perfil__grid {
+  display: grid;
+  gap: var(--s-4);
+}
+
+/* Tablet: tarjeta de perfil a la izquierda, contenido a la derecha */
+@media (min-width: 768px) {
+  .perfil {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    align-items: start;
+  }
+  .perfil__card {
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-5));
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    padding: 0 var(--s-4) var(--s-4);
+  }
+  .perfil__banner {
+    margin: 0 calc(var(--s-4) * -1);
+  }
+  .perfil__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .perfil__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
