@@ -1,75 +1,83 @@
-# React + TypeScript + Vite
+# 🎮 DevNet — Comunidad indie
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Donde el desarrollo indie cobra vida.**
+> Comparte prototipos, recibe feedback real y encuentra tu equipo.
 
-Currently, two official plugins are available:
+DevNet es una plataforma web para creadores de videojuegos independientes: programadores, artistas, animadores, compositores y game designers pueden publicar sus prototipos, pedir playtesting y armar equipos de trabajo.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Proyecto del curso **Diseño adaptable** — Universidad Pontificia Bolivariana, 2026-2.
 
-## React Compiler
+🔗 **Sitio publicado:** https://suzuya22.github.io/codespaces-blank/
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 📌 Entrega #2
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Diseño en borrador y wireframe digital de la **versión tablet**.
+- Diseño en alta de la **versión móvil** en Figma.
+- Primera versión del sitio en **React**, con secciones, componentes y navegación.
+- Publicación en **GitHub Pages**.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🧭 Secciones del sitio
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| Ruta | Sección | Descripción |
+| --- | --- | --- |
+| `/` | Inicio | Destacados / Nuevo, buscador, videojuegos indie y assets animados |
+| `/galeria` | Explorar | Búsqueda y filtros por motor y estado del proyecto |
+| `/proyecto/:id` | Detalle de proyecto | Ficha técnica, evaluación con estrellas, feedback y "Solicitar unirme" |
+| `/perfil/:usuario` | Perfil | Insignias, sobre mí, habilidades y proyectos publicados |
+| `/publicar` | Publicar proyecto | Formulario con vista previa de portada y subida de build |
+| `/mensajes` | Mensajes | Chat entre creadores |
+| `/login` · `/registro` · `/recuperar` | Acceso | Inicio de sesión, registro con rol principal y recuperación de contraseña |
+| `/creditos` | Acerca de & contacto | Manifiesto, equipo fundador y redes |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📱 Diseño adaptable
 
-```
+El sitio está construido **mobile first**:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Móvil (< 768 px):** menú hamburguesa, barra de navegación inferior y carruseles horizontales.
+- **Tablet (≥ 768 px):** la navegación pasa a la barra superior, desaparece la barra inferior y el contenido se redistribuye en columnas (filtros laterales en Explorar, perfil en dos columnas, lista de chats con nombres, formularios de acceso junto al banner).
+- **Escritorio (≥ 1100 px):** rejillas más anchas y contenido centrado.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🧩 Estructura
 
 ```
+src/
+├── components/
+│   ├── layout/        # Header, SideMenu, BottomNav, Footer, Layout, AuthShell
+│   └── ui/            # Button, InputField, SearchBar, Tag, Tabs, ProjectCard,
+│                      # SectionHeader, HeroBanner, ChatBubble, RatingStars,
+│                      # Icon y PixelArt (portadas, avatares y cielo pixelado)
+├── data/              # Contenido de ejemplo (proyectos, usuarios, chats)
+├── pages/             # Una carpeta por página (JSX + CSS)
+├── index.css          # Variables de diseño (colores, tipografía, espaciado)
+└── main.jsx           # Rutas con React Router (HashRouter)
+```
+
+Las imágenes de proyectos y avatares son **arte pixelado generado por código**, por lo que el sitio no usa imágenes con derechos de autor.
+
+## 🛠️ Tecnologías
+
+- [React](https://react.dev/) + [Vite](https://vite.dev/)
+- [React Router](https://reactrouter.com/) (HashRouter, compatible con GitHub Pages)
+- CSS puro con variables y media queries
+- GitHub Actions para el despliegue en GitHub Pages
+- Fuentes: *Pixelify Sans*, *Cormorant SC* e *Inter* (Google Fonts)
+
+## 🚀 Cómo ejecutarlo
+
+```bash
+npm install      # instalar dependencias
+npm run dev      # servidor de desarrollo
+npm run build    # compilar a /dist
+npm run preview  # ver la versión compilada
+```
+
+Cada `push` a `main` publica el sitio automáticamente con el workflow `.github/workflows/deploy.yml`.
+
+## 👥 Equipo
+
+| Integrante | Rol |
+| --- | --- |
+| Juan Sebastián López | Lead Game Dev & UX Architect |
+| Juan Pablo Hernández | Lead UI/UX & Art Director |
