@@ -1,4 +1,4 @@
-# 🎮 DevNet — Comunidad indie
+# DevNet — Comunidad indie
 
 > **Donde el desarrollo indie cobra vida.**
 > Comparte prototipos, recibe feedback real y encuentra tu equipo.
@@ -11,14 +11,14 @@ Proyecto del curso **Diseño adaptable** — Universidad Pontificia Bolivariana,
 
 ---
 
-## 📌 Entrega #2
+## Entrega #2
 
 - Diseño en borrador y wireframe digital de la **versión tablet**.
 - Diseño en alta de la **versión móvil** en Figma.
 - Primera versión del sitio en **React**, con secciones, componentes y navegación.
 - Publicación en **GitHub Pages**.
 
-## 🧭 Secciones del sitio
+## Secciones del sitio
 
 | Ruta | Sección | Descripción |
 | --- | --- | --- |
@@ -31,7 +31,7 @@ Proyecto del curso **Diseño adaptable** — Universidad Pontificia Bolivariana,
 | `/login` · `/registro` · `/recuperar` | Acceso | Inicio de sesión, registro con rol principal y recuperación de contraseña |
 | `/creditos` | Acerca de & contacto | Manifiesto, equipo fundador y redes |
 
-## 📱 Diseño adaptable
+## Diseño adaptable
 
 El sitio está construido **mobile first**:
 
@@ -39,7 +39,7 @@ El sitio está construido **mobile first**:
 - **Tablet (≥ 768 px):** la navegación pasa a la barra superior, desaparece la barra inferior y el contenido se redistribuye en columnas (filtros laterales en Explorar, perfil en dos columnas, lista de chats con nombres, formularios de acceso junto al banner).
 - **Escritorio (≥ 1100 px):** rejillas más anchas y contenido centrado.
 
-## 🧩 Estructura
+## Estructura
 
 ```
 src/
@@ -56,7 +56,7 @@ src/
 
 Las imágenes de proyectos y avatares son **arte pixelado generado por código**, por lo que el sitio no usa imágenes con derechos de autor.
 
-## 🛠️ Tecnologías
+## Tecnologías
 
 - [React](https://react.dev/) + [Vite](https://vite.dev/)
 - [React Router](https://reactrouter.com/) (HashRouter, compatible con GitHub Pages)
@@ -64,20 +64,8 @@ Las imágenes de proyectos y avatares son **arte pixelado generado por código**
 - GitHub Actions para el despliegue en GitHub Pages
 - Fuentes: *Pixelify Sans*, *Cormorant SC* e *Inter* (Google Fonts)
 
-## 🚀 Cómo ejecutarlo
 
-```bash
-npm install      # instalar dependencias
-npm run dev      # servidor de desarrollo
-npm run build    # compilar a /dist
-npm run preview  # ver la versión compilada
-```
+## Equipo
 
-Cada `push` a `main` publica el sitio automáticamente con el workflow `.github/workflows/deploy.yml`.
-
-## 👥 Equipo
-
-| Integrante | Rol |
-| --- | --- |
-| Juan Sebastián López | Lead Game Dev & UX Architect |
-| Juan Pablo Hernández | Lead UI/UX & Art Director |
+Juan Sebastián López
+Juan Pablo Hernández 
