@@ -1,0 +1,24 @@
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--c-border);
+}
+.tabs__tab {
+  flex: 1;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--c-text-muted);
+  font-family: var(--f-body);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+}
+.tabs__tab + .tabs__tab {
+  border-left: 1px solid var(--c-border);
+}
+.tabs__tab--active {
+  color: var(--c-text);
+  border-bottom-color: var(--c-accent);
+}

@@ -1,0 +1,15 @@
+.bubble {
+  max-width: 80%;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--radius) var(--radius) var(--radius) 2px;
+  background: var(--c-input);
+  color: var(--c-input-text);
+  font-size: 0.92rem;
+  align-self: flex-start;
+}
+.bubble--own {
+  align-self: flex-end;
+  border-radius: var(--radius) var(--radius) 2px var(--radius);
+  background: var(--c-primary);
+  color: #fff;
+}

@@ -1,0 +1,26 @@
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  margin-bottom: var(--s-3);
+}
+.section-header__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  color: var(--c-text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.section-header__link:hover {
+  color: var(--c-text);
+}
+.section-header__text {
+  display: none;
+}
+@media (min-width: 768px) {
+  .section-header__text {
+    display: inline;
+  }
+}

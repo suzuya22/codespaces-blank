@@ -1,0 +1,12 @@
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--c-accent);
+}
+.stars__btn {
+  border: 0;
+  background: none;
+  padding: 2px;
+  color: inherit;
+  cursor: pointer;
+}
