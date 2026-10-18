@@ -1,5 +1,4 @@
 import { Link, NavLink } from 'react-router'
-import { Logo } from '../ui/PixelArt.jsx'
 import Icon from '../ui/Icon.jsx'
 import { NAV_PRINCIPAL } from './navegacion.js'
 import './Header.css'
@@ -9,7 +8,7 @@ export default function Header({ onMenu }) {
     <header className="header">
       <div className="header__inner">
         <Link to="/" className="header__brand" aria-label="DevNet, ir al inicio">
-          <Logo size={38} />
+          <img src="images/logos/dv-logo.png" alt="DevNet" className="header__logo-img" />
           <span className="header__name pixel">DevNet</span>
         </Link>
 

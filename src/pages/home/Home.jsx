@@ -2,10 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import Tabs from '../../components/ui/Tabs/Tabs.jsx'
 import SearchBar from '../../components/ui/SearchBar/SearchBar.jsx'
-import Button from '../../components/ui/Button/Button.jsx'
 import SectionHeader from '../../components/ui/SectionHeader/SectionHeader.jsx'
 import ProjectCard from '../../components/ui/ProjectCard/ProjectCard.jsx'
-import { PixelCover } from '../../components/ui/PixelArt.jsx'
 import { PROYECTOS, ASSETS } from '../../data/proyectos.js'
 import './Home.css'
 
@@ -24,33 +22,52 @@ function Home() {
 
   return (
     <div className="page home">
-      <Tabs tabs={PESTANAS} active={pestana} onChange={setPestana} label="Ordenar proyectos" />
-      <SearchBar value={busqueda} onChange={setBusqueda} onSubmit={(q) => navigate(`/galeria?q=${encodeURIComponent(q)}`)} />
+      <div className="home__top-nav">
+        <Tabs tabs={PESTANAS} active={pestana} onChange={setPestana} label="Ordenar proyectos" />
+      </div>
+      
+      <SearchBar 
+        value={busqueda} 
+        onChange={setBusqueda} 
+        onSubmit={(q) => navigate(`/galeria?q=${encodeURIComponent(q)}`)}
+        placeholder="Buscar..."
+      />
 
       <section className="home__hero">
-        <div className="home__hero-text">
-          <h1 className="pixel">Donde el desarrollo indie cobra vida</h1>
-          <p className="muted">Comparte prototipos, recibe feedback real y encuentra tu equipo.</p>
-          <Button to="/registro">Unirme como creador</Button>
-        </div>
-        <div className="home__hero-art">
-          <PixelCover seed="devnet-hero" palette={['#1a0f2e', '#3d0f7a', '#8668e6', '#f2c14e']} />
+        <div className="home__hero-banner">
+          <img 
+            src="images/banners/hero-banner.png" 
+            alt="Donde el desarrollo indie cobra vida" 
+            className="home__hero-img" 
+          />
+          <div className="home__hero-action">
+            <button 
+              type="button" 
+              className="home__hero-btn"
+              onClick={() => navigate('/registro')}
+            >
+              UNIRME COMO CREADOR
+            </button>
+          </div>
         </div>
         <ul className="home__stats">
           <li>
-            <strong>+1.2k</strong> prototipos
+            <strong>+1.2K</strong>
+            <span>PROTOTIPOS</span>
           </li>
           <li>
-            <strong>+450</strong> equipos
+            <strong>+450</strong>
+            <span>EQUIPOS</span>
           </li>
           <li>
-            <strong>+97k</strong> feedbacks
+            <strong>+9.7K</strong>
+            <span>FEEDBACKS</span>
           </li>
         </ul>
       </section>
 
-      <section>
-        <SectionHeader title="Videojuegos indie" to="/galeria" />
+      <section className="home__section">
+        <SectionHeader title="VIDEOJUEGOS INDIE" to="/galeria" />
         <div className="home__scroller home__scroller--games">
           {juegos.map((p) => (
             <ProjectCard key={p.id} proyecto={p} variant="mini" />
@@ -58,14 +75,18 @@ function Home() {
         </div>
       </section>
 
-      <section>
-        <SectionHeader title="Assets animados" to="/galeria" />
+      <section className="home__section">
+        <SectionHeader title="ASSETS ANIMADOS" to="/galeria" />
         <div className="home__scroller home__scroller--assets">
           {ASSETS.map((a) => (
-            <article key={a.id} className="home__asset">
-              <PixelCover seed={a.id} palette={a.paleta} className="home__asset-img" />
-              <p>{a.titulo}</p>
-              <small className="muted">@{a.autor}</small>
+            <article key={a.id} className="home__asset-card">
+              <div className="home__asset-preview">
+                <img src={a.imagen} alt={a.titulo} className="home__asset-img" loading="lazy" />
+              </div>
+              <div className="home__asset-info">
+                <p className="home__asset-title">{a.titulo}</p>
+                <small className="home__asset-author">@{a.autor}</small>
+              </div>
             </article>
           ))}
         </div>

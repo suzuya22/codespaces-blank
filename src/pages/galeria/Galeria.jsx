@@ -1,12 +1,11 @@
 import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router'
 import SearchBar from '../../components/ui/SearchBar/SearchBar.jsx'
-import Tag from '../../components/ui/Tag/Tag.jsx'
 import ProjectCard from '../../components/ui/ProjectCard/ProjectCard.jsx'
 import { PROYECTOS, MOTORES, ESTADOS } from '../../data/proyectos.js'
 import './Galeria.css'
 
-// Explorar proyectos: búsqueda + filtros por motor y estado
+// Explorar proyectos: búsqueda + filtros por motor y estado (idéntico a Figma)
 function Galeria() {
   const [params, setParams] = useSearchParams()
   const [busqueda, setBusqueda] = useState(params.get('q') ?? '')
@@ -24,7 +23,7 @@ function Galeria() {
 
   return (
     <div className="page galeria">
-      <h1 className="galeria__title">Explorar proyectos</h1>
+      <h1 className="galeria__title">EXPLORAR PROYECTOS</h1>
 
       <div className="galeria__layout">
         <aside className="galeria__filtros">
@@ -33,36 +32,65 @@ function Galeria() {
             onChange={setBusqueda}
             onSubmit={(q) => setParams(q ? { q } : {})}
             onFilter={() => setFiltrosAbiertos(!filtrosAbiertos)}
-            placeholder="Buscar por nombre, autor o género"
+            placeholder="Buscar..."
           />
           <div className={`galeria__panel ${filtrosAbiertos ? '' : 'galeria__panel--oculto'}`}>
-            <p className="galeria__label">Motor</p>
-            <div className="galeria__chips">
-              {MOTORES.map((m) => (
-                <Tag key={m.id} active={motor === m.id} onClick={() => setMotor(m.id)}>
-                  {m.nombre}
-                </Tag>
-              ))}
+            <div className="galeria__filter-section">
+              <span className="galeria__label">MOTOR:</span>
+              <div className="galeria__engine-radios">
+                <label className="galeria__engine-opt">
+                  <input
+                    type="radio"
+                    name="motor"
+                    value="todos"
+                    checked={motor === 'todos'}
+                    onChange={() => setMotor('todos')}
+                  />
+                  <span className="galeria__radio-dot"></span>
+                  <span className="galeria__engine-text">TODOS</span>
+                </label>
+                {MOTORES.filter((m) => m.id !== 'todos').map((m) => (
+                  <label key={m.id} className="galeria__engine-opt" title={m.nombre}>
+                    <input
+                      type="radio"
+                      name="motor"
+                      value={m.id}
+                      checked={motor === m.id}
+                      onChange={() => setMotor(m.id)}
+                    />
+                    <span className="galeria__radio-dot"></span>
+                    <img src={m.logo} alt={m.nombre} className="galeria__engine-logo" />
+                  </label>
+                ))}
+              </div>
             </div>
-            <p className="galeria__label">Estado</p>
-            <div className="galeria__chips">
-              {ESTADOS.map((e) => (
-                <Tag key={e.id} active={estado === e.id} onClick={() => setEstado(e.id)}>
-                  {e.nombre}
-                </Tag>
-              ))}
+
+            <div className="galeria__filter-section">
+              <span className="galeria__label">ESTADO:</span>
+              <div className="galeria__estado-tabs">
+                {ESTADOS.map((e) => (
+                  <button
+                    key={e.id}
+                    type="button"
+                    className={`galeria__estado-btn ${estado === e.id ? 'galeria__estado-btn--active' : ''}`}
+                    onClick={() => setEstado(e.id)}
+                  >
+                    {e.nombre.toUpperCase()}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </aside>
 
         <section aria-live="polite">
-          <p className="muted galeria__count">{resultados.length} proyectos</p>
+          <p className="galeria__count">{resultados.length} proyectos encontrados</p>
           {resultados.length === 0 ? (
             <p className="card">No encontramos proyectos con esos filtros.</p>
           ) : (
             <div className="galeria__grid">
               {resultados.map((p) => (
-                <ProjectCard key={p.id} proyecto={p} />
+                <ProjectCard key={p.id} proyecto={p} variant="grande" />
               ))}
             </div>
           )}

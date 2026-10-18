@@ -10,7 +10,6 @@ function Login() {
   const [correo, setCorreo] = useState('')
   const [clave, setClave] = useState('')
 
-  // Primera versión: no hay backend, solo simulamos el ingreso
   const ingresar = (e) => {
     e.preventDefault()
     navigate('/')
@@ -19,27 +18,45 @@ function Login() {
   return (
     <AuthShell title="Datos de acceso">
       <form className="login__form" onSubmit={ingresar}>
-        <InputField label="Correo electrónico" type="email" required value={correo} onChange={(e) => setCorreo(e.target.value)} autoComplete="email" />
-        <InputField label="Contraseña" type="password" required value={clave} onChange={(e) => setClave(e.target.value)} autoComplete="current-password" />
+        <InputField
+          label="CORREO ELECTRÓNICO"
+          type="email"
+          required
+          value={correo}
+          onChange={(e) => setCorreo(e.target.value)}
+          autoComplete="email"
+          placeholder="tu@correo.com"
+        />
+        <InputField
+          label="CONTRASEÑA"
+          type="password"
+          required
+          value={clave}
+          onChange={(e) => setClave(e.target.value)}
+          autoComplete="current-password"
+          placeholder="••••••••"
+        />
         <Button type="submit" full>
-          Iniciar sesión
+          INICIAR SESIÓN
         </Button>
         <p className="auth__alt">
-          ¿Olvidaste tu <Link to="/recuperar">contraseña</Link>?
+          ¿OLVIDASTE TU <Link to="/recuperar">CONTRASEÑA?</Link>
         </p>
       </form>
 
-      <p className="auth__divider">o continúa con</p>
       <div className="login__social">
-        <Button variant="light" full onClick={() => navigate('/')}>
-          <span className="login__g" aria-hidden="true">G</span> Inicia con Google
-        </Button>
-        <Button variant="light" full onClick={() => navigate('/')}>
-          <span className="login__d" aria-hidden="true">◉</span> Inicia con Discord
-        </Button>
+        <button type="button" className="login__social-btn" onClick={() => navigate('/')}>
+          <img src="images/logos/google.png" alt="Google" className="login__social-icon" />
+          <span>INICIA CON GOOGLE</span>
+        </button>
+        <button type="button" className="login__social-btn" onClick={() => navigate('/')}>
+          <img src="images/logos/discord.png" alt="Discord" className="login__social-icon" />
+          <span>INICIA CON DISCORD</span>
+        </button>
       </div>
+
       <p className="auth__alt">
-        ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
+        ¿NO TIENES CUENTA? <Link to="/registro">REGÍSTRATE</Link>
       </p>
     </AuthShell>
   )

@@ -3,37 +3,95 @@
   flex-direction: column;
   gap: var(--s-3);
 }
+
 .registro__roles {
-  margin: 0;
-  padding: var(--s-3);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius);
-  display: grid;
-  gap: var(--s-1);
+  border: none;
+  padding: 0;
+  margin: var(--s-2) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
 }
-.registro__roles legend {
-  padding: 0 var(--s-2);
+
+.registro__legend {
   font-family: var(--f-body);
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #dfd7f2;
+  text-align: center;
+  margin-bottom: 8px;
+  width: 100%;
 }
+
+.registro__roles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .registro__opcion {
   display: flex;
   align-items: center;
-  gap: var(--s-2);
-  min-height: 36px;
-  font-family: var(--f-body);
-  font-weight: 600;
-  font-size: 1.05rem;
+  gap: 12px;
   cursor: pointer;
+  user-select: none;
 }
-.registro__opcion input {
+
+.registro__opcion input[type='radio'] {
+  display: none;
+}
+
+.registro__radio-dot {
   width: 18px;
   height: 18px;
-  accent-color: var(--c-primary);
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  background: transparent;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
 }
-@media (min-width: 768px) {
-  .registro__roles {
-    grid-template-columns: 1fr 1fr;
-  }
+
+.registro__opcion input[type='radio']:checked + .registro__radio-dot {
+  background: #ffffff;
+}
+
+.registro__rol-text {
+  font-family: var(--f-body);
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  color: #ded7f0;
+}
+
+.registro__terminos {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  margin: 8px 0;
+}
+
+.registro__terminos input[type='checkbox'] {
+  display: none;
+}
+
+.registro__check-box {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ffffff;
+  background: #ffffff;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.registro__terminos input[type='checkbox']:not(:checked) + .registro__check-box {
+  background: transparent;
+}
+
+.registro__terminos-text {
+  font-family: var(--f-body);
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  color: #ded7f0;
 }

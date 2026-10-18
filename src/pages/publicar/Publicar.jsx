@@ -1,32 +1,44 @@
 import { useState } from 'react'
-import { PixelCover } from '../../components/ui/PixelArt.jsx'
-import InputField from '../../components/ui/InputField/InputField.jsx'
-import Tag from '../../components/ui/Tag/Tag.jsx'
 import Button from '../../components/ui/Button/Button.jsx'
 import Icon from '../../components/ui/Icon.jsx'
 import { MOTORES } from '../../data/proyectos.js'
 import './Publicar.css'
 
-const PALETA = ['#1a0f2e', '#6b2fb3', '#e04f6c', '#f2c14e']
-
 function Publicar() {
   const [titulo, setTitulo] = useState('')
   const [sinopsis, setSinopsis] = useState('')
-  const [etiquetas, setEtiquetas] = useState('2D, Cyberpunk, Alpha')
-  const [motor, setMotor] = useState('unity')
+  const [etiquetas, setEtiquetas] = useState(['2D', 'CYBERPUNK', 'ALPHA'])
+  const [nuevaEtiqueta, setNuevaEtiqueta] = useState('')
+  const [motor, setMotor] = useState('godot')
   const [archivo, setArchivo] = useState(null)
+  const [imagenPortada, setImagenPortada] = useState(null)
   const [publicado, setPublicado] = useState(false)
+
+  const handleImagenChange = (e) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setImagenPortada(URL.createObjectURL(file))
+    }
+  }
+
+  const agregarEtiqueta = (e) => {
+    e.preventDefault()
+    if (nuevaEtiqueta.trim() && !etiquetas.includes(nuevaEtiqueta.trim().toUpperCase())) {
+      setEtiquetas([...etiquetas, nuevaEtiqueta.trim().toUpperCase()])
+      setNuevaEtiqueta('')
+    }
+  }
 
   if (publicado) {
     return (
       <div className="page page--narrow publicar__ok">
         <h1>¡Proyecto publicado!</h1>
-        <p className="muted">“{titulo}” ya está visible para la comunidad. Pronto llegarán los primeros feedbacks.</p>
+        <p className="muted">“{titulo || 'Tu proyecto'}” ya está visible para la comunidad. Pronto llegarán los primeros feedbacks.</p>
         <Button to="/galeria" full>
-          Ver en explorar
+          VER EN EXPLORAR
         </Button>
         <Button variant="ghost" full onClick={() => setPublicado(false)}>
-          Publicar otro
+          PUBLICAR OTRO
         </Button>
       </div>
     )
@@ -40,39 +52,77 @@ function Publicar() {
         setPublicado(true)
       }}
     >
-      <h1 className="publicar__title">Publicar proyecto</h1>
-
-      <div className="publicar__preview">
-        {/* La portada se genera a partir del título */}
-        <PixelCover seed={titulo || 'nuevo-proyecto'} palette={PALETA} label="Vista previa de la portada" />
-        <span>{titulo || 'Título del proyecto'}</span>
+      <div className="publicar__preview-container">
+        <label className="publicar__preview-label">
+          {imagenPortada ? (
+            <img src={imagenPortada} alt="Vista previa" className="publicar__preview-img" />
+          ) : (
+            <div className="publicar__placeholder-box">
+              <img src="images/proyectos/placeholder.png" alt="Subir portada" className="publicar__placeholder-icon" />
+              <span className="publicar__upload-hint">Haz clic para subir portada</span>
+            </div>
+          )}
+          <input type="file" accept="image/*" onChange={handleImagenChange} style={{ display: 'none' }} />
+        </label>
       </div>
 
-      <div className="publicar__campos">
-        <InputField label="Título del proyecto" required value={titulo} onChange={(e) => setTitulo(e.target.value)} />
-        <InputField label="Sinopsis" as="textarea" required value={sinopsis} onChange={(e) => setSinopsis(e.target.value)} />
-        <InputField label="Etiquetas" value={etiquetas} onChange={(e) => setEtiquetas(e.target.value)} hint="Sepáralas con comas" />
+      <div className="publicar__form-body">
+        <div className="publicar__title-pill">
+          <input
+            type="text"
+            required
+            placeholder="TÍTULO DEL PROYECTO"
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+            className="publicar__title-input"
+          />
+        </div>
 
-        <fieldset className="publicar__motor">
-          <legend>Motor</legend>
-          <div className="publicar__chips">
-            {MOTORES.filter((m) => m.id !== 'todos').map((m) => (
-              <Tag key={m.id} active={motor === m.id} onClick={() => setMotor(m.id)}>
-                {m.nombre}
-              </Tag>
+        <div className="publicar__sinopsis-box">
+          <textarea
+            required
+            rows={3}
+            placeholder="SINOPSIS DEL PROYECTO"
+            value={sinopsis}
+            onChange={(e) => setSinopsis(e.target.value)}
+            className="publicar__sinopsis-textarea"
+          />
+          <div className="publicar__tags-row">
+            {etiquetas.map((tag) => (
+              <span key={tag} className="publicar__tag-chip">
+                [ + {tag} ]
+              </span>
             ))}
           </div>
-        </fieldset>
+        </div>
 
-        <label className="publicar__drop">
-          <Icon name="upload" />
-          <span>{archivo ? archivo.name : 'Arrastra tu build (.zip) o haz clic'}</span>
+        <div className="publicar__engine-section">
+          <div className="publicar__engine-radios">
+            {MOTORES.filter((m) => m.id !== 'todos').map((m) => (
+              <label key={m.id} className="publicar__engine-opt">
+                <input
+                  type="radio"
+                  name="motor"
+                  value={m.id}
+                  checked={motor === m.id}
+                  onChange={() => setMotor(m.id)}
+                />
+                <span className="publicar__radio-dot"></span>
+                <img src={m.logo} alt={m.nombre} className="publicar__engine-logo" />
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <label className="publicar__build-drop">
+          <Icon name="upload" size={20} />
+          <span>{archivo ? archivo.name : 'ARRASTRA TU BUILD (.ZIP)'}</span>
           <input type="file" accept=".zip" onChange={(e) => setArchivo(e.target.files?.[0] ?? null)} />
         </label>
 
-        <Button type="submit" full>
-          Publicar proyecto
-        </Button>
+        <button type="submit" className="publicar__submit-btn">
+          PUBLICAR PROYECTO
+        </button>
       </div>
     </form>
   )

@@ -1,18 +1,17 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router'
-import { PixelCover, PixelAvatar } from '../../components/ui/PixelArt.jsx'
+import { PixelCover } from '../../components/ui/PixelArt.jsx'
 import Icon from '../../components/ui/Icon.jsx'
-import Tag from '../../components/ui/Tag/Tag.jsx'
 import Button from '../../components/ui/Button/Button.jsx'
 import RatingStars from '../../components/ui/RatingStars/RatingStars.jsx'
 import { buscarProyecto, nombreMotor } from '../../data/proyectos.js'
 import './Proyecto.css'
 
-// Detalle de un proyecto (ruta dinámica /proyecto/:id)
+// Detalle de un proyecto (idéntico a Group 40.png en Figma)
 function Proyecto() {
   const { id } = useParams()
   const proyecto = buscarProyecto(id)
-  const [calificacion, setCalificacion] = useState(0)
+  const [calificacion, setCalificacion] = useState(5)
   const [comentario, setComentario] = useState('')
   const [comentarios, setComentarios] = useState([])
   const [solicitado, setSolicitado] = useState(false)
@@ -36,58 +35,66 @@ function Proyecto() {
   return (
     <div className="page proyecto">
       <div className="proyecto__media">
-        <PixelCover seed={proyecto.id} palette={proyecto.paleta} className="proyecto__cover" label={`Portada de ${proyecto.titulo}`} />
+        {proyecto.portada ? (
+          <img src={proyecto.portada} alt={proyecto.titulo} className="proyecto__cover-img" />
+        ) : (
+          <PixelCover seed={proyecto.id} palette={proyecto.paleta} className="proyecto__cover" />
+        )}
         <button type="button" className="proyecto__play" aria-label="Reproducir tráiler">
-          <Icon name="play" size={40} filled />
+          <svg className="proyecto__play-icon" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="6,3 20,12 6,21" />
+          </svg>
         </button>
       </div>
 
       <div className="proyecto__info">
-        <h1 className="proyecto__title">{proyecto.titulo}</h1>
-        <Link to={`/perfil/${proyecto.autor}`} className="proyecto__autor">
-          <PixelAvatar seed={proyecto.autor} size={28} /> @{proyecto.autor}
-        </Link>
-        <div className="proyecto__tags">
-          {proyecto.generos.map((g) => (
-            <Tag key={g}>{g}</Tag>
-          ))}
+        <div className="proyecto__title-pill">
+          <h1 className="proyecto__title">{proyecto.titulo.toUpperCase()}</h1>
         </div>
-        <p className="card proyecto__sinopsis">{proyecto.sinopsis}</p>
+
+        <div className="proyecto__sinopsis-box">
+          <p>{proyecto.sinopsis.toUpperCase()}</p>
+        </div>
 
         <div className="proyecto__cols">
           <section className="proyecto__ficha">
-            <h2>Ficha técnica</h2>
-            <dl>
-              <dt>Motor</dt>
-              <dd>{nombreMotor(proyecto.motor)}</dd>
-              <dt>Estado</dt>
-              <dd>{proyecto.version}</dd>
-              <dt>Se busca</dt>
-              <dd>{proyecto.busca.join(', ')}</dd>
-              <dt>Valoración</dt>
-              <dd>
-                <RatingStars value={proyecto.rating} /> {proyecto.rating}
-              </dd>
-            </dl>
+            <h2 className="proyecto__subheading">FICHA TÉCNICA</h2>
+            <div className="proyecto__ficha-content">
+              <p>MOTOR: {nombreMotor(proyecto.motor)} (URP)</p>
+              <p>• ESTADO: {proyecto.version.toUpperCase()}</p>
+              <p>• ROLES BUSCADOS:</p>
+              <ul className="proyecto__roles">
+                {proyecto.busca.map((r) => (
+                  <li key={r}>[+] {r.toUpperCase()}</li>
+                ))}
+              </ul>
+            </div>
+            <Link to={`/perfil/${proyecto.autor}`} className="proyecto__autor-link">
+              Ver perfil del creador (@{proyecto.autor})
+            </Link>
           </section>
 
           <section className="proyecto__feedback">
-            <h2>Evalúa el prototipo</h2>
-            <RatingStars value={calificacion} onChange={setCalificacion} />
-            <form onSubmit={enviarFeedback} className="proyecto__form">
-              <label htmlFor="feedback" className="sr-only">
-                Reportar bugs o sugerencias
-              </label>
-              <textarea
+            <h2 className="proyecto__subheading">EVALÚA EL PROTOTIPO (1 a 5 ⭐):</h2>
+            <div className="proyecto__stars-row">
+              <RatingStars value={calificacion} onChange={setCalificacion} />
+            </div>
+
+            <h2 className="proyecto__subheading proyecto__subheading--bugs">REPORTAR BUGS O SUGERENCIAS:</h2>
+            <form onSubmit={enviarFeedback} className="proyecto__form-pill">
+              <input
                 id="feedback"
-                placeholder="Reportar bugs o sugerencias…"
+                type="text"
+                placeholder="Escribe tu reporte…"
                 value={comentario}
                 onChange={(e) => setComentario(e.target.value)}
+                aria-label="Reportar bugs o sugerencias"
               />
-              <Button type="submit" variant="ghost">
-                Enviar feedback
-              </Button>
+              <button type="submit" aria-label="Enviar reporte">
+                <Icon name="search" size={16} />
+              </button>
             </form>
+
             {comentarios.length > 0 && (
               <ul className="proyecto__comentarios">
                 {comentarios.map((c, i) => (
@@ -103,12 +110,16 @@ function Proyecto() {
 
         {solicitado ? (
           <p className="proyecto__ok" role="status">
-            ¡Solicitud enviada! @{proyecto.autor} recibirá tu mensaje.
+            ¡Solicitud enviada! @{proyecto.autor} recibirá tu postulación para unirte.
           </p>
         ) : (
-          <Button full onClick={() => setSolicitado(true)}>
-            Solicitar unirme
-          </Button>
+          <button
+            type="button"
+            className="proyecto__btn-unirme"
+            onClick={() => setSolicitado(true)}
+          >
+            SOLICITAR UNIRME
+          </button>
         )}
       </div>
     </div>

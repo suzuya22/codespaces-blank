@@ -1,54 +1,65 @@
-import HeroBanner from '../../components/ui/HeroBanner/HeroBanner.jsx'
-import { Logo } from '../../components/ui/PixelArt.jsx'
 import './Creditos.css'
 
 const EQUIPO = [
-  { nombre: 'Juan Sebastián López', rol: 'Lead Game Dev & UX Architect' },
-  { nombre: 'Juan Pablo', rol: 'Lead UI/UX & Art Director' },
+  { nombre: 'JUAN SEBASTIÁN LÓPEZ', rol: 'LEAD GAME DEV & UX ARCHITECT' },
+  { nombre: 'JUAN PABLO', rol: 'LEAD UI/UX & ART DIRECTOR' },
 ]
 
 const REDES = [
-  { nombre: 'Servidor de Discord', url: 'https://discord.com' },
-  { nombre: 'Comunidad en itch.io', url: 'https://itch.io' },
-  { nombre: 'Twitter / X', url: 'https://x.com' },
-  { nombre: 'Repositorio GitHub', url: 'https://github.com/suzuya22/codespaces-blank' },
+  { icono: '💬', nombre: 'SERVIDOR DE DISCORD', url: 'https://discord.com' },
+  { icono: '🎮', nombre: 'COMUNIDAD EN ITCH.IO', url: 'https://itch.io' },
+  { icono: '🐦', nombre: 'TWITTER / X', url: 'https://x.com' },
+  { icono: '💻', nombre: 'REPOSITORIO GITHUB', url: 'https://github.com/suzuya22/codespaces-blank' },
 ]
 
-// Acerca de & contacto
+// Acerca de & contacto (idéntico a Group 42.png)
 function Creditos() {
   return (
     <div className="page creditos">
       <div className="creditos__banner">
-        <HeroBanner title="Acerca de & contacto" />
+        <div className="creditos__banner-media">
+          <img
+            src="images/banners/auth-banner.png"
+            alt="DevNet cielo pixelado"
+            className="creditos__banner-img"
+          />
+        </div>
+        <div className="creditos__banner-text">
+          <p className="creditos__banner-title">ACERCA DE & CONTACTO</p>
+        </div>
       </div>
 
-      <section className="creditos__manifiesto">
-        <h1>Manifiesto</h1>
-        <blockquote>
-          “Creamos DevNet para conectar creadores indie, transformar ideas en proyectos jugables y fomentar el feedback real
-          entre desarrolladores y artistas.”
-        </blockquote>
+      <section className="creditos__section">
+        <h1 className="creditos__heading">MANIFIESTO</h1>
+        <div className="creditos__box">
+          <p>
+            ”CREAMOS DEVNEST PARA CONECTAR CREADORES INDIE, TRANSFORMAR IDEAS EN PROYECTOS JUGABLES Y FOMENTAR EL FEEDBACK REAL
+            ENTRE DESARROLLADORES Y ARTISTAS.”
+          </p>
+        </div>
       </section>
 
-      <section className="creditos__bloque">
-        <h2>Créditos del equipo fundador</h2>
+      <section className="creditos__section">
+        <h2 className="creditos__heading">CRÉDITOS DEL EQUIPO FUNDADOR</h2>
         <ul className="creditos__equipo">
           {EQUIPO.map((p) => (
-            <li key={p.nombre}>
-              <strong>{p.nombre}</strong>
-              <span className="muted">{p.rol}</span>
+            <li key={p.nombre} className="creditos__equipo-item">
+              <strong className="creditos__equipo-nombre">• {p.nombre}</strong>
+              <span className="creditos__equipo-rol">{p.rol}</span>
             </li>
           ))}
         </ul>
       </section>
 
-      <section className="creditos__bloque">
-        <h2>Comunidad y redes</h2>
+      <hr className="creditos__divider" />
+
+      <section className="creditos__section">
+        <h2 className="creditos__heading">COMUNIDAD & REDES</h2>
         <ul className="creditos__redes">
           {REDES.map((r) => (
             <li key={r.nombre}>
-              <a href={r.url} target="_blank" rel="noreferrer">
-                [ {r.nombre} ↗ ]
+              <a href={r.url} target="_blank" rel="noreferrer" className="creditos__red-link">
+                [ {r.icono} {r.nombre} ↗ ]
               </a>
             </li>
           ))}
@@ -56,7 +67,7 @@ function Creditos() {
       </section>
 
       <div className="creditos__logo">
-        <Logo size={48} />
+        <img src="images/logos/dv-logo.png" alt="DevNet" className="creditos__logo-img" />
       </div>
     </div>
   )

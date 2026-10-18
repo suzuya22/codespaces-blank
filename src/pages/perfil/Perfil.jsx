@@ -1,77 +1,95 @@
 import { useParams } from 'react-router'
-import { PixelAvatar, PixelSky } from '../../components/ui/PixelArt.jsx'
-import Tag from '../../components/ui/Tag/Tag.jsx'
-import Button from '../../components/ui/Button/Button.jsx'
 import ProjectCard from '../../components/ui/ProjectCard/ProjectCard.jsx'
+import Button from '../../components/ui/Button/Button.jsx'
 import { USUARIOS, PROYECTOS } from '../../data/proyectos.js'
 import './Perfil.css'
 
-// Perfil de usuario (ruta dinámica /perfil/:usuario)
+// Perfil de usuario (idéntico a Group 39.png en Figma)
 function Perfil() {
   const { usuario } = useParams()
-  const perfil = USUARIOS[usuario]
-
-  if (!perfil) {
-    return (
-      <div className="page page--narrow">
-        <h1>Usuario no encontrado</h1>
-        <Button to="/galeria">Volver a explorar</Button>
-      </div>
-    )
-  }
+  // Default to suzuya if no parameter or matching user
+  const perfil = USUARIOS[usuario] || USUARIOS.suzuya
 
   const proyectos = PROYECTOS.filter((p) => p.autor === perfil.usuario)
 
   return (
     <div className="page perfil">
-      <aside className="perfil__card">
-        <div className="perfil__banner">
-          <PixelSky />
+      <div className="perfil__hero">
+        <div className="perfil__banner-wrap">
+          <img
+            src={perfil.banner || 'images/banners/perfil-banner.png'}
+            alt="Banner de perfil"
+            className="perfil__banner-img"
+          />
         </div>
-        <div className="perfil__head">
-          <PixelAvatar seed={perfil.usuario} size={96} className="perfil__avatar" />
-          <div>
-            <h1 className="perfil__user">@{perfil.usuario}</h1>
-            <p className="muted">{perfil.pronombres}</p>
-            <p>{perfil.rol}</p>
-          </div>
-        </div>
-        <ul className="perfil__insignias">
-          {perfil.insignias.map((i) => (
-            <li key={i}>★ {i}</li>
-          ))}
-        </ul>
-        <Button to="/mensajes" variant="ghost" full>
-          Enviar mensaje
-        </Button>
-      </aside>
 
-      <div className="perfil__content">
-        <section className="card">
-          <h2>Sobre mí</h2>
-          <p>{perfil.sobreMi}</p>
-        </section>
-        <section className="card">
-          <h2>Habilidades</h2>
-          <div className="perfil__skills">
-            {perfil.habilidades.map((h) => (
-              <Tag key={h}>{h}</Tag>
-            ))}
+        <div className="perfil__header-body">
+          <div className="perfil__avatar-wrap">
+            <img
+              src={perfil.avatar || 'images/avatares/suzuya.png'}
+              alt={perfil.nombre}
+              className="perfil__avatar-img"
+            />
           </div>
-        </section>
-        <section>
-          <h2 className="perfil__subtitle">Proyectos publicados</h2>
-          {proyectos.length ? (
-            <div className="perfil__grid">
-              {proyectos.map((p) => (
-                <ProjectCard key={p.id} proyecto={p} />
-              ))}
+
+          <div className="perfil__user-details">
+            <h1 className="perfil__user-handle">@{perfil.usuario.toUpperCase()}</h1>
+            <p className="perfil__pronouns">{perfil.pronombres}</p>
+            <p className="perfil__role">{perfil.rol}</p>
+
+            <div className="perfil__socials">
+              <img
+                src="images/logos/redes-sociales.png"
+                alt="Redes sociales: WhatsApp, Facebook, Instagram, YouTube, X, TikTok"
+                className="perfil__socials-img"
+              />
             </div>
-          ) : (
-            <p className="muted">Aún no ha publicado proyectos.</p>
-          )}
-        </section>
+
+            <ul className="perfil__badges">
+              {perfil.insignias.map((insignia, index) => {
+                const icon = index === 0 ? '🏆' : index === 1 ? '🛠' : '🤝'
+                return (
+                  <li key={insignia} className="perfil__badge-item">
+                    <span className="perfil__badge-icon">{icon}</span> {insignia.toUpperCase()}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        </div>
       </div>
+
+      <hr className="perfil__divider" />
+
+      <section className="perfil__section">
+        <h2 className="perfil__heading">SOBRE MI</h2>
+        <div className="perfil__box">
+          <p>{perfil.sobreMi.toUpperCase()}</p>
+        </div>
+      </section>
+
+      <section className="perfil__section">
+        <h2 className="perfil__heading">HABILIDADES</h2>
+        <div className="perfil__skills-row">
+          {perfil.habilidades.map((h) => (
+            <span key={h} className="perfil__skill-chip">
+              [{h.toUpperCase()}]
+            </span>
+          ))}
+        </div>
+      </section>
+
+      <section className="perfil__section perfil__section--projects">
+        <div className="perfil__projects-pill">
+          <h2>PROYECTOS PUBLICADOS</h2>
+        </div>
+
+        <div className="perfil__projects-list">
+          {proyectos.map((p) => (
+            <ProjectCard key={p.id} proyecto={p} variant="grande" />
+          ))}
+        </div>
+      </section>
     </div>
   )
 }

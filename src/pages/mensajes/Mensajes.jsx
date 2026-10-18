@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
-import { PixelAvatar } from '../../components/ui/PixelArt.jsx'
-import ChatBubble from '../../components/ui/ChatBubble/ChatBubble.jsx'
 import Icon from '../../components/ui/Icon.jsx'
 import { CONVERSACIONES, USUARIOS } from '../../data/proyectos.js'
 import './Mensajes.css'
@@ -11,54 +9,83 @@ function Mensajes() {
   const [activo, setActivo] = useState(CONVERSACIONES[0].usuario)
   const [texto, setTexto] = useState('')
 
-  const chat = chats.find((c) => c.usuario === activo)
+  const chat = chats.find((c) => c.usuario === activo) || chats[0]
+  const contacto = USUARIOS[activo] || { usuario: activo, avatar: 'images/avatares/lauraart.png' }
 
   const enviar = (e) => {
     e.preventDefault()
     if (!texto.trim()) return
-    setChats(chats.map((c) => (c.usuario === activo ? { ...c, mensajes: [...c.mensajes, { de: 'yo', texto: texto.trim() }] } : c)))
+    setChats(
+      chats.map((c) =>
+        c.usuario === activo ? { ...c, mensajes: [...c.mensajes, { de: 'yo', texto: texto.trim() }] } : c
+      )
+    )
     setTexto('')
   }
 
   return (
     <div className="mensajes">
-      {/* Móvil: columna de avatares. Tablet: lista con nombres */}
-      <nav className="mensajes__lista" aria-label="Conversaciones">
-        <h1 className="mensajes__titulo">Mensajes</h1>
-        {chats.map((c) => (
-          <button
-            key={c.usuario}
-            type="button"
-            className={`mensajes__contacto ${c.usuario === activo ? 'mensajes__contacto--activo' : ''}`}
-            onClick={() => setActivo(c.usuario)}
-            aria-label={`Chat con ${c.usuario}`}
-            aria-current={c.usuario === activo}
-          >
-            <PixelAvatar seed={c.usuario} size={40} />
-            <span className="mensajes__nombre">
-              <strong>@{c.usuario}</strong>
-              <small>{c.mensajes.at(-1).texto}</small>
-            </span>
-          </button>
-        ))}
-      </nav>
+      {/* Columna lateral de avatares con fondo morado */}
+      <aside className="mensajes__sidebar" aria-label="Contactos">
+        {chats.map((c) => {
+          const u = USUARIOS[c.usuario] || {}
+          const avatarUrl = u.avatar || 'images/avatares/lauraart.png'
+          const esActivo = c.usuario === activo
+          return (
+            <button
+              key={c.usuario}
+              type="button"
+              className={`mensajes__avatar-btn ${esActivo ? 'mensajes__avatar-btn--activo' : ''}`}
+              onClick={() => setActivo(c.usuario)}
+              aria-label={`Chat con @${c.usuario}`}
+              aria-current={esActivo}
+            >
+              <img src={avatarUrl} alt={c.usuario} className="mensajes__avatar-img" />
+            </button>
+          )
+        })}
+      </aside>
 
-      <section className="mensajes__chat">
-        <header className="mensajes__head">
-          <PixelAvatar seed={activo} size={36} />
-          <Link to={`/perfil/${activo}`}>@{activo}</Link>
-          <small className="muted">{USUARIOS[activo]?.rol}</small>
+      {/* Ventana de chat activa */}
+      <section className="mensajes__chat-area">
+        <header className="mensajes__chat-head">
+          <img
+            src={contacto.avatar || 'images/avatares/lauraart.png'}
+            alt={contacto.usuario}
+            className="mensajes__head-avatar"
+          />
+          <Link to={`/perfil/${contacto.usuario}`} className="mensajes__head-name">
+            @{contacto.usuario.toUpperCase()}
+          </Link>
         </header>
+
         <div className="mensajes__burbujas" aria-live="polite">
           {chat.mensajes.map((m, i) => (
-            <ChatBubble key={i} texto={m.texto} propio={m.de === 'yo'} />
+            <div
+              key={i}
+              className={`mensajes__burbuja ${m.de === 'yo' ? 'mensajes__burbuja--propio' : 'mensajes__burbuja--recibido'}`}
+            >
+              <p>{m.texto}</p>
+            </div>
           ))}
         </div>
-        <form className="mensajes__form" onSubmit={enviar}>
-          <Icon name="paperclip" size={18} />
-          <input value={texto} onChange={(e) => setTexto(e.target.value)} placeholder="Escribe un mensaje…" aria-label="Mensaje" />
-          <button type="submit" aria-label="Enviar">
-            <Icon name="send" size={20} />
+
+        <form className="mensajes__input-bar" onSubmit={enviar}>
+          <button type="button" className="mensajes__icon-btn" aria-label="Adjuntar archivo">
+            <Icon name="paperclip" size={20} />
+          </button>
+          <input
+            type="text"
+            value={texto}
+            onChange={(e) => setTexto(e.target.value)}
+            placeholder="Escribe un mensaje…"
+            aria-label="Mensaje"
+            className="mensajes__input-field"
+          />
+          <button type="submit" className="mensajes__icon-btn mensajes__icon-btn--send" aria-label="Enviar">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+            </svg>
           </button>
         </form>
       </section>

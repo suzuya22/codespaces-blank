@@ -21,6 +21,13 @@
   color: var(--c-text);
   text-decoration: none;
 }
+.header__logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 4px;
+  display: block;
+}
 .header__name {
   font-size: 1.3rem;
   display: none;

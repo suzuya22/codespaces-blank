@@ -9,7 +9,7 @@ function Recuperar() {
   const [enviado, setEnviado] = useState(false)
 
   return (
-    <AuthShell title="Recuperar contraseña">
+    <AuthShell title="RECUPERAR CONTRASEÑA">
       {enviado ? (
         <p className="auth__msg" role="status">
           Enviamos un código a <strong>{correo}</strong>. Revisa tu bandeja de entrada.
@@ -22,17 +22,21 @@ function Recuperar() {
             setEnviado(true)
           }}
         >
-          <p className="muted" style={{ textAlign: 'center' }}>
-            Escribe el correo con el que te registraste y te enviaremos un código.
-          </p>
-          <InputField label="Correo electrónico" type="email" required value={correo} onChange={(e) => setCorreo(e.target.value)} />
+          <InputField
+            label="CORREO ELECTRÓNICO"
+            type="email"
+            required
+            value={correo}
+            onChange={(e) => setCorreo(e.target.value)}
+            placeholder="tu@correo.com"
+          />
           <Button type="submit" full>
-            Enviar código
+            ENVIAR CÓDIGO
           </Button>
         </form>
       )}
       <p className="auth__alt">
-        Volver al <Link to="/login">login</Link>
+        VOLVER AL <Link to="/login">LOGIN</Link>
       </p>
     </AuthShell>
   )
