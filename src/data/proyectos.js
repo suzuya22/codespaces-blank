@@ -159,14 +159,14 @@ export const USUARIOS = {
   suzuya: {
     usuario: 'suzuya',
     nombre: 'Suzuya',
-    pronombres: 'he/ him',
-    rol: 'Programador/ Artista 2D',
+    pronombres: 'he/him',
+    rol: 'Programador / Artista 2D',
     avatar: 'images/avatares/suzuya.png',
     banner: 'images/banners/perfil-banner.png',
-    insignias: ['Playtester Top', 'Alpha Builder', 'Colaborador Activo'],
+    insignias: ['Playtester top ★ Alpha builder', 'Colaborador activo'],
     sobreMi:
-      'ESTUDIANTE DE INGENIERÍA Y CREADOR APASIONADO DE JUEGOS 2D/3D. EN BUSCA DE COLABORADORES PARA PROYECTOS DE ACCIÓN Y PLATAFORMAS',
-    habilidades: ['UNITY', 'C#', 'GAME DESIGN', 'GIT', 'PIXEL ART BÁSICOS'],
+      'Estudiante de ingeniería y creador apasionado de juegos 2D/3D. Busca colaboradores para proyectos de acción y plataformas.',
+    habilidades: ['Unity', 'C#', 'Game design', 'Git', 'Pixel art básico'],
   },
   lauraart: {
     usuario: 'lauraart',

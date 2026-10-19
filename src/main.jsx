@@ -24,6 +24,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/" element={<Home />} />
           <Route path="/galeria" element={<Galeria />} />
           <Route path="/proyecto/:id" element={<Proyecto />} />
+          <Route path="/perfil" element={<Perfil />} />
           <Route path="/perfil/:usuario" element={<Perfil />} />
           <Route path="/publicar" element={<Publicar />} />
           <Route path="/mensajes" element={<Mensajes />} />
