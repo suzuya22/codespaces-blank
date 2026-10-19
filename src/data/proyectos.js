@@ -92,7 +92,7 @@ export const PROYECTOS = [
     feedbacks: 27,
     rating: 4.4,
     nuevo: false,
-    portada: 'images/proyectos/retro-anime.png',
+    portada: 'images/proyectos/bit-scape.png',
     paleta: ['#0b0b16', '#2b2d6e', '#6d7cff', '#ffffff'],
     sinopsis:
       'Arcade de escape en una red de datos. Partidas cortas, ideal para probar en móvil y dar feedback rápido.',
