@@ -51,19 +51,86 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* Tablet: el menú se despliega en la barra superior */
+.header__brand-text {
+  display: flex;
+  flex-direction: column;
+}
+.header__sub {
+  font-size: 0.68rem;
+  color: #a491d3;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: none;
+}
+.header__right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+.header__search {
+  display: none;
+  align-items: center;
+  gap: var(--s-2);
+  background: rgba(18, 12, 30, 0.6);
+  border: 1px solid rgba(134, 104, 230, 0.35);
+  border-radius: 20px;
+  padding: 4px 14px;
+}
+.header__search input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 0.85rem;
+  outline: none;
+  width: 160px;
+}
+.header__profile-chip {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 4px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  text-decoration: none;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.header__profile-chip:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+.header__profile-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Tablet / Desktop */
 @media (min-width: 768px) {
   .header__name {
+    display: inline;
+  }
+  .header__sub {
     display: inline;
   }
   .header__nav {
     display: flex;
     align-items: center;
     gap: var(--s-1);
-    margin-left: auto;
+    margin-left: var(--s-4);
   }
   .header__menu {
-    margin-left: 0;
+    display: none;
+  }
+  .header__search {
+    display: flex;
+  }
+  .header__profile-chip {
+    display: flex;
   }
   .header__link {
     padding: var(--s-2) var(--s-3);
@@ -72,7 +139,7 @@
     text-decoration: none;
     font-family: var(--f-body);
     font-weight: 700;
-    font-size: 1.05rem;
+    font-size: 1rem;
     letter-spacing: 0.05em;
   }
   .header__link:hover {
@@ -86,12 +153,16 @@
     display: inline-flex;
     align-items: center;
     gap: var(--s-1);
-    margin-left: var(--s-2);
-    padding: var(--s-2) var(--s-3);
+    padding: 6px 14px;
     border-radius: var(--radius);
     background: var(--c-accent);
     color: #2a1a00;
     font-weight: 600;
+    font-size: 0.88rem;
     text-decoration: none;
+    transition: transform 0.2s;
+  }
+  .header__cta:hover {
+    transform: translateY(-1px);
   }
 }

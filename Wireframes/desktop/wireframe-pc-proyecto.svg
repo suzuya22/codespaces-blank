@@ -1,0 +1,134 @@
+<svg width="1440" height="1350" viewBox="0 0 1440 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .wf-title { font-family: 'Cinzel', 'Times New Roman', serif; font-weight: 700; fill: #111827; }
+      .wf-text { font-family: 'Inter', -apple-system, sans-serif; fill: #374151; font-size: 13px; }
+      .wf-muted { font-family: 'Inter', -apple-system, sans-serif; fill: #6B7280; font-size: 12px; }
+      .wf-mono { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 11px; fill: #4B5563; }
+      .wf-btn-text { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; fill: #FFFFFF; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="1350" fill="#FFFFFF"/>
+  <rect x="1" y="1" width="1438" height="1348" stroke="#111827" stroke-width="2"/>
+
+  <!-- Top Navbar -->
+  <rect x="0" y="0" width="1440" height="72" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+  <rect x="80" y="14" width="44" height="44" fill="#111827" rx="4"/>
+  <text x="102" y="42" fill="#FFFFFF" font-family="'Inter', sans-serif" font-weight="900" font-size="20" text-anchor="middle">DV</text>
+  <text x="136" y="34" class="wf-title" font-size="16">DEVNEST</text>
+  <text x="136" y="49" class="wf-mono" font-size="10">PLAYTEST &amp; FEEDBACK</text>
+
+  <text x="440" y="41" class="wf-text">Inicio</text>
+  <text x="515" y="41" class="wf-text">Explorar Proyectos</text>
+  <text x="660" y="41" class="wf-title" font-size="13">PLAYTEST ACTIVO</text>
+  <line x1="660" y1="48" x2="790" y2="48" stroke="#111827" stroke-width="2"/>
+
+  <!-- Breadcrumb and Title Header -->
+  <rect x="0" y="72" width="1440" height="80" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="80" y="100" class="wf-muted">Inicio &gt; Explorar &gt; <strong>The Binding of Isaac (Rebirth Prototipo)</strong></text>
+  <text x="80" y="132" class="wf-title" font-size="24">THE BINDING OF ISAAC: ALPHA V0.3</text>
+
+  <rect x="1170" y="94" width="95" height="36" rx="4" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+  <text x="1217" y="117" class="wf-text" font-weight="600" text-anchor="middle">🔗 Compartir</text>
+  <rect x="1275" y="94" width="85" height="36" rx="4" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+  <text x="1317" y="117" class="wf-text" font-weight="600" text-anchor="middle">⭐ Guardar</text>
+
+  <!-- 2-COL STAGE LAYOUT: Left (880px / Col 1-8) + Right (360px / Col 9-12) -->
+  <!-- Left Main Container -->
+  <!-- WebGL Screen Canvas -->
+  <rect x="80" y="180" width="880" height="520" rx="6" fill="#0F172A" stroke="#111827" stroke-width="2"/>
+  <line x1="80" y1="180" x2="960" y2="700" stroke="#1E293B" stroke-width="2"/>
+  <line x1="80" y1="700" x2="960" y2="180" stroke="#1E293B" stroke-width="2"/>
+
+  <!-- Central Play Box -->
+  <rect x="420" y="380" width="200" height="50" rx="6" fill="#111827" stroke="#38BDF8" stroke-width="2"/>
+  <text x="520" y="411" fill="#FFFFFF" font-family="'Inter', sans-serif" font-weight="700" font-size="14" text-anchor="middle">▶ INICIAR PLAYTEST</text>
+  <text x="520" y="450" fill="#94A3B8" font-family="'Inter', sans-serif" font-size="11" text-anchor="middle">Contenedor WebGL Unity 6 (URP) • 16:9</text>
+
+  <!-- Player Controls Bar -->
+  <rect x="80" y="652" width="880" height="48" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+  <text x="100" y="682" class="wf-text">⌨ <strong>Controles:</strong> [WASD] Mover | [Mouse / Click] Disparar | [Espacio] Activar Habilidad</text>
+  <text x="800" y="682" class="wf-muted">🔇 Silenciar | ⟳ Reiniciar | ⛶ Pantalla Completa</text>
+
+  <!-- Sinopsis & Pitch Box -->
+  <rect x="80" y="730" width="880" height="150" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+  <text x="104" y="765" class="wf-title" font-size="15">SINOPSIS &amp; OBJETIVOS DEL PLAYTEST</text>
+  <line x1="104" y1="778" x2="936" y2="778" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="104" y="805" class="wf-text" font-size="14">Platformer 2D con mecánicas de hackeo en tiempo real. En esta build Alpha v0.3 se busca</text>
+  <text x="104" y="828" class="wf-text" font-size="14">probar la fluidez del control de movimiento, la tasa de balance y el tiempo de respuesta.</text>
+  <rect x="104" y="845" width="90" height="22" rx="3" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="149" y="860" class="wf-mono" text-anchor="middle">[ + 2D Pixel ]</text>
+  <rect x="204" y="845" width="120" height="22" rx="3" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="264" y="860" class="wf-mono" text-anchor="middle">[ + Hackeo Temporal ]</text>
+
+  <!-- Feedback & Rating Module -->
+  <rect x="80" y="905" width="880" height="240" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+  <text x="104" y="940" class="wf-title" font-size="15">EVALÚA EL PROTOTIPO (1 A 5 ⭐)</text>
+  <text x="820" y="940" font-size="18">⭐⭐⭐⭐⭐</text>
+
+  <text x="104" y="975" class="wf-muted">¿Qué opinas sobre la fluidez del control y la aceleración?</text>
+  <rect x="104" y="988" width="832" height="42" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+
+  <text x="104" y="1055" class="wf-muted">Reportar Bugs o Sugerencias técnicas:</text>
+  <rect x="104" y="1068" width="832" height="42" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+
+  <rect x="746" y="1120" width="190" height="36" rx="4" fill="#111827"/>
+  <text x="841" y="1143" class="wf-btn-text" text-anchor="middle">ENVIAR FEEDBACK</text>
+
+  <!-- Right Sidebar (Col 9-12 / 360px) -->
+  <!-- Card 1: Ficha Técnica -->
+  <rect x="1000" y="180" width="360" height="230" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+  <text x="1024" y="215" class="wf-title" font-size="14">FICHA TÉCNICA</text>
+  <line x1="1024" y1="228" x2="1336" y2="228" stroke="#111827" stroke-width="1.5"/>
+
+  <text x="1024" y="255" class="wf-muted">Motor:</text>
+  <text x="1240" y="255" class="wf-text" font-weight="700">Unity 6 (URP)</text>
+
+  <text x="1024" y="285" class="wf-muted">Estado:</text>
+  <rect x="1220" y="272" width="116" height="20" rx="3" fill="#DCFCE7"/>
+  <text x="1278" y="286" fill="#166534" font-family="'Inter'" font-size="11" font-weight="700" text-anchor="middle">Alpha Jugable</text>
+
+  <text x="1024" y="315" class="wf-muted">Plataforma:</text>
+  <text x="1240" y="315" class="wf-text">WebGL / PC</text>
+
+  <text x="1024" y="345" class="wf-muted">Tamaño Build:</text>
+  <text x="1280" y="345" class="wf-text">45.2 MB</text>
+
+  <text x="1024" y="375" class="wf-muted">Última actualización:</text>
+  <text x="1260" y="375" class="wf-text">18 Oct 2026</text>
+
+  <!-- Card 2: Roles Buscados -->
+  <rect x="1000" y="435" width="360" height="230" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+  <circle cx="1030" cy="465" r="5" fill="#22C55E"/>
+  <text x="1045" y="470" class="wf-title" font-size="13">ROLES BUSCADOS (EQUIPO)</text>
+
+  <text x="1024" y="500" class="wf-muted">El creador busca talentos para su equipo:</text>
+
+  <rect x="1024" y="515" width="312" height="32" rx="4" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="1040" y="535" class="wf-text" font-weight="600">[+] Artista Pixel Art (2D)</text>
+
+  <rect x="1024" y="555" width="312" height="32" rx="4" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="1040" y="575" class="wf-text" font-weight="600">[+] Diseñador de Sonido / SFX</text>
+
+  <rect x="1024" y="605" width="312" height="42" rx="4" fill="#111827"/>
+  <text x="1180" y="631" class="wf-btn-text" text-anchor="middle">🤝 SOLICITAR UNIRME</text>
+
+  <!-- Card 3: Creador -->
+  <rect x="1000" y="685" width="360" height="150" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+  <text x="1024" y="715" class="wf-title" font-size="12">CREADOR DEL PROYECTO</text>
+  
+  <circle cx="1048" cy="755" r="22" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="1048" y="760" font-size="16" text-anchor="middle">👤</text>
+
+  <text x="1085" y="750" class="wf-title" font-size="14">@Suzuya</text>
+  <text x="1085" y="768" class="wf-muted">Programador / Artista 2D</text>
+
+  <rect x="1024" y="795" width="312" height="30" rx="4" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+  <text x="1180" y="815" class="wf-text" font-weight="600" text-anchor="middle">Ver Perfil Completo ↗</text>
+
+  <!-- Footer -->
+  <line x1="80" y1="1240" x2="1360" y2="1240" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="80" y="1290" class="wf-muted">© 2026 DevNest. Wireframe Desktop PC (1440px) • Ficha Técnica &amp; Playtest WebGL</text>
+  <text x="1140" y="1290" class="wf-mono">Figma Ref: Page 2 Node #168:344</text>
+</svg>

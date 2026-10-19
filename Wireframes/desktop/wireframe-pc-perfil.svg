@@ -1,0 +1,150 @@
+<svg width="1440" height="1200" viewBox="0 0 1440 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .wf-title { font-family: 'Cinzel', 'Times New Roman', serif; font-weight: 700; fill: #111827; }
+      .wf-text { font-family: 'Inter', -apple-system, sans-serif; fill: #374151; font-size: 13px; }
+      .wf-muted { font-family: 'Inter', -apple-system, sans-serif; fill: #6B7280; font-size: 12px; }
+      .wf-mono { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 11px; fill: #4B5563; }
+      .wf-btn-text { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; fill: #FFFFFF; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="1200" fill="#FFFFFF"/>
+  <rect x="1" y="1" width="1438" height="1198" stroke="#111827" stroke-width="2"/>
+
+  <!-- Top Navbar -->
+  <rect x="0" y="0" width="1440" height="72" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+  <rect x="80" y="14" width="44" height="44" fill="#111827" rx="4"/>
+  <text x="102" y="42" fill="#FFFFFF" font-family="'Inter', sans-serif" font-weight="900" font-size="20" text-anchor="middle">DV</text>
+  <text x="136" y="34" class="wf-title" font-size="16">DEVNEST</text>
+  <text x="136" y="49" class="wf-mono" font-size="10">PERFIL DE CREADOR</text>
+
+  <text x="440" y="41" class="wf-text">Inicio</text>
+  <text x="515" y="41" class="wf-text">Explorar Proyectos</text>
+  <text x="660" y="41" class="wf-title" font-size="13">PERFIL</text>
+  <line x1="660" y1="48" x2="720" y2="48" stroke="#111827" stroke-width="2"/>
+
+  <!-- Panoramic Cover Placeholder [X] (1440x240) -->
+  <rect x="0" y="72" width="1440" height="240" fill="#F3F4F6"/>
+  <line x1="0" y1="72" x2="1440" y2="312" stroke="#CBD5E1" stroke-width="1.5"/>
+  <line x1="0" y1="312" x2="1440" y2="72" stroke="#CBD5E1" stroke-width="1.5"/>
+  <line x1="0" y1="312" x2="1440" y2="312" stroke="#111827" stroke-width="2"/>
+
+  <rect x="620" y="170" width="200" height="32" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="720" y="191" class="wf-mono" text-anchor="middle">🖼️ BANNER COVER (1440×240)</text>
+
+  <!-- Profile Identity Header Strip -->
+  <!-- Overlapping Avatar Circle [X] (130x130) -->
+  <circle cx="150" cy="312" r="65" fill="#FFFFFF" stroke="#111827" stroke-width="3"/>
+  <circle cx="150" cy="312" r="60" fill="#F3F4F6"/>
+  <line x1="108" y1="270" x2="192" y2="354" stroke="#CBD5E1" stroke-width="1.5"/>
+  <line x1="108" y1="354" x2="192" y2="270" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="150" y="318" font-size="28" text-anchor="middle">👤</text>
+  <circle cx="195" cy="355" r="10" fill="#22C55E" stroke="#FFFFFF" stroke-width="2"/>
+
+  <!-- User Details -->
+  <text x="240" y="340" class="wf-title" font-size="26">@SUZUYA</text>
+  <text x="240" y="362" class="wf-muted">he / him • <strong>Programador Gameplay &amp; Artista 2D</strong></text>
+
+  <!-- Badges Strip -->
+  <rect x="240" y="375" width="130" height="24" rx="12" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="305" y="391" class="wf-mono" font-size="10" text-anchor="middle">🏆 Playtester Top</text>
+
+  <rect x="380" y="375" width="130" height="24" rx="12" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="445" y="391" class="wf-mono" font-size="10" text-anchor="middle">🛠️ Alpha Builder</text>
+
+  <rect x="520" y="375" width="150" height="24" rx="12" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="595" y="391" class="wf-mono" font-size="10" text-anchor="middle">🤝 Colaborador Activo</text>
+
+  <!-- Action CTAs -->
+  <rect x="1140" y="340" width="105" height="38" rx="4" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+  <text x="1192" y="364" class="wf-text" font-weight="600" text-anchor="middle">✏️ Editar Perfil</text>
+
+  <rect x="1255" y="340" width="105" height="38" rx="4" fill="#111827"/>
+  <text x="1307" y="364" class="wf-btn-text" text-anchor="middle">✉️ Mensaje</text>
+
+  <!-- 2-COL LAYOUT: Left (340px) + Right (860px) -->
+  <line x1="80" y1="420" x2="1360" y2="420" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Left Column: Sobre Mí & Habilidades -->
+  <!-- Card 1: Sobre Mí -->
+  <rect x="80" y="440" width="340" height="150" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+  <text x="100" y="470" class="wf-title" font-size="13">SOBRE MÍ</text>
+  <line x1="100" y1="482" x2="400" y2="482" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="100" y="510" class="wf-text">Estudiante de ingeniería y creador apasionado</text>
+  <text x="100" y="530" class="wf-text">de videojuegos 2D/3D. En busca de colaboradores</text>
+  <text x="100" y="550" class="wf-text">para proyectos de acción y plataformas.</text>
+
+  <!-- Card 2: Habilidades -->
+  <rect x="80" y="610" width="340" height="180" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+  <text x="100" y="640" class="wf-title" font-size="13">HABILIDADES &amp; HERRAMIENTAS</text>
+  <line x1="100" y1="652" x2="400" y2="652" stroke="#E5E7EB" stroke-width="1"/>
+
+  <rect x="100" y="670" width="70" height="24" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="135" y="686" class="wf-mono" font-size="10" text-anchor="middle">[ Unity 6 ]</text>
+  <rect x="180" y="670" width="50" height="24" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="205" y="686" class="wf-mono" font-size="10" text-anchor="middle">[ C# ]</text>
+  <rect x="240" y="670" width="105" height="24" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="292" y="686" class="wf-mono" font-size="10" text-anchor="middle">[ Game Design ]</text>
+
+  <rect x="100" y="705" width="80" height="24" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="140" y="721" class="wf-mono" font-size="10" text-anchor="middle">[ Git / Hub ]</text>
+  <rect x="190" y="705" width="130" height="24" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="255" y="721" class="wf-mono" font-size="10" text-anchor="middle">[ Pixel Art Básicos ]</text>
+
+  <rect x="100" y="740" width="115" height="24" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="157" y="756" class="wf-mono" font-size="10" text-anchor="middle">[ WebGL Builds ]</text>
+
+  <!-- Card 3: Redes -->
+  <rect x="80" y="810" width="340" height="150" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+  <text x="100" y="840" class="wf-title" font-size="13">REDES Y CONTACTO</text>
+  <line x1="100" y1="852" x2="400" y2="852" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="100" y="878" class="wf-text">💬 Discord: <strong>suzuya#0022</strong></text>
+  <text x="100" y="904" class="wf-text">🎮 Itch.io: <strong>suzuya.itch.io</strong></text>
+  <text x="100" y="930" class="wf-text">💻 GitHub: <strong>github.com/suzuya</strong></text>
+
+  <!-- Right Main Area: Published Projects -->
+  <text x="450" y="465" class="wf-title" font-size="16">PROYECTOS PUBLICADOS (2)</text>
+  <line x1="450" y1="480" x2="680" y2="480" stroke="#111827" stroke-width="2"/>
+  <text x="710" y="465" class="wf-muted">Assets Compartidos (4)</text>
+  <text x="890" y="465" class="wf-muted">Feedbacks Dados (18)</text>
+
+  <!-- Project 1 (Bit Scape) -->
+  <g id="perfil-proj-1">
+    <rect x="450" y="500" width="430" height="300" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+    <rect x="451" y="501" width="428" height="160" fill="#F3F4F6"/>
+    <line x1="451" y1="501" x2="879" y2="661" stroke="#CBD5E1" stroke-width="1.5"/>
+    <line x1="451" y1="661" x2="879" y2="501" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="585" y="565" width="160" height="26" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="665" y="582" class="wf-mono" text-anchor="middle">🎮 BIT SCAPE (16:9)</text>
+
+    <line x1="450" y1="661" x2="880" y2="661" stroke="#111827" stroke-width="1.5"/>
+    <text x="470" y="688" class="wf-title" font-size="15">BIT SCAPE: CYBER RUNNER</text>
+    <text x="470" y="708" class="wf-muted">Unity 6 • Alpha v0.3 • Plataformas 2D</text>
+    <text x="470" y="730" class="wf-text">Prototipo rápido desarrollado para la game jam de clase.</text>
+    <rect x="470" y="750" width="110" height="28" rx="4" fill="#111827"/>
+    <text x="525" y="769" class="wf-btn-text" font-size="11" text-anchor="middle">▶ JUGAR DEMO</text>
+  </g>
+
+  <!-- Project 2 (Cult of the lamb mod) -->
+  <g id="perfil-proj-2">
+    <rect x="910" y="500" width="430" height="300" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+    <rect x="911" y="501" width="428" height="160" fill="#F3F4F6"/>
+    <line x1="911" y1="501" x2="1339" y2="661" stroke="#CBD5E1" stroke-width="1.5"/>
+    <line x1="911" y1="661" x2="1339" y2="501" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="1035" y="565" width="180" height="26" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="1125" y="582" class="wf-mono" text-anchor="middle">🎮 CULT OF THE LAMB (16:9)</text>
+
+    <line x1="910" y1="661" x2="1340" y2="661" stroke="#111827" stroke-width="1.5"/>
+    <text x="930" y="688" class="wf-title" font-size="15">CULT OF THE LAMB: REWORK</text>
+    <text x="930" y="708" class="wf-muted">Unity • Vertical Slice • Roguelike</text>
+    <text x="930" y="730" class="wf-text">Demostración de mecánicas de balanceo y combate.</text>
+    <rect x="930" y="750" width="100" height="28" rx="4" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+    <text x="980" y="769" class="wf-text" font-size="11" font-weight="700" text-anchor="middle">VER FICHA</text>
+  </g>
+
+  <!-- Footer -->
+  <line x1="80" y1="1100" x2="1360" y2="1100" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="80" y="1150" class="wf-muted">© 2026 DevNest. Wireframe Desktop PC (1440px) • Perfil de Creador</text>
+  <text x="1140" y="1150" class="wf-mono">Figma Ref: Page 2 Node #168:422</text>
+</svg>

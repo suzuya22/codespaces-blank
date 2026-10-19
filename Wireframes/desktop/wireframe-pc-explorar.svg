@@ -1,0 +1,238 @@
+<svg width="1440" height="1350" viewBox="0 0 1440 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .wf-title { font-family: 'Cinzel', 'Times New Roman', serif; font-weight: 700; fill: #111827; }
+      .wf-text { font-family: 'Inter', -apple-system, sans-serif; fill: #374151; font-size: 13px; }
+      .wf-muted { font-family: 'Inter', -apple-system, sans-serif; fill: #6B7280; font-size: 12px; }
+      .wf-mono { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 11px; fill: #4B5563; }
+      .wf-btn-text { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; fill: #FFFFFF; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="1350" fill="#FFFFFF"/>
+  <rect x="1" y="1" width="1438" height="1348" stroke="#111827" stroke-width="2"/>
+
+  <!-- Top Navbar -->
+  <rect x="0" y="0" width="1440" height="72" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+  <rect x="80" y="14" width="44" height="44" fill="#111827" rx="4"/>
+  <text x="102" y="42" fill="#FFFFFF" font-family="'Inter', sans-serif" font-weight="900" font-size="20" text-anchor="middle">DV</text>
+  <text x="136" y="34" class="wf-title" font-size="16">DEVNEST</text>
+  <text x="136" y="49" class="wf-mono" font-size="10">EXPLORADOR DE PROYECTOS</text>
+
+  <text x="440" y="41" class="wf-text">Inicio</text>
+  <text x="515" y="41" class="wf-title" font-size="13">EXPLORAR PROYECTOS</text>
+  <line x1="515" y1="48" x2="665" y2="48" stroke="#111827" stroke-width="2"/>
+  <text x="695" y="41" class="wf-text">Assets &amp; Sprites</text>
+  <text x="825" y="41" class="wf-text">Equipos</text>
+
+  <rect x="1215" y="18" width="145" height="36" rx="4" fill="#111827"/>
+  <text x="1287" y="41" class="wf-btn-text" text-anchor="middle">＋ PUBLICAR</text>
+
+  <!-- Title & Search Hero Bar -->
+  <rect x="0" y="72" width="1440" height="90" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="80" y="112" class="wf-title" font-size="24">EXPLORAR PROYECTOS &amp; PROTOTIPOS</text>
+  <text x="80" y="136" class="wf-muted">Encuentra proyectos jugables en desarrollo por motor, rol requerido o estado</text>
+
+  <rect x="880" y="98" width="320" height="38" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="896" y="122" class="wf-muted">🔍 Buscar por nombre, tag o creador...</text>
+
+  <rect x="1215" y="98" width="145" height="38" rx="4" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+  <text x="1287" y="122" class="wf-text" font-weight="600" text-anchor="middle">Ordenar: Recientes ▾</text>
+
+  <!-- 2-COL LAYOUT: Left Sidebar (280px) + Right Grid (960px) -->
+  <!-- Left Sidebar (Col 1-3) -->
+  <rect x="80" y="185" width="280" height="740" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+  
+  <!-- Filter Group 1: Motor -->
+  <text x="100" y="220" class="wf-title" font-size="12">MOTOR DE DESARROLLO</text>
+  
+  <rect x="100" y="235" width="16" height="16" rx="3" fill="#111827"/>
+  <text x="108" y="247" fill="#FFFFFF" font-family="'Inter'" font-size="10" font-weight="700" text-anchor="middle">✓</text>
+  <text x="125" y="248" class="wf-text">Unity 6 / URP (28)</text>
+
+  <rect x="100" y="263" width="16" height="16" rx="3" fill="#111827"/>
+  <text x="108" y="275" fill="#FFFFFF" font-family="'Inter'" font-size="10" font-weight="700" text-anchor="middle">✓</text>
+  <text x="125" y="276" class="wf-text">Godot 4.x (14)</text>
+
+  <rect x="100" y="291" width="16" height="16" rx="3" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="125" y="304" class="wf-text">Unreal Engine 5 (9)</text>
+
+  <rect x="100" y="319" width="16" height="16" rx="3" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="125" y="332" class="wf-text">GameMaker (6)</text>
+
+  <line x1="100" y1="350" x2="340" y2="350" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Filter Group 2: Estado -->
+  <text x="100" y="380" class="wf-title" font-size="12">ESTADO DEL PROYECTO</text>
+  
+  <rect x="100" y="395" width="16" height="16" rx="3" fill="#111827"/>
+  <text x="108" y="407" fill="#FFFFFF" font-family="'Inter'" font-size="10" font-weight="700" text-anchor="middle">✓</text>
+  <text x="125" y="408" class="wf-text">Todos los estados</text>
+
+  <rect x="100" y="423" width="16" height="16" rx="3" fill="#111827"/>
+  <text x="108" y="435" fill="#FFFFFF" font-family="'Inter'" font-size="10" font-weight="700" text-anchor="middle">✓</text>
+  <text x="125" y="436" class="wf-text">Buscando Equipo (19)</text>
+
+  <rect x="100" y="451" width="16" height="16" rx="3" fill="#111827"/>
+  <text x="108" y="463" fill="#FFFFFF" font-family="'Inter'" font-size="10" font-weight="700" text-anchor="middle">✓</text>
+  <text x="125" y="464" class="wf-text">Demo Playtest (24)</text>
+
+  <rect x="100" y="479" width="16" height="16" rx="3" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="125" y="492" class="wf-text">Concepto / Vertical Slice (11)</text>
+
+  <line x1="100" y1="510" x2="340" y2="510" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Filter Group 3: Roles -->
+  <text x="100" y="540" class="wf-title" font-size="12">ROLES REQUERIDOS</text>
+  
+  <rect x="100" y="555" width="16" height="16" rx="3" fill="#111827"/>
+  <text x="108" y="567" fill="#FFFFFF" font-family="'Inter'" font-size="10" font-weight="700" text-anchor="middle">✓</text>
+  <text x="125" y="568" class="wf-text">Artista 2D / Pixel Art</text>
+
+  <rect x="100" y="583" width="16" height="16" rx="3" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="125" y="596" class="wf-text">Animador 3D / Rigging</text>
+
+  <rect x="100" y="611" width="16" height="16" rx="3" fill="#111827"/>
+  <text x="108" y="623" fill="#FFFFFF" font-family="'Inter'" font-size="10" font-weight="700" text-anchor="middle">✓</text>
+  <text x="125" y="624" class="wf-text">Compositor / SFX</text>
+
+  <rect x="100" y="639" width="16" height="16" rx="3" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="125" y="652" class="wf-text">Game Designer</text>
+
+  <!-- Filter Buttons -->
+  <rect x="100" y="700" width="240" height="42" rx="4" fill="#111827"/>
+  <text x="220" y="726" class="wf-btn-text" text-anchor="middle">APLICAR FILTROS (14)</text>
+
+  <!-- Right Results Grid (Col 4-12 / 3x2 Grid) -->
+  <text x="390" y="202" class="wf-muted">Mostrando <strong>6</strong> de <strong>48</strong> prototipos disponibles</text>
+
+  <!-- Project Card 1 -->
+  <g id="proj-1">
+    <rect x="390" y="215" width="305" height="340" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+    <rect x="391" y="216" width="303" height="165" fill="#F3F4F6"/>
+    <line x1="391" y1="216" x2="694" y2="381" stroke="#CBD5E1" stroke-width="1.5"/>
+    <line x1="391" y1="381" x2="694" y2="216" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="475" y="285" width="135" height="26" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="542" y="302" class="wf-mono" text-anchor="middle">🎮 BIT SCAPE (16:10)</text>
+
+    <line x1="390" y1="381" x2="695" y2="381" stroke="#111827" stroke-width="1.5"/>
+    <text x="406" y="407" class="wf-title" font-size="15">BIT SCAPE</text>
+    <text x="406" y="425" class="wf-muted">@Suzuya • Unity 6 (URP)</text>
+    <text x="406" y="450" class="wf-text" font-size="12">Platformer 2D de ritmo rápido con mecánicas</text>
+    <text x="406" y="468" class="wf-text" font-size="12">de salto, dash y hackeo temporal.</text>
+    <line x1="406" y1="495" x2="680" y2="495" stroke="#F3F4F6" stroke-width="1"/>
+    <text x="406" y="525" class="wf-mono" font-size="11">👥 Busca: Artista 2D</text>
+    <text x="610" y="525" class="wf-mono" font-size="11">💬 18 Feedbacks</text>
+  </g>
+
+  <!-- Project Card 2 -->
+  <g id="proj-2">
+    <rect x="725" y="215" width="305" height="340" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+    <rect x="726" y="216" width="303" height="165" fill="#F3F4F6"/>
+    <line x1="726" y1="216" x2="1029" y2="381" stroke="#CBD5E1" stroke-width="1.5"/>
+    <line x1="726" y1="381" x2="1029" y2="216" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="800" y="285" width="155" height="26" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="877" y="302" class="wf-mono" text-anchor="middle">🎮 CULT OF THE LAMB</text>
+
+    <line x1="725" y1="381" x2="1030" y2="381" stroke="#111827" stroke-width="1.5"/>
+    <text x="741" y="407" class="wf-title" font-size="15">CULT OF THE LAMB</text>
+    <text x="741" y="425" class="wf-muted">@MassiveArt • Unity 6</text>
+    <text x="741" y="450" class="wf-text" font-size="12">Roguelike de gestión y mazmorras con estética</text>
+    <text x="741" y="468" class="wf-text" font-size="12">oscura y combate en tiempo real.</text>
+    <line x1="741" y1="495" x2="1015" y2="495" stroke="#F3F4F6" stroke-width="1"/>
+    <text x="741" y="525" class="wf-mono" font-size="11">👥 Busca: SFX/Música</text>
+    <text x="945" y="525" class="wf-mono" font-size="11">💬 18 Feedbacks</text>
+  </g>
+
+  <!-- Project Card 3 -->
+  <g id="proj-3">
+    <rect x="1055" y="215" width="305" height="340" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+    <rect x="1056" y="216" width="303" height="165" fill="#F3F4F6"/>
+    <line x1="1056" y1="216" x2="1359" y2="381" stroke="#CBD5E1" stroke-width="1.5"/>
+    <line x1="1056" y1="381" x2="1359" y2="216" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="1125" y="285" width="165" height="26" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="1207" y="302" class="wf-mono" text-anchor="middle">🎮 BINDING OF ISAAC</text>
+
+    <line x1="1055" y1="381" x2="1360" y2="381" stroke="#111827" stroke-width="1.5"/>
+    <text x="1071" y="407" class="wf-title" font-size="15">THE BINDING OF ISAAC</text>
+    <text x="1071" y="425" class="wf-muted">@EdmundDev • Unity</text>
+    <text x="1071" y="450" class="wf-text" font-size="12">Shooter cenital procedural con cientos</text>
+    <text x="1071" y="468" class="wf-text" font-size="12">de sinergias de objetos y salas secretas.</text>
+    <line x1="1071" y1="495" x2="1345" y2="495" stroke="#F3F4F6" stroke-width="1"/>
+    <text x="1071" y="525" class="wf-mono" font-size="11">👥 Busca: Playtesting</text>
+    <text x="1275" y="525" class="wf-mono" font-size="11">💬 42 Feedbacks</text>
+  </g>
+
+  <!-- Project Card 4 -->
+  <g id="proj-4">
+    <rect x="390" y="585" width="305" height="340" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+    <rect x="391" y="586" width="303" height="165" fill="#F3F4F6"/>
+    <line x1="391" y1="586" x2="694" y2="751" stroke="#CBD5E1" stroke-width="1.5"/>
+    <line x1="391" y1="751" x2="694" y2="586" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="470" y="655" width="145" height="26" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="542" y="672" class="wf-mono" text-anchor="middle">🎮 NIGHT IN THE WOODS</text>
+
+    <line x1="390" y1="751" x2="695" y2="751" stroke="#111827" stroke-width="1.5"/>
+    <text x="406" y="777" class="wf-title" font-size="15">NIGHT IN THE WOODS</text>
+    <text x="406" y="795" class="wf-muted">@IndieSquad • Godot 4</text>
+    <text x="406" y="820" class="wf-text" font-size="12">Aventura narrativa de exploración</text>
+    <text x="406" y="838" class="wf-text" font-size="12">en un pueblo minero decadente.</text>
+    <line x1="406" y1="865" x2="680" y2="865" stroke="#F3F4F6" stroke-width="1"/>
+    <text x="406" y="895" class="wf-mono" font-size="11">👥 Busca: Animador</text>
+    <text x="610" y="895" class="wf-mono" font-size="11">💬 31 Feedbacks</text>
+  </g>
+
+  <!-- Project Card 5 -->
+  <g id="proj-5">
+    <rect x="725" y="585" width="305" height="340" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+    <rect x="726" y="586" width="303" height="165" fill="#F3F4F6"/>
+    <line x1="726" y1="586" x2="1029" y2="751" stroke="#CBD5E1" stroke-width="1.5"/>
+    <line x1="726" y1="751" x2="1029" y2="586" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="805" y="655" width="145" height="26" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="877" y="672" class="wf-mono" text-anchor="middle">🎮 ANOTHER DOOR</text>
+
+    <line x1="725" y1="751" x2="1030" y2="751" stroke="#111827" stroke-width="1.5"/>
+    <text x="741" y="777" class="wf-title" font-size="15">ANOTHER DOOR</text>
+    <text x="741" y="795" class="wf-muted">@PixelForge • Godot 4</text>
+    <text x="741" y="820" class="wf-text" font-size="12">Juego de cartas y acertijos de escape room</text>
+    <text x="741" y="838" class="wf-text" font-size="12">con atmósfera claustrofóbica.</text>
+    <line x1="741" y1="865" x2="1015" y2="865" stroke="#F3F4F6" stroke-width="1"/>
+    <text x="741" y="895" class="wf-mono" font-size="11">👥 Busca: UX / UI</text>
+    <text x="945" y="895" class="wf-mono" font-size="11">💬 15 Feedbacks</text>
+  </g>
+
+  <!-- Project Card 6 -->
+  <g id="proj-6">
+    <rect x="1055" y="585" width="305" height="340" rx="6" fill="#FFFFFF" stroke="#111827" stroke-width="1.5"/>
+    <rect x="1056" y="586" width="303" height="165" fill="#F3F4F6"/>
+    <line x1="1056" y1="586" x2="1359" y2="751" stroke="#CBD5E1" stroke-width="1.5"/>
+    <line x1="1056" y1="751" x2="1359" y2="586" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="1135" y="655" width="145" height="26" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="1207" y="672" class="wf-mono" text-anchor="middle">🎮 CYBER DRIFT 2088</text>
+
+    <line x1="1055" y1="751" x2="1360" y2="751" stroke="#111827" stroke-width="1.5"/>
+    <text x="1071" y="777" class="wf-title" font-size="15">CYBER DRIFT 2088</text>
+    <text x="1071" y="795" class="wf-muted">@NeonRacer • Unity 6</text>
+    <text x="1071" y="820" class="wf-text" font-size="12">Carreras arcade retro con física realista</text>
+    <text x="1071" y="838" class="wf-text" font-size="12">y estética Synthwave de los 80.</text>
+    <line x1="1071" y1="865" x2="1345" y2="865" stroke="#F3F4F6" stroke-width="1"/>
+    <text x="1071" y="895" class="wf-mono" font-size="11">👥 Busca: Playtest</text>
+    <text x="1275" y="895" class="wf-mono" font-size="11">💬 27 Feedbacks</text>
+  </g>
+
+  <!-- Pagination Strip -->
+  <rect x="750" y="960" width="40" height="36" rx="4" fill="#111827"/>
+  <text x="770" y="983" class="wf-btn-text" text-anchor="middle">1</text>
+  <rect x="800" y="960" width="40" height="36" rx="4" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="820" y="983" class="wf-text" text-anchor="middle">2</text>
+  <rect x="850" y="960" width="40" height="36" rx="4" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="870" y="983" class="wf-text" text-anchor="middle">3</text>
+  <text x="905" y="983" class="wf-muted">...</text>
+  <rect x="925" y="960" width="40" height="36" rx="4" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="945" y="983" class="wf-text" text-anchor="middle">8</text>
+
+  <!-- Footer -->
+  <line x1="80" y1="1240" x2="1360" y2="1240" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="80" y="1290" class="wf-muted">© 2026 DevNest. Wireframe Desktop PC (1440px) • Pantalla Explorar Proyectos</text>
+  <text x="1140" y="1290" class="wf-mono">Figma Ref: Page 2 Node #168:191</text>
+</svg>

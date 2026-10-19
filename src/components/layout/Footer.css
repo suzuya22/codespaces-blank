@@ -1,37 +1,99 @@
 .footer {
   display: none;
 }
+
 @media (min-width: 768px) {
   .footer {
     display: block;
     margin-top: var(--s-7);
     border-top: 1px solid var(--c-border);
-    background: var(--c-surface);
+    background: #0d0a14;
   }
+
   .footer__inner {
     max-width: var(--max-w);
     margin: 0 auto;
-    padding: var(--s-5);
-    display: flex;
-    align-items: center;
-    gap: var(--s-5);
+    padding: var(--s-6) var(--s-5) var(--s-5) var(--s-5);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--s-6);
   }
+
+  .footer__col--brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
   .footer__brand {
     display: flex;
     align-items: center;
     gap: var(--s-2);
-    font-size: 1.1rem;
   }
-  .footer__links {
-    margin-left: auto;
+
+  .footer__logo-img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  .footer__logo-text {
+    font-size: 1.25rem;
+    color: var(--c-text);
+  }
+
+  .footer__desc {
+    font-size: 0.82rem;
+    color: var(--c-text-muted);
+    line-height: 1.5;
+    max-width: 300px;
+    margin-top: 4px;
+  }
+
+  .footer__heading {
+    font-family: var(--f-body);
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #dfd7f2;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--s-3);
+  }
+
+  .footer__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
-    gap: var(--s-4);
+    flex-direction: column;
+    gap: 8px;
   }
-  .footer__links a {
+
+  .footer__list a {
     color: var(--c-text-muted);
     text-decoration: none;
+    font-size: 0.82rem;
+    transition: color 0.15s;
   }
-  .footer__links a:hover {
-    color: var(--c-text);
+
+  .footer__list a:hover {
+    color: #fff;
+  }
+
+  .footer__bottom {
+    grid-column: 1 / -1;
+    margin-top: var(--s-4);
+    padding-top: var(--s-4);
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: #7d7293;
+  }
+
+  .footer__spec {
+    font-family: var(--f-pixel);
+    font-size: 0.72rem;
+    color: #8b7ca8;
   }
 }

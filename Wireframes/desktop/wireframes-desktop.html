@@ -1,0 +1,2082 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevNest - Wireframes Desktop (PC) Alta Fidelidad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wf-bg-app: #ECEEF2;
+      --wf-canvas: #FFFFFF;
+      --wf-border-dark: #1E232D;
+      --wf-border-subtle: #9CA3AF;
+      --wf-border-light: #D1D5DB;
+      --wf-box-bg: #F3F4F6;
+      --wf-box-cross: #CBD5E1;
+      --wf-text-main: #111827;
+      --wf-text-muted: #4B5563;
+      --wf-text-light: #6B7280;
+      --wf-primary-pill: #1F2937;
+      --wf-primary-text: #FFFFFF;
+      --wf-grid-column: rgba(239, 68, 68, 0.07);
+      --wf-grid-gutter: rgba(59, 130, 246, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--wf-bg-app);
+      color: var(--wf-text-main);
+      padding: 0;
+      margin: 0;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Sticky Control Bar for Wireframe Review */
+    .wireframe-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #111827;
+      color: #F9FAFB;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #374151;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .toolbar-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 4px 8px;
+      background: #374151;
+      color: #93C5FD;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .toolbar-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+
+    .screen-tabs {
+      display: flex;
+      background: #1F2937;
+      border-radius: 8px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .screen-tab-btn {
+      background: transparent;
+      border: none;
+      color: #9CA3AF;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .screen-tab-btn:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .screen-tab-btn.active {
+      background: #FFFFFF;
+      color: #111827;
+      font-weight: 600;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .grid-toggle-btn {
+      background: #374151;
+      border: 1px solid #4B5563;
+      color: #E5E7EB;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .grid-toggle-btn.active {
+      background: #EF4444;
+      border-color: #DC2626;
+      color: #FFFFFF;
+    }
+
+    /* Screen Canvas Container */
+    .viewport-wrapper {
+      max-width: 1480px;
+      margin: 32px auto;
+      padding: 0 20px 80px 20px;
+    }
+
+    .screen-header-info {
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .screen-header-info h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1F2937;
+    }
+
+    .screen-header-info p {
+      font-size: 13px;
+      color: #6B7280;
+      margin-top: 2px;
+    }
+
+    .screen-specs {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #4B5563;
+      background: #E5E7EB;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* The actual Desktop 1440px Wireframe Frame */
+    .wireframe-artboard {
+      width: 1440px;
+      min-height: 900px;
+      background: var(--wf-canvas);
+      border: 2px solid var(--wf-border-dark);
+      border-radius: 4px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    /* 12-Column Desktop Grid Overlay */
+    .grid-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 999;
+      display: none;
+      padding: 0 80px; /* 80px Margins */
+    }
+
+    .grid-overlay.show {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: 24px; /* 24px Gutters */
+    }
+
+    .grid-overlay-col {
+      background: var(--wf-grid-column);
+      border-left: 1px dashed rgba(239, 68, 68, 0.3);
+      border-right: 1px dashed rgba(239, 68, 68, 0.3);
+      height: 100%;
+    }
+
+    /* Common Wireframe Elements */
+    .wf-placeholder-box {
+      background: var(--wf-box-bg);
+      border: 1.5px solid var(--wf-border-subtle);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Canonical Diagonal Cross for Wireframes [ X ] */
+    .wf-cross::before,
+    .wf-cross::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .wf-cross::before {
+      background: linear-gradient(to top right, transparent calc(50% - 1px), var(--wf-box-cross) calc(50% - 1px), var(--wf-box-cross) calc(50% + 1px), transparent calc(50% + 1px));
+    }
+
+    .wf-cross::after {
+      background: linear-gradient(to bottom right, transparent calc(50% - 1px), var(--wf-box-cross) calc(50% - 1px), var(--wf-box-cross) calc(50% + 1px), transparent calc(50% + 1px));
+    }
+
+    .wf-placeholder-tag {
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--wf-border-subtle);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--wf-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    /* High-Fidelity Typography with Cinzel and Inter */
+    .wf-font-cinzel {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.5px;
+    }
+
+    /* Wireframe Navigation Bar */
+    .wf-navbar {
+      height: 72px;
+      border-bottom: 2px solid var(--wf-border-dark);
+      background: #FFFFFF;
+      padding: 0 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wf-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wf-logo-box {
+      width: 44px;
+      height: 44px;
+      border: 2px solid var(--wf-border-dark);
+      background: #111827;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -1px;
+    }
+
+    .wf-brand-info h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--wf-border-dark);
+      line-height: 1.1;
+    }
+
+    .wf-brand-info span {
+      font-size: 11px;
+      color: var(--wf-text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .wf-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .wf-nav-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--wf-text-muted);
+      cursor: pointer;
+      padding: 8px 0;
+      position: relative;
+    }
+
+    .wf-nav-link.active {
+      color: var(--wf-text-main);
+      font-weight: 700;
+    }
+
+    .wf-nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--wf-border-dark);
+    }
+
+    .wf-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .wf-search-input {
+      width: 260px;
+      height: 38px;
+      border: 1.5px solid var(--wf-border-subtle);
+      border-radius: 6px;
+      padding: 0 12px 0 34px;
+      font-size: 13px;
+      background: #FFFFFF url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%236B7280" viewBox="0 0 24 24"><path d="M10 2a8 8 0 105.293 14.293l4.707 4.707 1.414-1.414-4.707-4.707A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg>') no-repeat 10px center;
+      color: var(--wf-text-main);
+    }
+
+    .wf-btn {
+      height: 38px;
+      padding: 0 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .wf-btn-primary {
+      background: var(--wf-border-dark);
+      color: #FFFFFF;
+      border: 1.5px solid var(--wf-border-dark);
+    }
+
+    .wf-btn-outline {
+      background: transparent;
+      color: var(--wf-border-dark);
+      border: 1.5px solid var(--wf-border-dark);
+    }
+
+    .wf-btn-subtle {
+      background: var(--wf-box-bg);
+      color: var(--wf-text-muted);
+      border: 1.5px solid var(--wf-border-light);
+    }
+
+    .wf-avatar-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 8px 4px 4px;
+      border: 1.5px solid var(--wf-border-subtle);
+      border-radius: 20px;
+      background: #FFFFFF;
+    }
+
+    .wf-avatar-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--wf-box-bg);
+      border: 1px solid var(--wf-border-subtle);
+      position: relative;
+    }
+
+    /* Sub-header / Filter strip */
+    .wf-category-strip {
+      height: 48px;
+      border-bottom: 1px solid var(--wf-border-light);
+      background: #F9FAFB;
+      padding: 0 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wf-tabs-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .wf-pill-tab {
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border: 1.5px solid var(--wf-border-subtle);
+      background: #FFFFFF;
+      color: var(--wf-text-muted);
+      cursor: pointer;
+    }
+
+    .wf-pill-tab.active {
+      background: var(--wf-border-dark);
+      color: #FFFFFF;
+      border-color: var(--wf-border-dark);
+    }
+
+    .wf-stats-ticker {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--wf-text-muted);
+    }
+
+    /* Hero Section (Split 12-col layout) */
+    .wf-hero-section {
+      padding: 40px 80px;
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      gap: 40px;
+      align-items: center;
+      border-bottom: 2px solid var(--wf-border-light);
+      background: #FFFFFF;
+    }
+
+    .wf-hero-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 4px 10px;
+      border: 1px solid var(--wf-border-subtle);
+      background: var(--wf-box-bg);
+      color: var(--wf-text-muted);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .wf-hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--wf-border-dark);
+      line-height: 1.15;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .wf-hero-desc {
+      font-size: 16px;
+      color: var(--wf-text-muted);
+      line-height: 1.5;
+      margin-bottom: 28px;
+      max-width: 620px;
+    }
+
+    .wf-hero-cta-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .wf-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      padding-top: 24px;
+      border-top: 1px solid var(--wf-border-light);
+    }
+
+    .wf-metric-card {
+      border: 1.5px solid var(--wf-border-subtle);
+      border-radius: 6px;
+      padding: 12px 14px;
+      background: var(--wf-box-bg);
+    }
+
+    .wf-metric-number {
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--wf-border-dark);
+    }
+
+    .wf-metric-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--wf-text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    /* Hero Right: Featured Project Card */
+    .wf-hero-card {
+      border: 2px solid var(--wf-border-dark);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #FFFFFF;
+      box-shadow: 6px 6px 0px var(--wf-border-dark);
+    }
+
+    .wf-hero-media {
+      height: 250px;
+      width: 100%;
+    }
+
+    .wf-hero-card-meta {
+      padding: 18px 20px;
+      border-top: 2px solid var(--wf-border-dark);
+      background: #FFFFFF;
+    }
+
+    .wf-tag-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .wf-mini-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      padding: 2px 6px;
+      border: 1px solid var(--wf-border-subtle);
+      border-radius: 3px;
+      background: var(--wf-box-bg);
+      color: var(--wf-text-muted);
+    }
+
+    .wf-hero-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--wf-border-dark);
+      margin-bottom: 4px;
+    }
+
+    .wf-hero-card-author {
+      font-size: 12px;
+      color: var(--wf-text-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Section Component */
+    .wf-section {
+      padding: 40px 80px;
+      border-bottom: 1px solid var(--wf-border-light);
+    }
+
+    .wf-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .wf-section-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wf-section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--wf-border-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .wf-section-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: var(--wf-box-bg);
+      border: 1px solid var(--wf-border-subtle);
+      padding: 2px 8px;
+      border-radius: 12px;
+      color: var(--wf-text-muted);
+    }
+
+    .wf-section-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--wf-border-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Desktop 4-Column Grid for Games and Assets */
+    .wf-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .wf-card {
+      border: 1.5px solid var(--wf-border-dark);
+      border-radius: 6px;
+      overflow: hidden;
+      background: #FFFFFF;
+      transition: transform 0.15s ease;
+    }
+
+    .wf-card-media {
+      height: 180px;
+      width: 100%;
+    }
+
+    .wf-card-body {
+      padding: 14px;
+      border-top: 1.5px solid var(--wf-border-dark);
+      background: #FFFFFF;
+    }
+
+    .wf-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--wf-border-dark);
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .wf-card-subtitle {
+      font-size: 12px;
+      color: var(--wf-text-light);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .wf-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px dashed var(--wf-border-light);
+      font-size: 11px;
+      color: var(--wf-text-muted);
+    }
+
+    /* Footer Wireframe (1440px) */
+    .wf-footer {
+      padding: 48px 80px 32px 80px;
+      background: #F9FAFB;
+      border-top: 2px solid var(--wf-border-dark);
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+    }
+
+    .wf-footer-col h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--wf-border-dark);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .wf-footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .wf-footer-link {
+      font-size: 13px;
+      color: var(--wf-text-muted);
+      cursor: pointer;
+    }
+
+    .wf-footer-bottom {
+      grid-column: 1 / -1;
+      padding-top: 24px;
+      border-top: 1px solid var(--wf-border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--wf-text-light);
+    }
+
+    /* Screen Specific: EXPLORAR PROYECTOS */
+    .wf-explorar-layout {
+      padding: 32px 80px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+    }
+
+    .wf-sidebar-filters {
+      border: 1.5px solid var(--wf-border-dark);
+      border-radius: 6px;
+      padding: 20px;
+      background: #FFFFFF;
+      align-self: start;
+    }
+
+    .wf-filter-group {
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--wf-border-light);
+    }
+
+    .wf-filter-group:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .wf-filter-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--wf-border-dark);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .wf-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--wf-text-muted);
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    .wf-checkbox-box {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid var(--wf-border-subtle);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .wf-checkbox-box.checked {
+      background: var(--wf-border-dark);
+      color: #FFFFFF;
+      border-color: var(--wf-border-dark);
+    }
+
+    /* Screen Specific: DETALLE DE PROYECTO / PLAYTEST */
+    .wf-proyecto-layout {
+      padding: 32px 80px;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 36px;
+    }
+
+    .wf-game-viewport-card {
+      border: 2px solid var(--wf-border-dark);
+      border-radius: 6px;
+      overflow: hidden;
+      background: #FFFFFF;
+      margin-bottom: 28px;
+    }
+
+    .wf-game-stage {
+      height: 520px;
+      width: 100%;
+      background: #0F172A;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+    }
+
+    .wf-game-controls-bar {
+      height: 48px;
+      border-top: 2px solid var(--wf-border-dark);
+      background: #FFFFFF;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--wf-text-muted);
+    }
+
+    /* Screen Specific: PERFIL DE CREADOR */
+    .wf-profile-banner {
+      height: 240px;
+      width: 100%;
+      border-bottom: 2px solid var(--wf-border-dark);
+    }
+
+    .wf-profile-header-wrap {
+      padding: 0 80px;
+      position: relative;
+      margin-top: -60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 32px;
+    }
+
+    .wf-profile-id-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 24px;
+    }
+
+    .wf-avatar-large {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 4px solid #FFFFFF;
+      background: var(--wf-box-bg);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .wf-profile-names h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--wf-border-dark);
+    }
+
+    .wf-profile-names p {
+      font-size: 13px;
+      color: var(--wf-text-light);
+      margin-top: 4px;
+    }
+
+    .wf-badges-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .wf-badge-chip {
+      font-size: 11px;
+      padding: 4px 10px;
+      border: 1px solid var(--wf-border-subtle);
+      border-radius: 12px;
+      background: var(--wf-box-bg);
+      font-weight: 600;
+      color: var(--wf-text-muted);
+    }
+
+    /* View Switcher Visibility */
+    .screen-view {
+      display: none;
+    }
+
+    .screen-view.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Navigation & Inspection Bar -->
+  <header class="wireframe-toolbar">
+    <div class="toolbar-left">
+      <span class="toolbar-badge">Desktop Wireframe PC • 1440px</span>
+      <span class="toolbar-title">DevNest Plataforma Colaborativa Indie</span>
+    </div>
+
+    <!-- Screen Switcher Tabs -->
+    <nav class="screen-tabs" aria-label="Pantallas de Wireframe">
+      <button class="screen-tab-btn active" onclick="switchScreen('home', this)">
+        <span>🏠</span> 1. Home / Landing
+      </button>
+      <button class="screen-tab-btn" onclick="switchScreen('explorar', this)">
+        <span>🔍</span> 2. Explorar Proyectos
+      </button>
+      <button class="screen-tab-btn" onclick="switchScreen('proyecto', this)">
+        <span>🎮</span> 3. Detalle & Playtest
+      </button>
+      <button class="screen-tab-btn" onclick="switchScreen('perfil', this)">
+        <span>👤</span> 4. Perfil Creador
+      </button>
+    </nav>
+
+    <!-- Inspection Controls -->
+    <div class="toolbar-actions">
+      <button class="grid-toggle-btn" id="gridToggleBtn" onclick="toggleGrid()">
+        <span>📐</span> Mostrar Retícula (12 Cols)
+      </button>
+      <span class="toolbar-badge" style="background:#1E3A8A; color:#BFDBFE;">High-Fidelity Wireframe</span>
+    </div>
+  </header>
+
+  <div class="viewport-wrapper">
+
+    <!-- ========================================== -->
+    <!-- SCREEN 1: HOME / LANDING (PC DESKTOP) -->
+    <!-- ========================================== -->
+    <div id="screen-home" class="screen-view active">
+      <div class="screen-header-info">
+        <div>
+          <h2>Pantalla 1: Home / Landing Page (PC Desktop)</h2>
+          <p>Adaptación a escritorio de <code>iPhone 16 Pro Max - 1</code> • Grid 12 columnas • Ancho 1440px</p>
+        </div>
+        <div class="screen-specs">1440px × 1720px • 12 Cols (72px col / 24px gutter / 80px margin)</div>
+      </div>
+
+      <div class="wireframe-artboard">
+        <!-- 12-Column Grid Guide -->
+        <div class="grid-overlay" id="grid-home">
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+        </div>
+
+        <!-- Desktop Navigation Bar (72px) -->
+        <nav class="wf-navbar">
+          <div class="wf-brand">
+            <div class="wf-logo-box">DV</div>
+            <div class="wf-brand-info">
+              <h1>DEVNEST</h1>
+              <span>Comunidad Indie & Playtesting</span>
+            </div>
+          </div>
+
+          <ul class="wf-nav-links">
+            <li class="wf-nav-link active">Inicio</li>
+            <li class="wf-nav-link" onclick="switchScreen('explorar')">Explorar Proyectos</li>
+            <li class="wf-nav-link">Assets & Sprites</li>
+            <li class="wf-nav-link">Equipos & Roles</li>
+            <li class="wf-nav-link">Manifiesto</li>
+          </ul>
+
+          <div class="wf-nav-right">
+            <input type="text" class="wf-search-input" placeholder="Buscar prototipos, creadores..." readonly>
+            <button class="wf-btn wf-btn-outline" style="padding: 0 10px;">🔔</button>
+            <button class="wf-btn wf-btn-primary">＋ Publicar Prototipo</button>
+            <div class="wf-avatar-chip" onclick="switchScreen('perfil')">
+              <div class="wf-avatar-circle wf-cross"></div>
+              <span style="font-size: 12px; font-weight: 600;">@Suzuya ▾</span>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Subheader / Filter Strip -->
+        <div class="wf-category-strip">
+          <div class="wf-tabs-row">
+            <span style="font-size: 11px; font-weight: 700; color: var(--wf-text-light); text-transform: uppercase; margin-right: 4px;">Vistas:</span>
+            <button class="wf-pill-tab active">★ DESTACADOS</button>
+            <button class="wf-pill-tab">✦ NUEVOS</button>
+            <button class="wf-pill-tab">🔥 POPULARES</button>
+            <button class="wf-pill-tab">👥 BUSCANDO EQUIPO</button>
+            <button class="wf-pill-tab">🧪 PLAYTESTING ACTIVO</button>
+          </div>
+          <div class="wf-stats-ticker">
+            <span>🟢 <strong>142</strong> Playtests activos hoy</span>
+            <span>•</span>
+            <span>⚡ <strong>38</strong> Roles abiertos</span>
+          </div>
+        </div>
+
+        <!-- Hero Section (Desktop Split View) -->
+        <section class="wf-hero-section">
+          <div>
+            <span class="wf-hero-badge">COMUNIDAD & PROTOTIPADO INDIE</span>
+            <h2 class="wf-hero-title">DONDE EL DESARROLLO INDIE COBRA VIDA</h2>
+            <p class="wf-hero-desc">
+              Comparte tus prototipos en fases tempranas (Alpha/Beta), recibe retroalimentación técnica de otros desarrolladores, y encuentra artistas, programadores o diseñadores de sonido para completar tu equipo.
+            </p>
+            <div class="wf-hero-cta-group">
+              <button class="wf-btn wf-btn-primary" style="height: 46px; padding: 0 24px; font-size: 14px;">
+                ＋ UNIRME COMO CREADOR
+              </button>
+              <button class="wf-btn wf-btn-outline" style="height: 46px; padding: 0 20px; font-size: 14px;" onclick="switchScreen('explorar')">
+                🎮 EXPLORAR PROTOTIPOS JUGABLES
+              </button>
+            </div>
+
+            <!-- 3 Stats Counter -->
+            <div class="wf-metrics-grid">
+              <div class="wf-metric-card">
+                <div class="wf-metric-number">+1.2K</div>
+                <div class="wf-metric-label">Prototipos Registrados</div>
+              </div>
+              <div class="wf-metric-card">
+                <div class="wf-metric-number">+450</div>
+                <div class="wf-metric-label">Equipos Formados</div>
+              </div>
+              <div class="wf-metric-card">
+                <div class="wf-metric-number">+9.7K</div>
+                <div class="wf-metric-label">Feedbacks Recibidos</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Featured Project Card Wireframe -->
+          <div class="wf-hero-card">
+            <div class="wf-placeholder-box wf-cross wf-hero-media">
+              <div class="wf-placeholder-tag">
+                <span>🖼️</span> PROYECTO DESTACADO DE LA SEMANA (16:9)
+              </div>
+              <div style="position: absolute; bottom: 16px; left: 16px; z-index: 3;">
+                <span style="background: #111827; color: #FFF; font-size: 11px; padding: 4px 8px; border-radius: 4px; font-weight: 600;">
+                  ▶ DEMO WEBGL JUGABLE
+                </span>
+              </div>
+            </div>
+            <div class="wf-hero-card-meta">
+              <div class="wf-tag-row">
+                <span class="wf-mini-tag">UNITY 6</span>
+                <span class="wf-mini-tag">ALPHA V0.3</span>
+                <span class="wf-mini-tag">CYBERPUNK</span>
+              </div>
+              <h3 class="wf-hero-card-title">BIT SCAPE: CYBER RUNNER</h3>
+              <div class="wf-hero-card-author">
+                <span>Por <strong>@Suzuya</strong> • Publicado hace 2 días</span>
+                <span style="font-weight: 600; color: var(--wf-border-dark);">💬 18 Feedbacks</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 1: Videojuegos Indie (Desktop 4-Col Grid) -->
+        <section class="wf-section">
+          <div class="wf-section-header">
+            <div class="wf-section-title-wrap">
+              <h3 class="wf-section-title">VIDEOJUEGOS INDIE</h3>
+              <span class="wf-section-count">48 Proyectos</span>
+            </div>
+            <div class="wf-section-link" onclick="switchScreen('explorar')">
+              Ver todos los videojuegos ↗
+            </div>
+          </div>
+
+          <div class="wf-grid-4">
+            <!-- Card 1 -->
+            <div class="wf-card" onclick="switchScreen('proyecto')" style="cursor: pointer;">
+              <div class="wf-placeholder-box wf-cross wf-card-media">
+                <div class="wf-placeholder-tag"><span>🖼️</span> COVER (16:10)</div>
+              </div>
+              <div class="wf-card-body">
+                <div class="wf-tag-row">
+                  <span class="wf-mini-tag">UNITY</span>
+                  <span class="wf-mini-tag">ALPHA V0.3</span>
+                </div>
+                <h4 class="wf-card-title">BIT SCAPE</h4>
+                <div class="wf-card-subtitle">
+                  <span>@Suzuya</span>
+                  <span>Plataformas 2D</span>
+                </div>
+                <div class="wf-card-footer">
+                  <span>👥 Busca: Artista 2D</span>
+                  <span>💬 18 Feedbacks</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="wf-card" onclick="switchScreen('proyecto')" style="cursor: pointer;">
+              <div class="wf-placeholder-box wf-cross wf-card-media">
+                <div class="wf-placeholder-tag"><span>🖼️</span> COVER (16:10)</div>
+              </div>
+              <div class="wf-card-body">
+                <div class="wf-tag-row">
+                  <span class="wf-mini-tag">UNITY</span>
+                  <span class="wf-mini-tag">DEMO PLAYTEST</span>
+                </div>
+                <h4 class="wf-card-title">NIGHT IN THE WOODS</h4>
+                <div class="wf-card-subtitle">
+                  <span>@IndieSquad</span>
+                  <span>Narrativo / Aventura</span>
+                </div>
+                <div class="wf-card-footer">
+                  <span>👥 Busca: SFX / Música</span>
+                  <span>💬 42 Feedbacks</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="wf-card">
+              <div class="wf-placeholder-box wf-cross wf-card-media">
+                <div class="wf-placeholder-tag"><span>🖼️</span> COVER (16:10)</div>
+              </div>
+              <div class="wf-card-body">
+                <div class="wf-tag-row">
+                  <span class="wf-mini-tag">GODOT 4</span>
+                  <span class="wf-mini-tag">PROTOTIPO V0.1</span>
+                </div>
+                <h4 class="wf-card-title">ANOTHER DOOR</h4>
+                <div class="wf-card-subtitle">
+                  <span>@PixelForge</span>
+                  <span>Puzzle / Terror</span>
+                </div>
+                <div class="wf-card-footer">
+                  <span>👥 Busca: Programador C#</span>
+                  <span>💬 29 Feedbacks</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="wf-card">
+              <div class="wf-placeholder-box wf-cross wf-card-media">
+                <div class="wf-placeholder-tag"><span>🖼️</span> COVER (16:10)</div>
+              </div>
+              <div class="wf-card-body">
+                <div class="wf-tag-row">
+                  <span class="wf-mini-tag">UNREAL 5</span>
+                  <span class="wf-mini-tag">ALPHA V0.8</span>
+                </div>
+                <h4 class="wf-card-title">CULT OF THE LAMB</h4>
+                <div class="wf-card-subtitle">
+                  <span>@MassiveArt</span>
+                  <span>Roguelike / Acción</span>
+                </div>
+                <div class="wf-card-footer">
+                  <span>👥 Busca: Animador 3D</span>
+                  <span>💬 34 Feedbacks</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 2: Assets Animados & Sprites -->
+        <section class="wf-section">
+          <div class="wf-section-header">
+            <div class="wf-section-title-wrap">
+              <h3 class="wf-section-title">ASSETS ANIMADOS & RECURSOS</h3>
+              <span class="wf-section-count">120 Packs</span>
+            </div>
+            <div class="wf-section-link">
+              Ver galería de assets ↗
+            </div>
+          </div>
+
+          <div class="wf-grid-4">
+            <!-- Asset 1 -->
+            <div class="wf-card">
+              <div class="wf-placeholder-box wf-cross wf-card-media">
+                <div class="wf-placeholder-tag"><span>👾</span> SPRITESHEET (16×16)</div>
+              </div>
+              <div class="wf-card-body">
+                <div class="wf-tag-row">
+                  <span class="wf-mini-tag">PIXEL ART</span>
+                  <span class="wf-mini-tag">8 FRAMES</span>
+                </div>
+                <h4 class="wf-card-title">Hero Boy Walk & Run</h4>
+                <div class="wf-card-subtitle">
+                  <span>@LauraArt</span>
+                  <span>.PNG / Aseprite</span>
+                </div>
+                <div class="wf-card-footer">
+                  <span>Licencia: CC-BY 4.0</span>
+                  <span>⭐ 4.9 (12)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Asset 2 -->
+            <div class="wf-card">
+              <div class="wf-placeholder-box wf-cross wf-card-media">
+                <div class="wf-placeholder-tag"><span>👾</span> SPRITESHEET (24×24)</div>
+              </div>
+              <div class="wf-card-body">
+                <div class="wf-tag-row">
+                  <span class="wf-mini-tag">PERSONAJES</span>
+                  <span class="wf-mini-tag">NPC PACK</span>
+                </div>
+                <h4 class="wf-card-title">Female NPC Idle & Talk</h4>
+                <div class="wf-card-subtitle">
+                  <span>@KuroPixel</span>
+                  <span>.PNG / Sheet</span>
+                </div>
+                <div class="wf-card-footer">
+                  <span>Licencia: Gratuito</span>
+                  <span>⭐ 4.7 (8)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Asset 3 -->
+            <div class="wf-card">
+              <div class="wf-placeholder-box wf-cross wf-card-media">
+                <div class="wf-placeholder-tag"><span>🗺️</span> TILESET PACK</div>
+              </div>
+              <div class="wf-card-body">
+                <div class="wf-tag-row">
+                  <span class="wf-mini-tag">TILES</span>
+                  <span class="wf-mini-tag">DUNGEON</span>
+                </div>
+                <h4 class="wf-card-title">Medieval Dark Crypt 16x16</h4>
+                <div class="wf-card-subtitle">
+                  <span>@RetroWorld</span>
+                  <span>Unity Tilemap Ready</span>
+                </div>
+                <div class="wf-card-footer">
+                  <span>Licencia: CC-BY</span>
+                  <span>⭐ 5.0 (24)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Asset 4 -->
+            <div class="wf-card">
+              <div class="wf-placeholder-box wf-cross wf-card-media">
+                <div class="wf-placeholder-tag"><span>🎨</span> PALETA DE COLOR</div>
+              </div>
+              <div class="wf-card-body">
+                <div class="wf-tag-row">
+                  <span class="wf-mini-tag">COLOR</span>
+                  <span class="wf-mini-tag">32 TONOS</span>
+                </div>
+                <h4 class="wf-card-title">Cyberpunk Neon Night 32</h4>
+                <div class="wf-card-subtitle">
+                  <span>@ColorMaster</span>
+                  <span>.GPL / .ASE</span>
+                </div>
+                <div class="wf-card-footer">
+                  <span>Licencia: Open</span>
+                  <span>⭐ 4.8 (19)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Desktop Footer (4 Cols) -->
+        <footer class="wf-footer">
+          <div class="wf-footer-col">
+            <div class="wf-brand" style="margin-bottom: 12px;">
+              <div class="wf-logo-box">DV</div>
+              <div class="wf-brand-info">
+                <h1>DEVNEST</h1>
+                <span>Comunidad Indie</span>
+              </div>
+            </div>
+            <p style="font-size: 13px; color: var(--wf-text-muted); line-height: 1.5; max-width: 280px;">
+              Plataforma para conectar creadores indie, transformar ideas tempranas en proyectos jugables y democratizar el feedback técnico y artístico.
+            </p>
+          </div>
+
+          <div class="wf-footer-col">
+            <h4>EXPLORAR</h4>
+            <ul class="wf-footer-links">
+              <li class="wf-footer-link">Videojuegos Indie</li>
+              <li class="wf-footer-link">Assets Animados</li>
+              <li class="wf-footer-link">Paletas de Color</li>
+              <li class="wf-footer-link">Modelos 3D</li>
+              <li class="wf-footer-link">Equipos Buscando Creadores</li>
+            </ul>
+          </div>
+
+          <div class="wf-footer-col">
+            <h4>COMUNIDAD</h4>
+            <ul class="wf-footer-links">
+              <li class="wf-footer-link">💬 Servidor de Discord ↗</li>
+              <li class="wf-footer-link">🎮 Espacio en Itch.io ↗</li>
+              <li class="wf-footer-link">🐦 Twitter / X Oficial ↗</li>
+              <li class="wf-footer-link">💻 Repositorio GitHub ↗</li>
+            </ul>
+          </div>
+
+          <div class="wf-footer-col">
+            <h4>CRÉDITOS & LEGAL</h4>
+            <ul class="wf-footer-links">
+              <li class="wf-footer-link">Manifiesto DevNest</li>
+              <li class="wf-footer-link">Juan Sebastián López (Lead Game Dev)</li>
+              <li class="wf-footer-link">Juan Pablo (Lead UI/UX)</li>
+              <li class="wf-footer-link">Términos & Condiciones</li>
+            </ul>
+          </div>
+
+          <div class="wf-footer-bottom">
+            <span>© 2026 DevNest. Todos los derechos reservados. Diseñado para Desktop PC.</span>
+            <span>Wireframe Alta Fidelidad • Especificación Figma Node #168:126</span>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 2: EXPLORAR PROYECTOS (PC DESKTOP) -->
+    <!-- ========================================== -->
+    <div id="screen-explorar" class="screen-view">
+      <div class="screen-header-info">
+        <div>
+          <h2>Pantalla 2: Explorar Proyectos & Filtros Avanzados (PC Desktop)</h2>
+          <p>Adaptación a escritorio de <code>iPhone 16 Pro Max - 5</code> • Panel de filtros lateral + Grid de resultados</p>
+        </div>
+        <div class="screen-specs">1440px × 1280px • Sidebar 280px + Grid 960px</div>
+      </div>
+
+      <div class="wireframe-artboard">
+        <div class="grid-overlay" id="grid-explorar">
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+        </div>
+
+        <!-- Navbar -->
+        <nav class="wf-navbar">
+          <div class="wf-brand" onclick="switchScreen('home')" style="cursor: pointer;">
+            <div class="wf-logo-box">DV</div>
+            <div class="wf-brand-info">
+              <h1>DEVNEST</h1>
+              <span>Comunidad Indie</span>
+            </div>
+          </div>
+          <ul class="wf-nav-links">
+            <li class="wf-nav-link" onclick="switchScreen('home')">Inicio</li>
+            <li class="wf-nav-link active">Explorar Proyectos</li>
+            <li class="wf-nav-link">Assets & Sprites</li>
+            <li class="wf-nav-link">Equipos</li>
+          </ul>
+          <div class="wf-nav-right">
+            <button class="wf-btn wf-btn-primary">＋ Publicar Prototipo</button>
+            <div class="wf-avatar-chip" onclick="switchScreen('perfil')">
+              <div class="wf-avatar-circle wf-cross"></div>
+              <span style="font-size: 12px; font-weight: 600;">@Suzuya</span>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Search Bar Hero Strip -->
+        <div style="background: #FFFFFF; padding: 24px 80px; border-bottom: 1px solid var(--wf-border-light); display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h3 class="wf-font-cinzel" style="font-size: 24px; font-weight: 700;">EXPLORAR PROYECTOS</h3>
+            <p style="font-size: 13px; color: var(--wf-text-light); margin-top: 2px;">Filtra por motor de desarrollo, estado de madurez o necesidad de colaboradores</p>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <input type="text" class="wf-search-input" style="width: 320px;" placeholder="Buscar por título, rol o mecánica..." readonly>
+            <select style="height: 38px; border: 1.5px solid var(--wf-border-subtle); border-radius: 6px; padding: 0 12px; font-size: 13px; font-weight: 500; background: #FFF;">
+              <option>Ordenar por: Más Recientes ▾</option>
+              <option>Más Votados</option>
+              <option>Más Feedbacks</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 2-Column Layout: Sidebar Filters + Results Grid -->
+        <div class="wf-explorar-layout">
+          <!-- Left Sidebar Filters -->
+          <aside class="wf-sidebar-filters">
+            <!-- Filter Group: Motor -->
+            <div class="wf-filter-group">
+              <h4 class="wf-filter-heading">MOTOR DE DESARROLLO</h4>
+              <label class="wf-checkbox-label">
+                <div class="wf-checkbox-box checked">✓</div>
+                <span>Unity 6 / URP (28)</span>
+              </label>
+              <label class="wf-checkbox-label">
+                <div class="wf-checkbox-box checked">✓</div>
+                <span>Godot 4.x (14)</span>
+              </label>
+              <label class="wf-checkbox-label">
+                <div class="wf-checkbox-box"></div>
+                <span>Unreal Engine 5 (9)</span>
+              </label>
+              <label class="wf-checkbox-label">
+                <div class="wf-checkbox-box"></div>
+                <span>GameMaker / Custom (6)</span>
+              </label>
+            </div>
+
+            <!-- Filter Group: Estado del Proyecto -->
+            <div class="wf-filter-group">
+              <h4 class="wf-filter-heading">ESTADO DEL PROYECTO</h4>
+              <label class="wf-checkbox-label">
+                <div class="wf-checkbox-box checked">✓</div>
+                <span>Todos los estados</span>
+              </label>
+              <label class="wf-checkbox-label">
+                <div class="wf-checkbox-box checked">✓</div>
+                <span>Buscando Equipo (19)</span>
+              </label>
+              <label class="wf-checkbox-label">
+                <div class="wf-checkbox-box checked">✓</div>
+                <span>Demo Playtest (24)</span>
+              </label>
+              <label class="wf-checkbox-label">
+                <div class="wf-checkbox-box"></div>
+                <span>Concepto / Vertical Slice (11)</span>
+              </label>
+            </div>
+
+            <!-- Filter Group: Roles Requeridos -->
+            <div class="wf-filter-group">
+              <h4 class="wf-filter-heading">ROLES BUSCADOS</h4>
+              <label class="wf-checkbox-label">
+                <div class="wf-checkbox-box checked">✓</div>
+                <span>Artista 2D / Pixel Art</span>
+              </label>
+              <label class="wf-checkbox-label">
+                <div class="wf-checkbox-box"></div>
+                <span>Animador 3D / Rigging</span>
+              </label>
+              <label class="wf-checkbox-label">
+                <div class="wf-checkbox-box checked">✓</div>
+                <span>Compositor / SFX</span>
+              </label>
+              <label class="wf-checkbox-label">
+                <div class="wf-checkbox-box"></div>
+                <span>Game Designer / Balance</span>
+              </label>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 16px;">
+              <button class="wf-btn wf-btn-primary" style="flex: 1; font-size: 12px;">Aplicar Filtros</button>
+              <button class="wf-btn wf-btn-subtle" style="font-size: 12px;">Limpiar</button>
+            </div>
+          </aside>
+
+          <!-- Right Grid (3 Cards per row) -->
+          <main>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <span style="font-size: 13px; color: var(--wf-text-muted);">Mostrando <strong>6</strong> de <strong>48</strong> prototipos</span>
+              <div style="display: flex; gap: 6px;">
+                <span class="wf-mini-tag" style="background:#FFF;">Unity ×</span>
+                <span class="wf-mini-tag" style="background:#FFF;">Buscando Equipo ×</span>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+              <!-- Project Card 1 -->
+              <div class="wf-card" onclick="switchScreen('proyecto')" style="cursor: pointer;">
+                <div class="wf-placeholder-box wf-cross wf-card-media" style="height: 160px;">
+                  <div class="wf-placeholder-tag"><span>🎮</span> BIT SCAPE (16:10)</div>
+                </div>
+                <div class="wf-card-body">
+                  <div class="wf-tag-row">
+                    <span class="wf-mini-tag">UNITY 6</span>
+                    <span class="wf-mini-tag">ALPHA V0.3</span>
+                  </div>
+                  <h4 class="wf-card-title">BIT SCAPE</h4>
+                  <p style="font-size: 11px; color: var(--wf-text-muted); margin-bottom: 10px; height: 32px; overflow: hidden;">
+                    Platformer 2D de ritmo rápido con mecánicas de salto y dash.
+                  </p>
+                  <div class="wf-card-footer">
+                    <span>👥 Artista 2D</span>
+                    <span>💬 18 Feedbacks</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project Card 2 -->
+              <div class="wf-card" onclick="switchScreen('proyecto')" style="cursor: pointer;">
+                <div class="wf-placeholder-box wf-cross wf-card-media" style="height: 160px;">
+                  <div class="wf-placeholder-tag"><span>🎮</span> CULT OF THE LAMB</div>
+                </div>
+                <div class="wf-card-body">
+                  <div class="wf-tag-row">
+                    <span class="wf-mini-tag">UNITY 6</span>
+                    <span class="wf-mini-tag">BUSCANDO EQUIPO</span>
+                  </div>
+                  <h4 class="wf-card-title">CULT OF THE LAMB</h4>
+                  <p style="font-size: 11px; color: var(--wf-text-muted); margin-bottom: 10px; height: 32px; overflow: hidden;">
+                    Roguelike con combate hack-and-slash y gestión de base.
+                  </p>
+                  <div class="wf-card-footer">
+                    <span>👥 Compositor SFX</span>
+                    <span>💬 18 Feedbacks</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project Card 3 -->
+              <div class="wf-card">
+                <div class="wf-placeholder-box wf-cross wf-card-media" style="height: 160px;">
+                  <div class="wf-placeholder-tag"><span>🎮</span> BINDING OF ISAAC</div>
+                </div>
+                <div class="wf-card-body">
+                  <div class="wf-tag-row">
+                    <span class="wf-mini-tag">UNITY 6</span>
+                    <span class="wf-mini-tag">DEMO PLAYTEST</span>
+                  </div>
+                  <h4 class="wf-card-title">THE BINDING OF ISAAC</h4>
+                  <p style="font-size: 11px; color: var(--wf-text-muted); margin-bottom: 10px; height: 32px; overflow: hidden;">
+                    Shooter cenital procedural con cientos de combinaciones.
+                  </p>
+                  <div class="wf-card-footer">
+                    <span>👥 Playtesters</span>
+                    <span>💬 42 Feedbacks</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project Card 4 -->
+              <div class="wf-card">
+                <div class="wf-placeholder-box wf-cross wf-card-media" style="height: 160px;">
+                  <div class="wf-placeholder-tag"><span>🎮</span> NIGHT IN THE WOODS</div>
+                </div>
+                <div class="wf-card-body">
+                  <div class="wf-tag-row">
+                    <span class="wf-mini-tag">GODOT 4</span>
+                    <span class="wf-mini-tag">ALPHA V0.5</span>
+                  </div>
+                  <h4 class="wf-card-title">NIGHT IN THE WOODS</h4>
+                  <p style="font-size: 11px; color: var(--wf-text-muted); margin-bottom: 10px; height: 32px; overflow: hidden;">
+                    Aventura de exploración sobre jóvenes adultos y misterios en el pueblo.
+                  </p>
+                  <div class="wf-card-footer">
+                    <span>👥 Animador</span>
+                    <span>💬 31 Feedbacks</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project Card 5 -->
+              <div class="wf-card">
+                <div class="wf-placeholder-box wf-cross wf-card-media" style="height: 160px;">
+                  <div class="wf-placeholder-tag"><span>🎮</span> ANOTHER DOOR</div>
+                </div>
+                <div class="wf-card-body">
+                  <div class="wf-tag-row">
+                    <span class="wf-mini-tag">GODOT 4</span>
+                    <span class="wf-mini-tag">VERTICAL SLICE</span>
+                  </div>
+                  <h4 class="wf-card-title">ANOTHER DOOR</h4>
+                  <p style="font-size: 11px; color: var(--wf-text-muted); margin-bottom: 10px; height: 32px; overflow: hidden;">
+                    Juego de cartas y acertijos de escape room interactivo.
+                  </p>
+                  <div class="wf-card-footer">
+                    <span>👥 Diseñador UX</span>
+                    <span>💬 15 Feedbacks</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project Card 6 -->
+              <div class="wf-card">
+                <div class="wf-placeholder-box wf-cross wf-card-media" style="height: 160px;">
+                  <div class="wf-placeholder-tag"><span>🎮</span> CYBER DRIFT 2088</div>
+                </div>
+                <div class="wf-card-body">
+                  <div class="wf-tag-row">
+                    <span class="wf-mini-tag">UNITY 6</span>
+                    <span class="wf-mini-tag">DEMO PLAYTEST</span>
+                  </div>
+                  <h4 class="wf-card-title">CYBER DRIFT 2088</h4>
+                  <p style="font-size: 11px; color: var(--wf-text-muted); margin-bottom: 10px; height: 32px; overflow: hidden;">
+                    Carreras arcade retro con física realista y estética Synthwave.
+                  </p>
+                  <div class="wf-card-footer">
+                    <span>👥 Playtesting</span>
+                    <span>💬 27 Feedbacks</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pagination Bar -->
+            <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 32px;">
+              <button class="wf-btn wf-btn-subtle" style="font-size: 12px;">← Anterior</button>
+              <button class="wf-btn wf-btn-primary" style="width: 36px; padding: 0;">1</button>
+              <button class="wf-btn wf-btn-subtle" style="width: 36px; padding: 0;">2</button>
+              <button class="wf-btn wf-btn-subtle" style="width: 36px; padding: 0;">3</button>
+              <span style="color: var(--wf-text-light);">...</span>
+              <button class="wf-btn wf-btn-subtle" style="width: 36px; padding: 0;">8</button>
+              <button class="wf-btn wf-btn-subtle" style="font-size: 12px;">Siguiente →</button>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 3: FICHA DE PROYECTO & PLAYTEST -->
+    <!-- ========================================== -->
+    <div id="screen-proyecto" class="screen-view">
+      <div class="screen-header-info">
+        <div>
+          <h2>Pantalla 3: Detalle de Proyecto, WebGL & Ficha Técnica (PC Desktop)</h2>
+          <p>Adaptación a escritorio de <code>iPhone 16 Pro Max - 6</code> • Visor WebGL 16:9 + Ficha Técnica lateral</p>
+        </div>
+        <div class="screen-specs">1440px × 1350px • Canvas WebGL 880px × 495px + Ficha 360px</div>
+      </div>
+
+      <div class="wireframe-artboard">
+        <div class="grid-overlay" id="grid-proyecto">
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+        </div>
+
+        <!-- Navbar -->
+        <nav class="wf-navbar">
+          <div class="wf-brand" onclick="switchScreen('home')" style="cursor: pointer;">
+            <div class="wf-logo-box">DV</div>
+            <div class="wf-brand-info">
+              <h1>DEVNEST</h1>
+              <span>Comunidad Indie</span>
+            </div>
+          </div>
+          <ul class="wf-nav-links">
+            <li class="wf-nav-link" onclick="switchScreen('home')">Inicio</li>
+            <li class="wf-nav-link" onclick="switchScreen('explorar')">Explorar Proyectos</li>
+            <li class="wf-nav-link active">Playtest Activo</li>
+          </ul>
+          <div class="wf-nav-right">
+            <button class="wf-btn wf-btn-primary">＋ Publicar Prototipo</button>
+            <div class="wf-avatar-chip" onclick="switchScreen('perfil')">
+              <div class="wf-avatar-circle wf-cross"></div>
+              <span style="font-size: 12px; font-weight: 600;">@Suzuya</span>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Breadcrumb & Title Strip -->
+        <div style="background: #FFFFFF; padding: 20px 80px; border-bottom: 1px solid var(--wf-border-light); display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div style="font-size: 12px; color: var(--wf-text-light); margin-bottom: 4px;">
+              <span>Inicio</span> &gt; <span>Explorar</span> &gt; <strong>The Binding of Isaac: Rebirth Prototype</strong>
+            </div>
+            <h2 class="wf-font-cinzel" style="font-size: 26px; font-weight: 700; color: var(--wf-border-dark);">
+              THE BINDING OF ISAAC
+            </h2>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="wf-btn wf-btn-outline" style="font-size: 12px;">🔗 Compartir</button>
+            <button class="wf-btn wf-btn-outline" style="font-size: 12px;">⭐ Guardar en Favoritos</button>
+          </div>
+        </div>
+
+        <!-- Main Desktop 2-Column Stage -->
+        <div class="wf-proyecto-layout">
+          <!-- Left Column (Stage + Feedback Form) -->
+          <main>
+            <!-- WebGL Player Stage Container -->
+            <div class="wf-game-viewport-card">
+              <div class="wf-game-stage wf-cross">
+                <div class="wf-placeholder-tag" style="background:#0F172A; color:#E2E8F0; border-color:#334155;">
+                  <span>🕹️</span> CONTENEDOR WEBGL UNITY 6 (16:9 • 880px × 495px)
+                </div>
+                <div style="margin-top: 24px; position: relative; z-index: 3;">
+                  <button class="wf-btn wf-btn-primary" style="height: 48px; padding: 0 28px; font-size: 15px; box-shadow: 0 4px 14px rgba(0,0,0,0.4);">
+                    ▶ JUGAR PROTOTIPO AHORA
+                  </button>
+                </div>
+                <span style="position: relative; z-index: 3; font-size: 11px; color: #94A3B8; margin-top: 8px;">
+                  Presiona para enfocar controles de teclado y mouse
+                </span>
+              </div>
+              <div class="wf-game-controls-bar">
+                <div style="display: flex; gap: 16px; align-items: center;">
+                  <span>⌨ <strong>Controles:</strong> [WASD] Mover | [Mouse] Apuntar & Disparar | [Espacio] Bomba</span>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                  <button class="wf-btn wf-btn-subtle" style="height: 28px; padding: 0 8px; font-size: 11px;">🔇 Silenciar</button>
+                  <button class="wf-btn wf-btn-subtle" style="height: 28px; padding: 0 8px; font-size: 11px;">⟳ Reiniciar</button>
+                  <button class="wf-btn wf-btn-subtle" style="height: 28px; padding: 0 8px; font-size: 11px;">⛶ Pantalla Completa</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pitch & Sinopsis Box -->
+            <div style="border: 1.5px solid var(--wf-border-dark); border-radius: 6px; padding: 24px; background: #FFFFFF; margin-bottom: 24px;">
+              <h3 class="wf-font-cinzel" style="font-size: 16px; font-weight: 700; margin-bottom: 12px; border-bottom: 1px solid var(--wf-border-light); padding-bottom: 8px;">
+                SINOPSIS & OBJETIVOS DEL PLAYTEST
+              </h3>
+              <p style="font-size: 14px; line-height: 1.6; color: var(--wf-text-muted); margin-bottom: 16px;">
+                Platformer 2D con mecánicas de hackeo y combate en tiempo real. En esta build Alpha v0.3 se busca probar la fluidez del control de movimiento, la tasa de daño de los proyectiles y el balance de dificultad en las salas de jefes.
+              </p>
+              <div style="display: flex; gap: 10px;">
+                <span class="wf-mini-tag" style="padding: 4px 10px;">[ + 2D Pixel ]</span>
+                <span class="wf-mini-tag" style="padding: 4px 10px;">[ + Hackeo Temporal ]</span>
+                <span class="wf-mini-tag" style="padding: 4px 10px;">[ + Dificultad Dinámica ]</span>
+              </div>
+            </div>
+
+            <!-- Interactive Feedback & Rating Module -->
+            <div style="border: 1.5px solid var(--wf-border-dark); border-radius: 6px; padding: 24px; background: #FFFFFF;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 class="wf-font-cinzel" style="font-size: 16px; font-weight: 700;">
+                  EVALÚA EL PROTOTIPO (PLAYTEST FEEDBACK)
+                </h3>
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--wf-border-dark); font-weight: 700;">
+                  <span>Calificación:</span>
+                  <span style="font-size: 18px; cursor: pointer;">⭐⭐⭐⭐⭐</span>
+                </div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div>
+                  <label style="display: block; font-size: 12px; font-weight: 600; color: var(--wf-text-muted); margin-bottom: 6px;">
+                    ¿Qué opinas sobre la fluidez del control y la aceleración?
+                  </label>
+                  <textarea style="width: 100%; height: 60px; border: 1.5px solid var(--wf-border-subtle); border-radius: 4px; padding: 8px; font-size: 13px;" placeholder="Escribe aquí tus comentarios sobre la jugabilidad..." readonly></textarea>
+                </div>
+                <div>
+                  <label style="display: block; font-size: 12px; font-weight: 600; color: var(--wf-text-muted); margin-bottom: 6px;">
+                    Reportar Bugs, Glitches o Sugerencias técnicas:
+                  </label>
+                  <textarea style="width: 100%; height: 60px; border: 1.5px solid var(--wf-border-subtle); border-radius: 4px; padding: 8px; font-size: 13px;" placeholder="Describe errores encontrados, FPS, bugs en WebGL..." readonly></textarea>
+                </div>
+                <div style="display: flex; justify-content: flex-end;">
+                  <button class="wf-btn wf-btn-primary">Enviar Feedback al Desarrollador</button>
+                </div>
+              </div>
+            </div>
+          </main>
+
+          <!-- Right Column: Ficha Técnica & Reclutamiento -->
+          <aside style="display: flex; flex-direction: column; gap: 20px;">
+            <!-- Ficha Técnica Card -->
+            <div style="border: 2px solid var(--wf-border-dark); border-radius: 6px; padding: 20px; background: #FFFFFF;">
+              <h4 class="wf-font-cinzel" style="font-size: 14px; font-weight: 700; color: var(--wf-border-dark); margin-bottom: 14px; border-bottom: 1.5px solid var(--wf-border-dark); padding-bottom: 6px;">
+                FICHA TÉCNICA DEL PROYECTO
+              </h4>
+              <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--wf-text-light);">Motor:</span>
+                  <strong>Unity 6 (URP)</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--wf-text-light);">Estado:</span>
+                  <span class="wf-mini-tag" style="background:#DCFCE7; color:#166534; font-weight: 700;">Alpha Jugable</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--wf-text-light);">Plataformas:</span>
+                  <span>WebGL / PC Windows</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--wf-text-light);">Tamaño Build:</span>
+                  <span>45.2 MB</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--wf-text-light);">Última actualización:</span>
+                  <span>18 Oct 2026</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recruitment Card -->
+            <div style="border: 2px solid var(--wf-border-dark); border-radius: 6px; padding: 20px; background: #FFFFFF; box-shadow: 4px 4px 0px var(--wf-border-dark);">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #22C55E;"></span>
+                <h4 class="wf-font-cinzel" style="font-size: 13px; font-weight: 700; color: var(--wf-border-dark);">
+                  ROLES BUSCADOS (EQUIPO)
+                </h4>
+              </div>
+              <p style="font-size: 12px; color: var(--wf-text-muted); margin-bottom: 14px; line-height: 1.4;">
+                El creador está buscando talentos para sumar al proyecto y postular a convocatorias indie:
+              </p>
+              <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px;">
+                <li style="font-size: 12px; font-weight: 600; padding: 6px 10px; border: 1px solid var(--wf-border-subtle); border-radius: 4px; background: var(--wf-box-bg);">
+                  [+] Artista Pixel Art (2D)
+                </li>
+                <li style="font-size: 12px; font-weight: 600; padding: 6px 10px; border: 1px solid var(--wf-border-subtle); border-radius: 4px; background: var(--wf-box-bg);">
+                  [+] Diseñador de Sonido / SFX
+                </li>
+              </ul>
+              <button class="wf-btn wf-btn-primary" style="width: 100%; height: 42px;">
+                🤝 Solicitar Unirme al Proyecto
+              </button>
+            </div>
+
+            <!-- Creator Card -->
+            <div style="border: 1.5px solid var(--wf-border-dark); border-radius: 6px; padding: 18px; background: #FFFFFF;">
+              <h5 class="wf-font-cinzel" style="font-size: 12px; font-weight: 700; color: var(--wf-text-light); margin-bottom: 12px; text-transform: uppercase;">
+                DESARROLLADO POR
+              </h5>
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                <div class="wf-avatar-circle wf-cross" style="width: 44px; height: 44px;"></div>
+                <div>
+                  <h4 style="font-size: 14px; font-weight: 700;">@Suzuya</h4>
+                  <p style="font-size: 11px; color: var(--wf-text-light);">Programador / Artista 2D</p>
+                </div>
+              </div>
+              <button class="wf-btn wf-btn-outline" style="width: 100%; font-size: 12px;" onclick="switchScreen('perfil')">
+                Ver Perfil Completo ↗
+              </button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 4: PERFIL DE CREADOR (PC DESKTOP) -->
+    <!-- ========================================== -->
+    <div id="screen-perfil" class="screen-view">
+      <div class="screen-header-info">
+        <div>
+          <h2>Pantalla 4: Perfil de Creador & Portafolio (PC Desktop)</h2>
+          <p>Adaptación a escritorio de <code>iPhone 16 Pro Max - 7</code> • Banner panorámico + Bio lateral + Grid de proyectos</p>
+        </div>
+        <div class="screen-specs">1440px × 1200px • Banner 1440px × 240px + Grid 2 Columnas</div>
+      </div>
+
+      <div class="wireframe-artboard">
+        <div class="grid-overlay" id="grid-perfil">
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+          <div class="grid-overlay-col"></div><div class="grid-overlay-col"></div>
+        </div>
+
+        <!-- Navbar -->
+        <nav class="wf-navbar">
+          <div class="wf-brand" onclick="switchScreen('home')" style="cursor: pointer;">
+            <div class="wf-logo-box">DV</div>
+            <div class="wf-brand-info">
+              <h1>DEVNEST</h1>
+              <span>Comunidad Indie</span>
+            </div>
+          </div>
+          <ul class="wf-nav-links">
+            <li class="wf-nav-link" onclick="switchScreen('home')">Inicio</li>
+            <li class="wf-nav-link" onclick="switchScreen('explorar')">Explorar Proyectos</li>
+            <li class="wf-nav-link active">Mi Perfil</li>
+          </ul>
+          <div class="wf-nav-right">
+            <button class="wf-btn wf-btn-primary">＋ Publicar Prototipo</button>
+          </div>
+        </nav>
+
+        <!-- Panoramic Cover Banner -->
+        <div class="wf-placeholder-box wf-cross wf-profile-banner">
+          <div class="wf-placeholder-tag">
+            <span>🖼️</span> BANNER DE PORTADA PANORÁMICO (1440px × 240px)
+          </div>
+        </div>
+
+        <!-- Profile Header Overlap -->
+        <div class="wf-profile-header-wrap">
+          <div class="wf-profile-id-group">
+            <div class="wf-avatar-large wf-cross">
+              <div style="position: absolute; bottom: 4px; right: 4px; width: 20px; height: 20px; border-radius: 50%; background: #22C55E; border: 2px solid #FFF;"></div>
+            </div>
+            <div class="wf-profile-names">
+              <h3>@SUZUYA</h3>
+              <p>he / him • <strong>Programador Gameplay & Artista 2D</strong></p>
+              <div class="wf-badges-row">
+                <span class="wf-badge-chip">🏆 Playtester Top</span>
+                <span class="wf-badge-chip">🛠️ Alpha Builder</span>
+                <span class="wf-badge-chip">🤝 Colaborador Activo</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px;">
+            <button class="wf-btn wf-btn-outline" style="font-size: 13px;">✏️ Editar Perfil</button>
+            <button class="wf-btn wf-btn-primary" style="font-size: 13px;">✉️ Enviar Mensaje</button>
+          </div>
+        </div>
+
+        <!-- Profile Body: 2 Columns (360px Aside + 880px Main) -->
+        <div style="padding: 0 80px 48px 80px; display: grid; grid-template-columns: 360px 1fr; gap: 36px;">
+          <!-- Aside -->
+          <aside style="display: flex; flex-direction: column; gap: 24px;">
+            <!-- Bio Card -->
+            <div style="border: 1.5px solid var(--wf-border-dark); border-radius: 6px; padding: 20px; background: #FFFFFF;">
+              <h4 class="wf-font-cinzel" style="font-size: 13px; font-weight: 700; color: var(--wf-border-dark); margin-bottom: 12px; border-bottom: 1px solid var(--wf-border-light); padding-bottom: 6px;">
+                SOBRE MÍ
+              </h4>
+              <p style="font-size: 13px; color: var(--wf-text-muted); line-height: 1.6;">
+                Estudiante de ingeniería y creador apasionado de juegos 2D/3D. En busca de colaboradores para proyectos de acción, plataformas y hackeo en tiempo real.
+              </p>
+            </div>
+
+            <!-- Habilidades Card -->
+            <div style="border: 1.5px solid var(--wf-border-dark); border-radius: 6px; padding: 20px; background: #FFFFFF;">
+              <h4 class="wf-font-cinzel" style="font-size: 13px; font-weight: 700; color: var(--wf-border-dark); margin-bottom: 12px; border-bottom: 1px solid var(--wf-border-light); padding-bottom: 6px;">
+                HABILIDADES & HERRAMIENTAS
+              </h4>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <span class="wf-mini-tag" style="padding: 4px 10px; font-weight: 600;">[ Unity 6 ]</span>
+                <span class="wf-mini-tag" style="padding: 4px 10px; font-weight: 600;">[ C# ]</span>
+                <span class="wf-mini-tag" style="padding: 4px 10px; font-weight: 600;">[ Game Design ]</span>
+                <span class="wf-mini-tag" style="padding: 4px 10px; font-weight: 600;">[ Git / GitHub ]</span>
+                <span class="wf-mini-tag" style="padding: 4px 10px; font-weight: 600;">[ Pixel Art Básicos ]</span>
+                <span class="wf-mini-tag" style="padding: 4px 10px; font-weight: 600;">[ WebGL Builds ]</span>
+              </div>
+            </div>
+
+            <!-- Social Links Card -->
+            <div style="border: 1.5px solid var(--wf-border-dark); border-radius: 6px; padding: 20px; background: #FFFFFF;">
+              <h4 class="wf-font-cinzel" style="font-size: 13px; font-weight: 700; color: var(--wf-border-dark); margin-bottom: 12px; border-bottom: 1px solid var(--wf-border-light); padding-bottom: 6px;">
+                ENLACES DE CONTACTO
+              </h4>
+              <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                <li style="display: flex; align-items: center; gap: 8px;">
+                  <span>💬</span> <span>Discord: <strong>suzuya#0022</strong></span>
+                </li>
+                <li style="display: flex; align-items: center; gap: 8px;">
+                  <span>🎮</span> <span>Itch.io: <strong>suzuya.itch.io</strong></span>
+                </li>
+                <li style="display: flex; align-items: center; gap: 8px;">
+                  <span>💻</span> <span>GitHub: <strong>github.com/suzuya</strong></span>
+                </li>
+              </ul>
+            </div>
+          </aside>
+
+          <!-- Main: Tabs & Projects -->
+          <main>
+            <div style="border-bottom: 1.5px solid var(--wf-border-dark); display: flex; gap: 24px; margin-bottom: 24px;">
+              <div style="padding-bottom: 12px; font-weight: 700; font-size: 14px; border-bottom: 3px solid var(--wf-border-dark); cursor: pointer;">
+                Proyectos Publicados (3)
+              </div>
+              <div style="padding-bottom: 12px; font-weight: 500; font-size: 14px; color: var(--wf-text-light); cursor: pointer;">
+                Assets Compartidos (4)
+              </div>
+              <div style="padding-bottom: 12px; font-weight: 500; font-size: 14px; color: var(--wf-text-light); cursor: pointer;">
+                Feedbacks Dados (18)
+              </div>
+            </div>
+
+            <!-- Published Projects Cards -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+              <!-- Project 1 -->
+              <div class="wf-card" onclick="switchScreen('proyecto')" style="cursor: pointer;">
+                <div class="wf-placeholder-box wf-cross wf-card-media" style="height: 180px;">
+                  <div class="wf-placeholder-tag"><span>🎮</span> BIT SCAPE (16:9)</div>
+                </div>
+                <div class="wf-card-body">
+                  <div class="wf-tag-row">
+                    <span class="wf-mini-tag">UNITY 6</span>
+                    <span class="wf-mini-tag">ALPHA V0.3</span>
+                  </div>
+                  <h4 class="wf-card-title">BIT SCAPE: CYBER RUNNER</h4>
+                  <p style="font-size: 12px; color: var(--wf-text-muted); margin-bottom: 12px;">
+                    Prototipo de plataformas rápido desarrollado para la jam de clase.
+                  </p>
+                  <div class="wf-card-footer">
+                    <span>Estado: 🟢 Jugable WebGL</span>
+                    <button class="wf-btn wf-btn-primary" style="height: 28px; padding: 0 10px; font-size: 11px;">Jugar Demo</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 2 -->
+              <div class="wf-card">
+                <div class="wf-placeholder-box wf-cross wf-card-media" style="height: 180px;">
+                  <div class="wf-placeholder-tag"><span>🎮</span> CULT OF THE LAMB MOD</div>
+                </div>
+                <div class="wf-card-body">
+                  <div class="wf-tag-row">
+                    <span class="wf-mini-tag">UNITY</span>
+                    <span class="wf-mini-tag">VERTICAL SLICE</span>
+                  </div>
+                  <h4 class="wf-card-title">CULT OF THE LAMB: REWORK</h4>
+                  <p style="font-size: 12px; color: var(--wf-text-muted); margin-bottom: 12px;">
+                    Demostración de mecánicas de balanceo y combate procedural.
+                  </p>
+                  <div class="wf-card-footer">
+                    <span>Estado: 🟡 En Desarrollo</span>
+                    <button class="wf-btn wf-btn-outline" style="height: 28px; padding: 0 10px; font-size: 11px;">Ver Ficha</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function switchScreen(screenId, btnElement) {
+      // Hide all screen views
+      const views = document.querySelectorAll('.screen-view');
+      views.forEach(v => v.classList.remove('active'));
+
+      // Show selected screen
+      const target = document.getElementById('screen-' + screenId);
+      if (target) {
+        target.classList.add('active');
+      }
+
+      // Update active tab styling
+      const tabs = document.querySelectorAll('.screen-tab-btn');
+      tabs.forEach(t => t.classList.remove('active'));
+      if (btnElement) {
+        btnElement.classList.add('active');
+      } else {
+        // Find button corresponding to screenId
+        const indexMap = { 'home': 0, 'explorar': 1, 'proyecto': 2, 'perfil': 3 };
+        if (tabs[indexMap[screenId]]) {
+          tabs[indexMap[screenId]].classList.add('active');
+        }
+      }
+
+      // Scroll smoothly to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleGrid() {
+      const grids = document.querySelectorAll('.grid-overlay');
+      const btn = document.getElementById('gridToggleBtn');
+      let isVisible = false;
+
+      grids.forEach(g => {
+        g.classList.toggle('show');
+        isVisible = g.classList.contains('show');
+      });
+
+      if (isVisible) {
+        btn.classList.add('active');
+        btn.innerHTML = '<span>📐</span> Ocultar Retícula (12 Cols)';
+      } else {
+        btn.classList.remove('active');
+        btn.innerHTML = '<span>📐</span> Mostrar Retícula (12 Cols)';
+      }
+    }
+  </script>
+</body>
+</html>
