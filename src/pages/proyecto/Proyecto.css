@@ -39,8 +39,10 @@
   border: none;
   cursor: pointer;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   transition: transform 0.2s, filter 0.2s;
 }
 
@@ -51,8 +53,238 @@
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
 }
 
-.proyecto__play:hover {
-  transform: translate(-50%, -50%) scale(1.1);
+.proyecto__play--activo .proyecto__play-icon {
+  width: 72px;
+  height: 72px;
+  color: #ffffff;
+  filter: drop-shadow(0 0 16px rgba(114, 84, 209, 0.9));
+  animation: pulsePlay 2s infinite ease-in-out;
+}
+
+@keyframes pulsePlay {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 14px rgba(114, 84, 209, 0.8)); }
+  50% { transform: scale(1.08); filter: drop-shadow(0 0 24px rgba(168, 132, 252, 1)); }
+}
+
+.proyecto__play-badge {
+  background: #7254d1;
+  color: #ffffff;
+  font-family: var(--f-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 4px 14px;
+  border-radius: 999px;
+  border: 1px solid #a884fc;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+}
+
+.proyecto__play--inactivo {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.proyecto__play--inactivo:hover {
+  opacity: 0.85;
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.proyecto__no-demo-toast {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  background: rgba(20, 14, 30, 0.94);
+  backdrop-filter: blur(8px);
+  border: 1px solid #7254d1;
+  color: #f1edfa;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: var(--f-body);
+  font-size: 0.88rem;
+  letter-spacing: 0.05em;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  animation: slideUp 0.25s ease-out;
+  z-index: 5;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   Reproductor Interactivo WebGL & Phone Frame
+   ========================================================= */
+.proyecto__player {
+  display: flex;
+  flex-direction: column;
+  background: #09070f;
+  border: 1px solid #36294e;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+  animation: fadeInPlayer 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInPlayer {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.proyecto__player-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #14101d;
+  border-bottom: 1px solid #2e2343;
+  gap: 12px;
+}
+
+.proyecto__player-title {
+  font-family: var(--f-body);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: #dfd7f2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.proyecto__player-btn {
+  background: rgba(43, 31, 66, 0.6);
+  border: 1px solid #4a3473;
+  border-radius: 6px;
+  color: #f1edfa;
+  font-family: var(--f-body);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.proyecto__player-btn:hover {
+  background: var(--c-primary);
+  border-color: var(--c-primary-hover);
+  color: #ffffff;
+}
+
+.proyecto__player-btn--close {
+  background: rgba(60, 20, 30, 0.6);
+  border-color: #7a2638;
+}
+
+.proyecto__player-btn--close:hover {
+  background: #a32c45;
+  border-color: #d93d5f;
+}
+
+.proyecto__phone-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: radial-gradient(circle at center, #171126 0%, #08060d 100%);
+  min-height: 520px;
+}
+
+/* Marco de Celular estilizado en PC */
+.proyecto__phone-bezel {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  aspect-ratio: 9 / 18.5;
+  height: min(72vh, 620px);
+  background: #000000;
+  border-radius: 36px;
+  border: 8px solid #1a1624;
+  box-shadow: 
+    0 0 0 2px #3c2a5e,
+    0 16px 40px rgba(0, 0, 0, 0.9),
+    0 0 35px rgba(114, 84, 209, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Notch de cámara frontal simulada del celular */
+.proyecto__phone-notch {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 12px;
+  background: #110e17;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.proyecto__phone-camera {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1c1828;
+  border: 1px solid #2d263f;
+}
+
+.proyecto__game-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #08060d;
+  display: block;
+}
+
+.proyecto__player-hint {
+  text-align: center;
+  margin: 0;
+  padding: 10px 16px;
+  font-family: var(--f-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: #9f94b8;
+  background: #0c0914;
+  border-top: 1px solid #201733;
+}
+
+/* Adaptación a dispositivos móviles reales (< 600px) */
+@media (max-width: 600px) {
+  .proyecto__phone-wrapper {
+    padding: 8px 0;
+    min-height: auto;
+  }
+  .proyecto__phone-bezel {
+    border-radius: 0;
+    border: none;
+    max-width: 100%;
+    aspect-ratio: 9 / 16;
+    height: 70vh;
+    box-shadow: none;
+  }
+  .proyecto__phone-notch {
+    display: none;
+  }
+  .proyecto__player-title {
+    font-size: 0.82rem;
+  }
+  .proyecto__player-bar {
+    padding: 8px 10px;
+  }
+  .proyecto__player-btn {
+    padding: 5px 8px;
+    font-size: 0.76rem;
+  }
 }
 
 .proyecto__info {

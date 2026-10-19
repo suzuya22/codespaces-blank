@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Link, useParams } from 'react-router'
 import { PixelCover } from '../../components/ui/PixelArt.jsx'
 import Icon from '../../components/ui/Icon.jsx'
@@ -7,7 +7,7 @@ import RatingStars from '../../components/ui/RatingStars/RatingStars.jsx'
 import { buscarProyecto, nombreMotor } from '../../data/proyectos.js'
 import './Proyecto.css'
 
-// Detalle de un proyecto (idéntico a Group 40.png en Figma)
+// Detalle de un proyecto con soporte para prototipos WebGL interactivos
 function Proyecto() {
   const { id } = useParams()
   const proyecto = buscarProyecto(id)
@@ -15,6 +15,9 @@ function Proyecto() {
   const [comentario, setComentario] = useState('')
   const [comentarios, setComentarios] = useState([])
   const [solicitado, setSolicitado] = useState(false)
+  const [jugando, setJugando] = useState(false)
+  const [mensajeSinDemo, setMensajeSinDemo] = useState(false)
+  const playerContainerRef = useRef(null)
 
   if (!proyecto) {
     return (
@@ -23,6 +26,31 @@ function Proyecto() {
         <Button to="/galeria">Volver a explorar</Button>
       </div>
     )
+  }
+
+  const tieneDemo = Boolean(proyecto.juegoUrl)
+
+  const handlePlayClick = () => {
+    if (tieneDemo) {
+      setJugando(true)
+      setMensajeSinDemo(false)
+    } else {
+      setMensajeSinDemo(true)
+      setTimeout(() => setMensajeSinDemo(false), 4500)
+    }
+  }
+
+  const toggleFullscreen = () => {
+    if (!playerContainerRef.current) return
+    if (!document.fullscreenElement) {
+      playerContainerRef.current.requestFullscreen().catch((err) => {
+        console.warn('Error al activar pantalla completa:', err)
+      })
+    } else {
+      document.exitFullscreen().catch((err) => {
+        console.warn('Error al salir de pantalla completa:', err)
+      })
+    }
   }
 
   const enviarFeedback = (e) => {
@@ -34,18 +62,75 @@ function Proyecto() {
 
   return (
     <div className="page proyecto">
-      <div className="proyecto__media">
-        {proyecto.portada ? (
-          <img src={proyecto.portada} alt={proyecto.titulo} className="proyecto__cover-img" />
-        ) : (
-          <PixelCover seed={proyecto.id} palette={proyecto.paleta} className="proyecto__cover" />
-        )}
-        <button type="button" className="proyecto__play" aria-label="Reproducir tráiler">
-          <svg className="proyecto__play-icon" viewBox="0 0 24 24" fill="currentColor">
-            <polygon points="6,3 20,12 6,21" />
-          </svg>
-        </button>
-      </div>
+      {jugando && tieneDemo ? (
+        <div className="proyecto__player" ref={playerContainerRef}>
+          <div className="proyecto__player-bar">
+            <button
+              type="button"
+              className="proyecto__player-btn proyecto__player-btn--close"
+              onClick={() => setJugando(false)}
+              aria-label="Salir del juego"
+            >
+              ✕ Cerrar juego
+            </button>
+            <span className="proyecto__player-title">
+              🎮 {proyecto.titulo.toUpperCase()} · PROTOTIPO {proyecto.version.toUpperCase()}
+            </span>
+            <button
+              type="button"
+              className="proyecto__player-btn proyecto__player-btn--fs"
+              onClick={toggleFullscreen}
+              aria-label="Pantalla completa"
+            >
+              ⛶ Pantalla completa
+            </button>
+          </div>
+
+          <div className="proyecto__phone-wrapper">
+            <div className={`proyecto__phone-bezel ${proyecto.formato === 'vertical' ? 'proyecto__phone-bezel--vertical' : ''}`}>
+              <div className="proyecto__phone-notch">
+                <span className="proyecto__phone-camera" />
+              </div>
+              <iframe
+                src={proyecto.juegoUrl}
+                title={`Prototipo de ${proyecto.titulo}`}
+                className="proyecto__game-frame"
+                allow="fullscreen; autoplay; gamepad"
+              />
+            </div>
+          </div>
+
+          <p className="proyecto__player-hint">
+            🖱️ En PC haz clic y arrastra con el ratón · 📱 En móvil y tableta funciona con toque táctil directo
+          </p>
+        </div>
+      ) : (
+        <div className="proyecto__media">
+          {proyecto.portada ? (
+            <img src={proyecto.portada} alt={proyecto.titulo} className="proyecto__cover-img" />
+          ) : (
+            <PixelCover seed={proyecto.id} palette={proyecto.paleta} className="proyecto__cover" />
+          )}
+
+          <button
+            type="button"
+            className={`proyecto__play ${tieneDemo ? 'proyecto__play--activo' : 'proyecto__play--inactivo'}`}
+            onClick={handlePlayClick}
+            aria-label={tieneDemo ? `Jugar prototipo de ${proyecto.titulo}` : 'Prototipo no disponible'}
+          >
+            <svg className="proyecto__play-icon" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="6,3 20,12 6,21" />
+            </svg>
+            {tieneDemo && <span className="proyecto__play-badge">¡PROBAR AHORA!</span>}
+          </button>
+
+          {mensajeSinDemo && (
+            <div className="proyecto__no-demo-toast" role="alert">
+              🔒 Este proyecto aún no cuenta con una build web pública. ¡Solo <strong>Bit Scape</strong> tiene prototipo jugable activo!
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="proyecto__info">
         <div className="proyecto__title-pill">
