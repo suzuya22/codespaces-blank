@@ -2,7 +2,29 @@ import { useState } from 'react'
 import Button from '../../components/ui/Button/Button.jsx'
 import Icon from '../../components/ui/Icon.jsx'
 import { MOTORES } from '../../data/proyectos.js'
+import { publicarProyecto } from '../../data/store.js'
 import './Publicar.css'
+
+// Reduce la portada a máx. 800px y la convierte a texto (dataURL) para poder guardarla en el navegador
+function comprimirImagen(file) {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.onload = () => {
+      const escala = Math.min(1, 800 / img.width)
+      const canvas = document.createElement('canvas')
+      canvas.width = Math.round(img.width * escala)
+      canvas.height = Math.round(img.height * escala)
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height)
+      resolve(canvas.toDataURL('image/jpeg', 0.8))
+      URL.revokeObjectURL(img.src)
+    }
+    img.onerror = () => resolve(null)
+    img.src = URL.createObjectURL(file)
+  })
+}
+
+// "2D" -> "2D", "CYBERPUNK" -> "Cyberpunk"
+const formatoEtiqueta = (t) => (t.length <= 3 ? t : t.charAt(0) + t.slice(1).toLowerCase())
 
 function Publicar() {
   const [titulo, setTitulo] = useState('')
@@ -12,13 +34,34 @@ function Publicar() {
   const [motor, setMotor] = useState('godot')
   const [archivo, setArchivo] = useState(null)
   const [imagenPortada, setImagenPortada] = useState(null)
-  const [publicado, setPublicado] = useState(false)
+  const [publicadoId, setPublicadoId] = useState(null)
 
-  const handleImagenChange = (e) => {
+  const handleImagenChange = async (e) => {
     const file = e.target.files?.[0]
     if (file) {
-      setImagenPortada(URL.createObjectURL(file))
+      setImagenPortada(await comprimirImagen(file))
     }
+  }
+
+  const publicar = (e) => {
+    e.preventDefault()
+    const id = publicarProyecto({
+      titulo,
+      sinopsis,
+      etiquetas: etiquetas.map(formatoEtiqueta),
+      motor,
+      portada: imagenPortada,
+      archivo: archivo?.name,
+    })
+    setPublicadoId(id)
+  }
+
+  const reiniciar = () => {
+    setTitulo('')
+    setSinopsis('')
+    setImagenPortada(null)
+    setArchivo(null)
+    setPublicadoId(null)
   }
 
   const agregarEtiqueta = (e) => {
@@ -29,16 +72,21 @@ function Publicar() {
     }
   }
 
-  if (publicado) {
+  if (publicadoId) {
     return (
       <div className="page page--narrow publicar__ok">
         <h1>¡Proyecto publicado!</h1>
-        <p className="muted">“{titulo || 'Tu proyecto'}” ya está visible para la comunidad. Pronto llegarán los primeros feedbacks.</p>
-        <Button to="/galeria" full>
-          VER EN EXPLORAR
+        <p className="muted">
+          “{titulo}” ya aparece como <strong>nuevo</strong> en Explorar y en tu perfil. Pronto llegarán los primeros feedbacks.
+        </p>
+        <Button to={`/proyecto/${publicadoId}`} full>
+          Ver mi proyecto
         </Button>
-        <Button variant="ghost" full onClick={() => setPublicado(false)}>
-          PUBLICAR OTRO
+        <Button to="/galeria" variant="ghost" full>
+          Ver en Explorar
+        </Button>
+        <Button variant="ghost" full onClick={reiniciar}>
+          Publicar otro
         </Button>
       </div>
     )
@@ -47,10 +95,7 @@ function Publicar() {
   return (
     <form
       className="page publicar"
-      onSubmit={(e) => {
-        e.preventDefault()
-        setPublicado(true)
-      }}
+      onSubmit={publicar}
     >
       <div className="publicar__preview-container">
         <label className="publicar__preview-label">
@@ -89,10 +134,25 @@ function Publicar() {
           />
           <div className="publicar__tags-row">
             {etiquetas.map((tag) => (
-              <span key={tag} className="publicar__tag-chip">
-                [ + {tag} ]
-              </span>
+              <button
+                key={tag}
+                type="button"
+                className="publicar__tag-chip"
+                onClick={() => setEtiquetas(etiquetas.filter((t) => t !== tag))}
+                title="Quitar etiqueta"
+              >
+                [ {tag} ✕ ]
+              </button>
             ))}
+            <input
+              className="publicar__tag-input"
+              value={nuevaEtiqueta}
+              onChange={(e) => setNuevaEtiqueta(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && agregarEtiqueta(e)}
+              placeholder="+ etiqueta (Enter)"
+              aria-label="Agregar etiqueta"
+              maxLength={20}
+            />
           </div>
         </div>
 
@@ -121,7 +181,7 @@ function Publicar() {
         </label>
 
         <button type="submit" className="publicar__submit-btn">
-          PUBLICAR PROYECTO
+          Publicar proyecto
         </button>
       </div>
     </form>

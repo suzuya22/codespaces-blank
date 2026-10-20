@@ -213,10 +213,10 @@
   border-radius: 4px;
   padding: 14px 20px;
   color: #ffffff;
-  font-family: var(--f-body);
+  font-family: var(--btn-font);
   font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-weight: var(--btn-weight);
+  letter-spacing: var(--btn-tracking);
   cursor: pointer;
   box-shadow: 0 4px 16px rgba(104, 74, 185, 0.4);
   transition: all 0.2s ease;
@@ -231,4 +231,28 @@
 
 .publicar__ok {
   text-align: center;
+}
+
+button.publicar__tag-chip {
+  cursor: pointer;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+button.publicar__tag-chip:hover {
+  color: #ff9db0;
+}
+.publicar__tag-input {
+  min-width: 0;
+  width: 150px;
+  padding: 4px 8px;
+  border: 1px dashed #4a3a69;
+  border-radius: 4px;
+  background: transparent;
+  color: #fff;
+  font-size: 0.8rem;
+}
+.publicar__tag-input:focus {
+  outline: none;
+  border-color: var(--c-primary-hover);
 }
