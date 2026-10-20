@@ -37,7 +37,7 @@ function Login() {
           placeholder="••••••••"
         />
         <Button type="submit" full>
-          INICIAR SESIÓN
+          Iniciar sesión
         </Button>
         <p className="auth__alt">
           ¿OLVIDASTE TU <Link to="/recuperar">CONTRASEÑA?</Link>
@@ -47,11 +47,11 @@ function Login() {
       <div className="login__social">
         <button type="button" className="login__social-btn" onClick={() => navigate('/')}>
           <img src="images/logos/google.png" alt="Google" className="login__social-icon" />
-          <span>INICIA CON GOOGLE</span>
+          <span>Inicia con Google</span>
         </button>
         <button type="button" className="login__social-btn" onClick={() => navigate('/')}>
           <img src="images/logos/discord.png" alt="Discord" className="login__social-icon" />
-          <span>INICIA CON DISCORD</span>
+          <span>Inicia con Discord</span>
         </button>
       </div>
 

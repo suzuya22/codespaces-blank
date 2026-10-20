@@ -230,9 +230,9 @@
   background: #1b142c;
   border: 1px solid #382a57;
   color: #cbbfe4;
-  font-family: var(--f-body);
+  font-family: var(--btn-font);
   font-size: 0.74rem;
-  font-weight: 600;
+  font-weight: var(--btn-weight);
   padding: 6px 8px;
   border-radius: 4px;
   cursor: pointer;
@@ -249,7 +249,7 @@
   background: var(--c-primary);
   border-color: #9d83ea;
   color: #fff;
-  font-weight: 700;
+  font-weight: var(--btn-weight);
 }
 
 .galeria__filter-actions {
@@ -262,7 +262,7 @@
   background: #201736;
   border: 1px solid #3c2d61;
   color: #d1c5e8;
-  font-family: var(--f-body);
+  font-family: var(--btn-font);
   font-size: 0.8rem;
   padding: 6px 12px;
   border-radius: 4px;
@@ -349,7 +349,7 @@
   background: #140f22;
   border: 1px solid #31234f;
   color: #cbbfe4;
-  font-family: var(--f-pixel);
+  font-family: var(--btn-font);
   font-size: 0.85rem;
   min-width: 36px;
   height: 36px;
@@ -371,11 +371,11 @@
   background: var(--c-primary);
   border-color: #9d83ea;
   color: #fff;
-  font-weight: 700;
+  font-weight: var(--btn-weight);
 }
 
 .galeria__page-btn--arrow {
-  font-family: var(--f-body);
+  font-family: var(--btn-font);
   font-size: 0.85rem;
   padding: 0 12px;
 }

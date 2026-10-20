@@ -161,9 +161,9 @@
 }
 
 .perfil__action-btn {
-  font-family: var(--f-body);
+  font-family: var(--btn-font);
   font-size: 0.88rem;
-  font-weight: 700;
+  font-weight: var(--btn-weight);
   padding: 8px 18px;
   border-radius: 6px;
   cursor: pointer;
@@ -295,9 +295,9 @@
   background: transparent;
   border: none;
   color: #9f91ba;
-  font-family: var(--f-body);
+  font-family: var(--btn-font);
   font-size: 0.92rem;
-  font-weight: 600;
+  font-weight: var(--btn-weight);
   padding: 6px 14px;
   border-radius: 6px;
   cursor: pointer;
@@ -312,7 +312,7 @@
 .perfil__tab-btn--active {
   color: #fff;
   background: #503784;
-  font-weight: 700;
+  font-weight: var(--btn-weight);
   box-shadow: 0 2px 8px rgba(80, 55, 132, 0.4);
 }
 

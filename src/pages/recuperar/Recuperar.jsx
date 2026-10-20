@@ -31,7 +31,7 @@ function Recuperar() {
             placeholder="tu@correo.com"
           />
           <Button type="submit" full>
-            ENVIAR CÓDIGO
+            Enviar código
           </Button>
         </form>
       )}

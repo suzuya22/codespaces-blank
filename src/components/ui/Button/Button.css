@@ -7,10 +7,10 @@
   padding: 0 var(--s-5);
   border-radius: var(--radius);
   border: 1px solid transparent;
-  font-family: var(--f-body);
-  font-weight: 700;
+  font-family: var(--btn-font);
+  font-weight: var(--btn-weight);
   font-size: 1.05rem;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--btn-tracking);
   text-decoration: none;
   cursor: pointer;
   transition: background 0.2s, transform 0.1s, border-color 0.2s;

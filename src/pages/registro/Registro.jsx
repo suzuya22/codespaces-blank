@@ -28,10 +28,10 @@ function Registro() {
           Bienvenido a DevNet, <strong>@{datos.usuario}</strong>. Ya puedes publicar tu primer proyecto.
         </p>
         <Button to="/publicar" full>
-          PUBLICAR PROYECTO
+          Publicar proyecto
         </Button>
         <Button to="/galeria" variant="ghost" full>
-          EXPLORAR PROYECTOS
+          Explorar proyectos
         </Button>
       </AuthShell>
     )
@@ -105,7 +105,7 @@ function Registro() {
         </label>
 
         <Button type="submit" full>
-          REGISTRARSE
+          Registrarse
         </Button>
 
         <p className="auth__alt">

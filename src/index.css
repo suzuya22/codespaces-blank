@@ -29,6 +29,14 @@
   --f-body: 'Cormorant SC', Georgia, serif;
   --f-ui: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
 
+  /* Tipografía única para TODOS los botones (la misma del botón "Publicar").
+     Texto de botones en minúsculas con mayúscula inicial: "Publicar proyecto".
+     Para pasar todos a MAYÚSCULAS basta con cambiar --btn-case a uppercase. */
+  --btn-font: var(--f-ui);
+  --btn-weight: 600;
+  --btn-tracking: 0.01em;
+  --btn-case: none;
+
   /* Espaciado y forma */
   --s-1: 4px;
   --s-2: 8px;
@@ -173,4 +181,49 @@ p {
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* Escritorio grande: el texto crece un poco para no verse diminuto en monitores de 1600px o más */
+@media (min-width: 1600px) {
+  :root {
+    font-size: clamp(16px, 0.45vw + 9px, 19px);
+  }
+}
+
+/* =========================================================
+   Botones: misma fuente, peso y uso de mayúsculas en todo el sitio
+   ========================================================= */
+button,
+.btn,
+[class*='-btn'],
+[class*='__btn'],
+.header__cta,
+.galeria__pill-state,
+.galeria__reset-tag,
+.galeria__panel-toggle,
+.proyecto__creator-link,
+.mensajes__info-btn {
+  font-family: var(--btn-font);
+  font-weight: var(--btn-weight);
+  letter-spacing: var(--btn-tracking);
+  text-transform: var(--btn-case);
+}
+
+/* Etiquetas (tags): siempre en MAYÚSCULAS */
+.tag,
+.home__tag,
+.home__hero-badge,
+.home__spotlight-chip,
+.home__featured-badge,
+.pcard__badge-nuevo,
+.proyecto__genre-tag,
+.proyecto__chip-engine,
+.proyecto__chip-ver,
+.proyecto__chip-demo,
+.proyecto__status-tag,
+.proyecto__role-chip,
+.publicar__tag-chip,
+.perfil__skill-chip,
+.mensajes__info-skills span {
+  text-transform: uppercase;
 }

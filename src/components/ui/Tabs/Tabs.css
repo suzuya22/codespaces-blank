@@ -8,11 +8,11 @@
   border: 0;
   background: transparent;
   color: var(--c-text-muted);
-  font-family: var(--f-body);
-  font-weight: 700;
+  font-family: var(--btn-font);
+  font-weight: var(--btn-weight);
   font-size: 1.05rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: var(--btn-tracking);
+  text-transform: none;
   cursor: pointer;
   border-bottom: 3px solid transparent;
   transition: color 0.2s, border-bottom-color 0.2s;
