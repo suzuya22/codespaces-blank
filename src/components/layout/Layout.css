@@ -1,4 +1,6 @@
 .layout {
+  position: relative;
+  z-index: 1; /* por encima del fondo animado */
   min-height: 100svh;
   display: flex;
   flex-direction: column;

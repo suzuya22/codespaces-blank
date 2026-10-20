@@ -4,6 +4,7 @@ import Header from './Header.jsx'
 import SideMenu from './SideMenu.jsx'
 import BottomNav from './BottomNav.jsx'
 import Footer from './Footer.jsx'
+import PixelBackground from './PixelBackground.jsx'
 import './Layout.css'
 
 // Estructura común de todas las páginas
@@ -18,6 +19,8 @@ export default function Layout() {
   }, [pathname])
 
   return (
+    <>
+    <PixelBackground />
     <div className="layout">
       {/* Con HashRouter no se puede usar href="#id", por eso el salto se hace con foco */}
       <button type="button" className="layout__skip" onClick={() => document.getElementById('contenido')?.focus()}>
@@ -31,5 +34,6 @@ export default function Layout() {
       <Footer />
       <BottomNav />
     </div>
+    </>
   )
 }

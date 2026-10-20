@@ -495,17 +495,18 @@
   .proyecto__player-hint {
     display: none;
   }
+
+  /* Bloqueo de scroll exclusivo en móvil cuando el juego tipo APK está abierto */
+  body.body--game-active {
+    overflow: hidden;
+  }
+
+  body.body--game-active .bottomnav {
+    border-top: none;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.6);
+  }
 }
 
-/* Modos globales cuando el juego está en ejecución en móvil */
-body.body--game-active {
-  overflow: hidden;
-}
-
-body.body--game-active .bottomnav {
-  border-top: none;
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.6);
-}
 
 
 /* Sinopsis Card */

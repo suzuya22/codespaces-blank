@@ -47,17 +47,21 @@ function Home() {
         </div>
       </div>
 
-      {/* 2. Hero Section en Split Desktop (Izquierda: Copy + CTAs + Métricas / Derecha: Card Destacada) */}
-      <section className="home__hero-split">
-        <div className="home__hero-left">
+      {/* 2. Hero Section Principal (DevNet Banner + CTAs + Métricas) */}
+      <section className="home__hero">
+        <div className="home__hero-top-row">
           <span className="home__hero-badge">COMUNIDAD &amp; PROTOTIPADO INDIE</span>
-          <h1 className="home__hero-heading">
-            DONDE EL DESARROLLO INDIE COBRA VIDA
-          </h1>
-          <p className="home__hero-lead">
-            Comparte prototipos en fases tempranas (Alpha/Beta), recibe retroalimentación técnica de otros desarrolladores y recluta talento para completar tu equipo.
-          </p>
+        </div>
 
+        <div className="home__hero-banner-wrap">
+          <img
+            src="images/banners/hero-banner.png"
+            alt="Donde el desarrollo indie cobra vida - DevNet"
+            className="home__hero-banner-img"
+          />
+        </div>
+
+        <div className="home__hero-footer">
           <div className="home__hero-ctas">
             <button
               type="button"
@@ -90,32 +94,76 @@ function Home() {
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Tarjeta destacada en Desktop (conservando la imagen hero-banner.png) */}
-        <div className="home__hero-right">
-          <article className="home__featured-card" onClick={() => navigate('/proyecto/bit-scape')}>
-            <div className="home__featured-media">
-              <img
-                src="images/banners/hero-banner.png"
-                alt="Bit Scape Destacado"
-                className="home__featured-img"
-              />
-              <span className="home__featured-badge">▶ DEMO WEBGL JUGABLE</span>
-            </div>
-            <div className="home__featured-meta">
-              <div className="home__featured-tags">
-                <span className="home__tag">UNITY 6</span>
-                <span className="home__tag">ALPHA V0.3</span>
-                <span className="home__tag">CYBERPUNK</span>
-              </div>
-              <h3 className="home__featured-title">BIT SCAPE: CYBER RUNNER</h3>
-              <div className="home__featured-foot">
-                <span>Por <strong>@Suzuya</strong> · Plataformas 2D</span>
-                <span className="home__featured-fb">💬 18 Feedbacks</span>
-              </div>
-            </div>
-          </article>
+      {/* 3. Juego Trending Spotlight (después de la sección principal) */}
+      <section className="home__spotlight-section">
+        <div className="home__spotlight-header">
+          <div className="home__spotlight-label-wrap">
+            <span className="home__live-dot home__live-dot--fire" />
+            <h2 className="home__spotlight-heading">PLAYTEST EN TENDENCIA</h2>
+            <span className="home__spotlight-chip">🔥 #1 HOT TRENDING</span>
+          </div>
+          <span className="home__spotlight-hint">Prototipo destacado por la comunidad esta semana</span>
         </div>
+
+        <article className="home__spotlight-card" onClick={() => navigate('/proyecto/bit-scape')}>
+          <div className="home__spotlight-media">
+            <img
+              src="images/proyectos/bit-scape.png"
+              alt="Bit Scape - Demo Playtest"
+              className="home__spotlight-img"
+            />
+            <span className="home__featured-badge home__featured-badge--trending">
+              🔥 HOT TRENDING
+            </span>
+            <span className="home__featured-badge home__featured-badge--play">
+              ▶ DEMO WEBGL JUGABLE
+            </span>
+          </div>
+
+          <div className="home__spotlight-info">
+            <div className="home__featured-tags">
+              <span className="home__tag home__tag--fire">🔥 EN TENDENCIA</span>
+              <span className="home__tag">UNITY</span>
+              <span className="home__tag">DEMO V0.1</span>
+              <span className="home__tag">ARCADE 2D</span>
+              <span className="home__tag">MÓVIL</span>
+            </div>
+
+            <h3 className="home__spotlight-title">BIT SCAPE: CYBER ESCAPE</h3>
+            <p className="home__spotlight-desc">
+              Arcade de escape en una red de datos cibernética. Diseñado para pantalla vertical móvil y partidas rápidas. ¡Pruébalo directamente en el navegador y apoya al creador con tu feedback!
+            </p>
+
+            <div className="home__spotlight-meta-row">
+              <div className="home__spotlight-author">
+                <img src="images/avatares/avatar-3.png" alt="pixelnauta" className="home__spotlight-avatar" />
+                <div>
+                  <span className="home__spotlight-author-name">@pixelnauta</span>
+                  <span className="home__spotlight-author-role">Desarrollador Arcade</span>
+                </div>
+              </div>
+              <div className="home__spotlight-stats">
+                <span className="home__spotlight-stat">⭐ <strong>4.9</strong> / 5</span>
+                <span className="home__spotlight-stat">💬 <strong>27</strong> Feedbacks</span>
+              </div>
+            </div>
+
+            <div className="home__spotlight-cta-wrap">
+              <button
+                type="button"
+                className="home__spotlight-btn"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  navigate('/proyecto/bit-scape')
+                }}
+              >
+                🎮 PROBAR PLAYTEST (WEBGL) ➔
+              </button>
+            </div>
+          </div>
+        </article>
       </section>
 
       {/* 3. Sección: Videojuegos Indie (Grid Desktop 4-cols / Scroller Móvil) */}

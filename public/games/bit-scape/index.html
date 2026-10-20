@@ -26,7 +26,17 @@
     <!-- Emulador táctil para ratón en PC (fácil de revertir eliminando esta línea) -->
     <script src="TemplateData/touch-emulator.js"></script>
     <script>
+      // Permite scrollear la página web desde PC incluso con el cursor sobre el lienzo del juego
+      window.addEventListener('wheel', function(e) {
+        if (window.parent && window.parent !== window) {
+          try {
+            window.parent.scrollBy({ top: e.deltaY, left: e.deltaX, behavior: 'auto' });
+          } catch (err) {}
+        }
+      }, { passive: true });
+
       var canvas = document.querySelector("#unity-canvas");
+
 
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
