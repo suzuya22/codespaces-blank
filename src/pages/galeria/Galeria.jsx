@@ -2,10 +2,12 @@ import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router'
 import ProjectCard from '../../components/ui/ProjectCard/ProjectCard.jsx'
 import Icon from '../../components/ui/Icon.jsx'
-import { PROYECTOS, MOTORES, ESTADOS } from '../../data/proyectos.js'
+import { MOTORES, ESTADOS } from '../../data/proyectos.js'
+import { useProyectos } from '../../data/store.js'
 import './Galeria.css'
 
 function Galeria() {
+  const proyectos = useProyectos()
   const [params, setParams] = useSearchParams()
   const [busqueda, setBusqueda] = useState(params.get('q') ?? '')
   const [motor, setMotor] = useState('todos')
@@ -15,19 +17,22 @@ function Galeria() {
 
   const resultados = useMemo(() => {
     const q = busqueda.trim().toLowerCase()
-    let lista = PROYECTOS.filter((p) => {
+    let lista = proyectos.filter((p) => {
       const coincide = !q || [p.titulo, p.autor, ...p.generos].join(' ').toLowerCase().includes(q)
       return coincide && (motor === 'todos' || p.motor === motor) && (estado === 'todos' || p.estado === estado)
     })
 
-    if (orden === 'feedbacks') {
+    if (orden === 'recientes') {
+      // Los proyectos recién publicados (con fecha) quedan de primeros
+      lista.sort((a, b) => (b.creadoEn ?? 0) - (a.creadoEn ?? 0))
+    } else if (orden === 'feedbacks') {
       lista.sort((a, b) => b.feedbacks - a.feedbacks)
     } else if (orden === 'rating') {
       lista.sort((a, b) => b.rating - a.rating)
     }
 
     return lista
-  }, [busqueda, motor, estado, orden])
+  }, [proyectos, busqueda, motor, estado, orden])
 
   const limpiarFiltros = () => {
     setBusqueda('')
@@ -108,10 +113,10 @@ function Galeria() {
                       onChange={() => setMotor('todos')}
                     />
                     <span className="galeria__radio-custom"></span>
-                    <span>Todos los motores ({PROYECTOS.length})</span>
+                    <span>Todos los motores ({proyectos.length})</span>
                   </label>
                   {MOTORES.filter((m) => m.id !== 'todos').map((m) => {
-                    const cant = PROYECTOS.filter((p) => p.motor === m.id).length
+                    const cant = proyectos.filter((p) => p.motor === m.id).length
                     return (
                       <label key={m.id} className="galeria__check-item">
                         <input
@@ -139,16 +144,16 @@ function Galeria() {
                     className={`galeria__pill-state ${estado === 'todos' ? 'galeria__pill-state--active' : ''}`}
                     onClick={() => setEstado('todos')}
                   >
-                    TODOS
+                    Todos
                   </button>
-                  {ESTADOS.map((e) => (
+                  {ESTADOS.filter((e) => e.id !== 'todos').map((e) => (
                     <button
                       key={e.id}
                       type="button"
                       className={`galeria__pill-state ${estado === e.id ? 'galeria__pill-state--active' : ''}`}
                       onClick={() => setEstado(e.id)}
                     >
-                      {e.nombre.toUpperCase()}
+                      {e.nombre}
                     </button>
                   ))}
                 </div>
@@ -161,7 +166,7 @@ function Galeria() {
                   className="galeria__btn-clear"
                   onClick={limpiarFiltros}
                 >
-                  Limpiar Filtros
+                  Limpiar filtros
                 </button>
               </div>
             </div>
@@ -172,7 +177,7 @@ function Galeria() {
         <main className="galeria__results">
           <div className="galeria__results-meta">
             <span className="galeria__count">
-              Mostrando <strong>{resultados.length}</strong> de <strong>{PROYECTOS.length}</strong> proyectos
+              Mostrando <strong>{resultados.length}</strong> de <strong>{proyectos.length}</strong> proyectos
             </span>
             {(motor !== 'todos' || estado !== 'todos' || busqueda) && (
               <button type="button" className="galeria__reset-tag" onClick={limpiarFiltros}>

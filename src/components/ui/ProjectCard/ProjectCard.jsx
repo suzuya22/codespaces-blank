@@ -4,7 +4,7 @@ import './ProjectCard.css'
 
 // Tarjeta de proyecto. variant: "grande" (explorar) o "mini" (carruseles)
 export default function ProjectCard({ proyecto, variant = 'grande' }) {
-  const { id, titulo, version, estado, feedbacks, paleta, portada } = proyecto
+  const { id, titulo, version, estado, feedbacks, paleta, portada, publicadoPorUsuario } = proyecto
 
   return (
     <Link to={`/proyecto/${id}`} className={`pcard pcard--${variant}`}>
@@ -14,6 +14,7 @@ export default function ProjectCard({ proyecto, variant = 'grande' }) {
         ) : (
           <PixelCover seed={id} palette={paleta || ['#1a0f2e', '#6b2fb3', '#e04f6c', '#f2c14e']} className="pcard__cover" />
         )}
+        {publicadoPorUsuario && <span className="pcard__badge-nuevo">✦ NUEVO</span>}
         <div className="pcard__title-strip">
           <span className="pcard__title">{titulo.toUpperCase()}</span>
         </div>

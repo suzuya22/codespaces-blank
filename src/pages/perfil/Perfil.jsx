@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router'
 import ProjectCard from '../../components/ui/ProjectCard/ProjectCard.jsx'
-import { USUARIOS, PROYECTOS } from '../../data/proyectos.js'
+import { USUARIOS } from '../../data/proyectos.js'
+import { useProyectos } from '../../data/store.js'
 import './Perfil.css'
 
 function Perfil() {
   const { usuario } = useParams()
   const perfil = USUARIOS[usuario] || USUARIOS.suzuya
-  const proyectos = PROYECTOS.filter((p) => p.autor === perfil.usuario)
+  const todos = useProyectos()
+  const proyectos = todos.filter((p) => p.autor === perfil.usuario)
   const [activeTab, setActiveTab] = useState('proyectos')
 
   return (
@@ -52,10 +54,10 @@ function Perfil() {
 
         <div className="perfil__identity-actions">
           <button type="button" className="perfil__action-btn perfil__action-btn--edit">
-            ✏️ Editar Perfil
+            ✏️ Editar perfil
           </button>
           <Link to="/mensajes" className="perfil__action-btn perfil__action-btn--msg">
-            ✉️ Enviar Mensaje
+            ✉️ Enviar mensaje
           </Link>
         </div>
       </div>
@@ -108,21 +110,21 @@ function Perfil() {
               className={`perfil__tab-btn ${activeTab === 'proyectos' ? 'perfil__tab-btn--active' : ''}`}
               onClick={() => setActiveTab('proyectos')}
             >
-              Proyectos Publicados ({proyectos.length})
+              Proyectos publicados ({proyectos.length})
             </button>
             <button
               type="button"
               className={`perfil__tab-btn ${activeTab === 'assets' ? 'perfil__tab-btn--active' : ''}`}
               onClick={() => setActiveTab('assets')}
             >
-              Assets Compartidos (4)
+              Assets compartidos (4)
             </button>
             <button
               type="button"
               className={`perfil__tab-btn ${activeTab === 'feedbacks' ? 'perfil__tab-btn--active' : ''}`}
               onClick={() => setActiveTab('feedbacks')}
             >
-              Feedbacks Otorgados (18)
+              Feedbacks otorgados (18)
             </button>
           </div>
 

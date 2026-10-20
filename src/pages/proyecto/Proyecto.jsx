@@ -4,22 +4,28 @@ import { PixelCover } from '../../components/ui/PixelArt.jsx'
 import Icon from '../../components/ui/Icon.jsx'
 import Button from '../../components/ui/Button/Button.jsx'
 import RatingStars from '../../components/ui/RatingStars/RatingStars.jsx'
-import { buscarProyecto, nombreMotor } from '../../data/proyectos.js'
+import { nombreMotor, USUARIOS } from '../../data/proyectos.js'
+import { useProyecto, agregarResena } from '../../data/store.js'
 import './Proyecto.css'
 
-// Detalle de un proyecto con distribución 2-columnas Desktop idéntica al Wireframe
 function Proyecto() {
   const { id } = useParams()
-  const proyecto = buscarProyecto(id)
+  const proyecto = useProyecto(id)
   const [calificacion, setCalificacion] = useState(5)
   const [comentario, setComentario] = useState('')
-  const [comentarios, setComentarios] = useState([])
+  const [recienActualizado, setRecienActualizado] = useState(false)
   const [solicitado, setSolicitado] = useState(false)
   const [jugando, setJugando] = useState(false)
   const [mensajeSinDemo, setMensajeSinDemo] = useState(false)
   const playerContainerRef = useRef(null)
 
   const tieneDemo = Boolean(proyecto?.juegoUrl)
+  const puedePantallaCompleta = typeof document !== 'undefined' && Boolean(document.fullscreenEnabled)
+
+  // Al cambiar de proyecto se cierra el juego abierto
+  useEffect(() => {
+    setJugando(false)
+  }, [id])
 
   // Bloqueo de scroll y ajuste de interfaz en móvil cuando se está jugando tipo APK
   useEffect(() => {
@@ -72,12 +78,21 @@ function Proyecto() {
     }
   }
 
+  // Estadísticas globales: el almacén ya combina datos base + reseñas de la comunidad
+  const comentarios = proyecto.resenas
+  const totalFeedbacks = proyecto.feedbacks
+  const ratingActual = totalFeedbacks ? proyecto.rating.toFixed(1) : '—'
+
   const enviarFeedback = (e) => {
     e.preventDefault()
     if (!comentario.trim()) return
-    setComentarios([...comentarios, { texto: comentario.trim(), estrellas: calificacion }])
+    agregarResena(proyecto.id, { texto: comentario.trim(), estrellas: calificacion })
     setComentario('')
+    setRecienActualizado(true)
+    setTimeout(() => setRecienActualizado(false), 1000)
   }
+
+  const claseValor = recienActualizado ? 'proyecto__spec-value--updated' : undefined
 
   return (
     <div className="page proyecto">
@@ -122,14 +137,16 @@ function Proyecto() {
                     <button type="button" className="proyecto__player-btn" onClick={reloadGame} title="Reiniciar juego">
                       ⟳ Reiniciar
                     </button>
-                    <button
-                      type="button"
-                      className="proyecto__player-btn proyecto__player-btn--fs"
-                      onClick={toggleFullscreen}
-                      title="Pantalla completa"
-                    >
-                      ⛶ Pantalla completa
-                    </button>
+                    {puedePantallaCompleta && (
+                      <button
+                        type="button"
+                        className="proyecto__player-btn proyecto__player-btn--fs"
+                        onClick={toggleFullscreen}
+                        title="Pantalla completa"
+                      >
+                        ⛶ Pantalla completa
+                      </button>
+                    )}
                     <button
                       type="button"
                       className="proyecto__player-btn proyecto__player-btn--close"
@@ -177,9 +194,9 @@ function Proyecto() {
                     <polygon points="6,3 20,12 6,21" />
                   </svg>
                   {tieneDemo ? (
-                    <span className="proyecto__play-badge">¡INICIAR PLAYTEST (WEBGL)!</span>
+                    <span className="proyecto__play-badge">¡Iniciar playtest (WebGL)!</span>
                   ) : (
-                    <span className="proyecto__play-badge">DEMO PRÓXIMAMENTE</span>
+                    <span className="proyecto__play-badge">Demo próximamente</span>
                   )}
                 </button>
 
@@ -230,15 +247,15 @@ function Proyecto() {
               </div>
               <div className="proyecto__form-actions">
                 <button type="submit" className="proyecto__btn-submit">
-                  Enviar Feedback al Desarrollador
+                  Enviar feedback al desarrollador
                 </button>
               </div>
             </form>
 
             {comentarios.length > 0 && (
-              <ul className="proyecto__comentarios-list">
+              <ul className="proyecto__comentarios-list" aria-live="polite">
                 {comentarios.map((c, i) => (
-                  <li key={i} className="proyecto__comentario-item">
+                  <li key={c.fecha ?? i} className="proyecto__comentario-item">
                     <RatingStars value={c.estrellas} />
                     <p>{c.texto}</p>
                   </li>
@@ -256,7 +273,10 @@ function Proyecto() {
             <ul className="proyecto__spec-list">
               <li>
                 <span className="proyecto__spec-key">Motor:</span>
-                <strong>{nombreMotor(proyecto.motor)} (URP)</strong>
+                <strong>
+                  {nombreMotor(proyecto.motor)}
+                  {proyecto.motor === 'unity' ? ' (URP)' : ''}
+                </strong>
               </li>
               <li>
                 <span className="proyecto__spec-key">Estado:</span>
@@ -268,11 +288,15 @@ function Proyecto() {
               </li>
               <li>
                 <span className="proyecto__spec-key">Rating de la comunidad:</span>
-                <span>⭐ {proyecto.rating} / 5</span>
+                <span key={`r-${totalFeedbacks}`} className={claseValor}>
+                  ⭐ {ratingActual} / 5
+                </span>
               </li>
               <li>
                 <span className="proyecto__spec-key">Feedbacks recibidos:</span>
-                <span>💬 {proyecto.feedbacks}</span>
+                <span key={`f-${totalFeedbacks}`} className={claseValor}>
+                  💬 {totalFeedbacks}
+                </span>
               </li>
             </ul>
           </div>
@@ -302,7 +326,7 @@ function Proyecto() {
                 className="proyecto__btn-unirme"
                 onClick={() => setSolicitado(true)}
               >
-                🤝 SOLICITAR UNIRME AL EQUIPO
+                🤝 Solicitar unirme al equipo
               </button>
             )}
           </div>
@@ -312,13 +336,13 @@ function Proyecto() {
             <h4 className="proyecto__creator-heading">CREADOR DEL PROYECTO</h4>
             <div className="proyecto__creator-profile">
               <img
-                src={proyecto.autor === 'suzuya' ? 'images/avatares/suzuya.png' : 'images/avatares/suzuya.png'}
+                src={USUARIOS[proyecto.autor]?.avatar ?? 'images/avatares/suzuya.png'}
                 alt={proyecto.autor}
                 className="proyecto__creator-avatar"
               />
               <div>
                 <h4 className="proyecto__creator-name">@{proyecto.autor}</h4>
-                <p className="proyecto__creator-role">Lead Dev &amp; Diseñador</p>
+                <p className="proyecto__creator-role">{USUARIOS[proyecto.autor]?.rol ?? 'Lead Dev & Diseñador'}</p>
               </div>
             </div>
             <Link to={`/perfil/${proyecto.autor}`} className="proyecto__creator-link">

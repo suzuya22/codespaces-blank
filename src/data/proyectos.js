@@ -202,24 +202,33 @@ export const USUARIOS = {
   },
 }
 
+// Conversaciones de ejemplo (la hora es relativa al momento en que se abre el sitio)
+const hace = (min) => Date.now() - min * 60 * 1000
+
 export const CONVERSACIONES = [
   {
     usuario: 'lauraart',
     mensajes: [
-      { de: 'lauraart', texto: 'LOREM IPSUM IS SIMPLY DUMMY TEXT OF THE PRINTING AND TYPESETTING' },
-      { de: 'yo', texto: 'LOREM IPSUM IS SIMPLY DUMMY TEXT OF THE PRINTING AND TYPESETTING' },
-      { de: 'lauraart', texto: "LOREM IPSUM IS SIMPLY DUMMY TEXT OF THE PRINTING AND TYPESETTING INDUSTRY. LOREM IPSUM HAS BEEN THE INDUSTRY'S STANDARD DUMMY TEXT EVER SINCE 1966." },
-      { de: 'yo', texto: "LOREM IPSUM IS SIMPLY DUMMY TEXT OF THE PRINTING AND TYPESETTING INDUSTRY. LOREM IPSUM HAS BEEN THE INDUSTRY'S STANDARD DUMMY TEXT EVER SINCE 1966." },
-      { de: 'lauraart', texto: 'LOREM IPSUM IS SIMPLY DUMMY TEXT OF THE PRINTING AND TYPESETTING' },
+      { de: 'lauraart', texto: '¡Hola! Vi el prototipo de Cult of the Lamb, la atmósfera está increíble 🐑', hora: hace(95) },
+      { de: 'yo', texto: '¡Gracias, Laura! Justo estamos buscando un artista 2D para los enemigos del segundo bioma.', hora: hace(92) },
+      { de: 'lauraart', texto: 'Me encantaría ayudar. Puedo hacer una prueba con dos enemigos animados en 32px y te los paso esta semana.', hora: hace(88) },
+      { de: 'yo', texto: 'Perfecto. Te comparto el documento de diseño y la paleta de colores que estamos usando.', hora: hace(85) },
+      { de: 'lauraart', texto: '¡Listo! Cuando lo tenga te aviso por aquí 😊', hora: hace(80) },
     ],
   },
   {
     usuario: 'mateodev',
-    mensajes: [{ de: 'mateodev', texto: '¿Probaste la nueva build de Another Door?' }],
+    mensajes: [
+      { de: 'mateodev', texto: 'Oye, ¿probaste la nueva build de Another Door?', hora: hace(300) },
+      { de: 'yo', texto: 'Todavía no, ¿qué cambió?', hora: hace(290) },
+      { de: 'mateodev', texto: 'Rehice el puzzle de la segunda puerta, ahora es más claro. Me sirve tu feedback 🙏', hora: hace(280) },
+    ],
   },
   {
     usuario: 'pixelnauta',
-    mensajes: [{ de: 'pixelnauta', texto: 'Dejé feedback en tu demo, revisa la sección de bugs.' }],
+    mensajes: [
+      { de: 'pixelnauta', texto: 'Dejé feedback en tu demo, revisa la sección de bugs.', hora: hace(1500) },
+    ],
   },
 ]
 
