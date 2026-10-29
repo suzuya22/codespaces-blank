@@ -1,5 +1,10 @@
 // Utilidades compartidas por los dos motores (Firebase y local)
 
+import { USUARIOS } from '../data/proyectos.js'
+
+// Nombres de los perfiles de ejemplo del sitio: no se pueden registrar (evita que se mezclen)
+export const esNombreReservado = (nombre) => Object.prototype.hasOwnProperty.call(USUARIOS, nombre)
+
 export class ErrorDevNet extends Error {
   constructor(code) {
     super(code)

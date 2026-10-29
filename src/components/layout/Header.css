@@ -256,3 +256,20 @@
     background: rgba(255, 255, 255, 0.12);
   }
 }
+
+/* Globito de avisos sobre los enlaces de la barra superior */
+.header__link {
+  white-space: nowrap;
+}
+.header__link .nav-badge {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  margin: 0;
+  min-width: 16px;
+  height: 16px;
+  font-size: 0.62rem;
+}
+.header__profile-chip {
+  white-space: nowrap;
+}

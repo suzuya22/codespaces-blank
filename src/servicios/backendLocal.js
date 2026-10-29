@@ -4,7 +4,7 @@
 // Se usa automáticamente mientras Firebase no esté configurado,
 // así el sitio funciona y se puede probar sin conexión a la nube.
 // =========================================================
-import { ErrorDevNet, normalizarUsuario, perfilInicial } from './comun.js'
+import { ErrorDevNet, esNombreReservado, normalizarUsuario, perfilInicial } from './comun.js'
 
 const CLAVE = 'devnet-local-v1'
 const vacio = { cuentas: {}, perfiles: {}, sesion: null, proyectos: [], resenas: [], conversaciones: {}, mensajes: {}, solicitudes: {} }
@@ -64,7 +64,7 @@ export async function registrar({ correo, clave, usuario, nombre, rol }) {
   const nombreLimpio = normalizarUsuario(usuario)
   if (datos.cuentas[email]) throw new ErrorDevNet('auth/email-already-in-use')
   if (clave.length < 6) throw new ErrorDevNet('auth/weak-password')
-  if (Object.values(datos.perfiles).some((p) => p.usuario === nombreLimpio)) throw new ErrorDevNet('usuario-ocupado')
+  if (esNombreReservado(nombreLimpio) || Object.values(datos.perfiles).some((p) => p.usuario === nombreLimpio)) throw new ErrorDevNet('usuario-ocupado')
   const uid = nuevoId()
   guardar({
     cuentas: { ...datos.cuentas, [email]: { uid, clave: await hash(clave) } },

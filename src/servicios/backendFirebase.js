@@ -38,7 +38,7 @@ import {
   serverTimestamp,
 } from 'firebase/firestore'
 import { firebaseConfig } from './config.js'
-import { ErrorDevNet, normalizarUsuario, perfilInicial } from './comun.js'
+import { ErrorDevNet, esNombreReservado, normalizarUsuario, perfilInicial } from './comun.js'
 
 let instancia = null
 function fb() {
@@ -58,7 +58,7 @@ async function crearPerfil(user, datos) {
   const refNombre = doc(db, 'usuariosPorNombre', nombre)
   await runTransaction(db, async (tx) => {
     const ocupado = await tx.get(refNombre)
-    if (ocupado.exists()) throw new ErrorDevNet('usuario-ocupado')
+    if (ocupado.exists() || esNombreReservado(nombre)) throw new ErrorDevNet('usuario-ocupado')
     tx.set(refNombre, { uid: user.uid })
     tx.set(doc(db, 'usuarios', user.uid), { ...perfilInicial({ ...datos, usuario: nombre }), uid: user.uid, creadoEn: serverTimestamp() })
   })
@@ -88,7 +88,7 @@ export function escucharSesion(callback) {
 export async function registrar({ correo, clave, usuario, nombre, rol }) {
   const { auth, db } = fb()
   const nombreLimpio = normalizarUsuario(usuario)
-  if ((await getDoc(doc(db, 'usuariosPorNombre', nombreLimpio))).exists()) throw new ErrorDevNet('usuario-ocupado')
+  if (esNombreReservado(nombreLimpio) || (await getDoc(doc(db, 'usuariosPorNombre', nombreLimpio))).exists()) throw new ErrorDevNet('usuario-ocupado')
   const cred = await createUserWithEmailAndPassword(auth, correo, clave)
   try {
     await crearPerfil(cred.user, { usuario: nombreLimpio, nombre, rol })
