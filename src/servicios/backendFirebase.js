@@ -5,6 +5,8 @@
 //   usuariosPorNombre/{nombre} → { uid } (garantiza nombres de usuario únicos)
 //   proyectos/{id}             → proyectos publicados por cualquier cuenta
 //   resenas/{id}               → reseñas { proyectoId, estrellas, texto, autor... }
+//   conversaciones/{uidA_uidB} → chat entre dos cuentas (+ subcolección mensajes)
+//   solicitudes/{proyecto_uid} → pedidos para unirse a un proyecto (notifican al creador)
 // =========================================================
 import { initializeApp } from 'firebase/app'
 import {
@@ -23,6 +25,7 @@ import {
   getFirestore,
   doc,
   getDoc,
+  setDoc,
   addDoc,
   updateDoc,
   deleteDoc,
@@ -30,6 +33,7 @@ import {
   onSnapshot,
   query,
   orderBy,
+  where,
   runTransaction,
   serverTimestamp,
 } from 'firebase/firestore'
@@ -187,3 +191,97 @@ export async function crearResena({ proyectoId, texto, estrellas }, autor) {
     fecha: serverTimestamp(),
   })
 }
+
+/* ---------------- Mensajes entre usuarios ---------------- */
+
+export const idConversacion = (uidA, uidB) => [uidA, uidB].sort().join('_')
+
+const mapaConversacion = (d) => {
+  const data = d.data({ serverTimestamps: 'estimate' })
+  const leido = Object.fromEntries(Object.entries(data.leido ?? {}).map(([k, v]) => [k, aMilis(v)]))
+  return { ...data, id: d.id, actualizado: aMilis(data.actualizado), leido, ultimo: data.ultimo ? { ...data.ultimo, fecha: aMilis(data.ultimo.fecha) } : null }
+}
+
+export function escucharConversaciones(uid, callback, alError) {
+  const q = query(collection(fb().db, 'conversaciones'), where('participantes', 'array-contains', uid))
+  return onSnapshot(q, (snap) => callback(snap.docs.map(mapaConversacion)), alError)
+}
+
+export function escucharMensajes(idConv, callback, alError) {
+  const q = query(collection(fb().db, 'conversaciones', idConv, 'mensajes'), orderBy('fecha', 'asc'))
+  return onSnapshot(
+    q,
+    (snap) => callback(snap.docs.map((d) => ({ ...d.data({ serverTimestamps: 'estimate' }), id: d.id, fecha: aMilis(d.data({ serverTimestamps: 'estimate' }).fecha) }))),
+    alError,
+  )
+}
+
+// Abre (o crea la primera vez) la conversación entre dos cuentas
+export async function abrirConversacion(yo, otro) {
+  const { db } = fb()
+  const id = idConversacion(yo.uid, otro.uid)
+  const ref = doc(db, 'conversaciones', id)
+  await runTransaction(db, async (tx) => {
+    const actual = await tx.get(ref)
+    if (actual.exists()) return
+    tx.set(ref, {
+      participantes: [yo.uid, otro.uid].sort(),
+      nombres: { [yo.uid]: yo.usuario, [otro.uid]: otro.usuario },
+      ultimo: null,
+      leido: {},
+      actualizado: serverTimestamp(),
+    })
+  })
+  return id
+}
+
+export async function enviarMensaje(idConv, yo, texto) {
+  const { db } = fb()
+  await addDoc(collection(db, 'conversaciones', idConv, 'mensajes'), { autorUid: yo.uid, texto, fecha: serverTimestamp() })
+  await updateDoc(doc(db, 'conversaciones', idConv), {
+    ultimo: { texto: texto.slice(0, 120), autorUid: yo.uid, fecha: serverTimestamp() },
+    actualizado: serverTimestamp(),
+    [`leido.${yo.uid}`]: serverTimestamp(),
+  })
+}
+
+export const marcarLeida = (idConv, uid) => updateDoc(doc(fb().db, 'conversaciones', idConv), { [`leido.${uid}`]: serverTimestamp() })
+
+/* ---------------- Solicitudes para unirse a un proyecto ---------------- */
+
+const mapaSolicitud = (d) => {
+  const data = d.data({ serverTimestamps: 'estimate' })
+  return { ...data, id: d.id, fecha: aMilis(data.fecha) }
+}
+
+// Llama al callback con { recibidas, enviadas } cada vez que cambian
+export function escucharSolicitudes(uid, callback, alError) {
+  const { db } = fb()
+  let recibidas = []
+  let enviadas = []
+  const emitir = () => callback({ recibidas, enviadas })
+  const a = onSnapshot(query(collection(db, 'solicitudes'), where('paraUid', '==', uid)), (snap) => ((recibidas = snap.docs.map(mapaSolicitud)), emitir()), alError)
+  const b = onSnapshot(query(collection(db, 'solicitudes'), where('deUid', '==', uid)), (snap) => ((enviadas = snap.docs.map(mapaSolicitud)), emitir()), alError)
+  return () => {
+    a()
+    b()
+  }
+}
+
+export async function enviarSolicitud(proyecto, yo, mensaje) {
+  await setDoc(doc(fb().db, 'solicitudes', `${proyecto.id}_${yo.uid}`), {
+    proyectoId: proyecto.id,
+    proyectoTitulo: proyecto.titulo.slice(0, 80),
+    deUid: yo.uid,
+    deUsuario: yo.usuario,
+    deRol: (yo.rol ?? '').slice(0, 40),
+    paraUid: proyecto.autorUid,
+    paraUsuario: proyecto.autor,
+    mensaje: mensaje.slice(0, 500),
+    estado: 'pendiente',
+    fecha: serverTimestamp(),
+  })
+}
+
+export const responderSolicitud = (id, estado) => updateDoc(doc(fb().db, 'solicitudes', id), { estado })
+export const cancelarSolicitud = (id) => deleteDoc(doc(fb().db, 'solicitudes', id))

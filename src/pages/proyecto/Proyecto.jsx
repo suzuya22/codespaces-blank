@@ -9,6 +9,7 @@ import { useProyecto, useProyectosCargados, agregarResena, eliminarProyecto } fr
 import { Visor3D } from '../../components/ui/Visor3D/index.js'
 import Avatar from '../../components/ui/Avatar/Avatar.jsx'
 import { useAuth } from '../../auth/AuthContext.jsx'
+import { useActividad } from '../../auth/ActividadContext.jsx'
 import { servicio, formatoPeso, mensajeError } from '../../servicios/index.js'
 import './Proyecto.css'
 
@@ -31,6 +32,118 @@ function usePerfilAutor(usuario) {
   return USUARIOS[usuario] ?? (remoto?.usuario === usuario ? remoto : null)
 }
 
+// Botón "Solicitar unirme": en proyectos de cuentas reales crea una solicitud que le llega al creador
+function UnirmeAlEquipo({ proyecto }) {
+  const { usuario, listo } = useAuth()
+  const { enviadas, recibidas } = useActividad()
+  const [abierto, setAbierto] = useState(false)
+  const [mensaje, setMensaje] = useState('')
+  const [enviando, setEnviando] = useState(false)
+  const [error, setError] = useState('')
+  const [simulada, setSimulada] = useState(false)
+
+  // Proyectos de ejemplo (sin cuenta real): solo se simula el envío
+  if (!proyecto.autorUid) {
+    return simulada ? (
+      <div className="proyecto__ok-banner">✓ ¡Solicitud enviada a @{proyecto.autor}! (proyecto de ejemplo)</div>
+    ) : (
+      <button type="button" className="proyecto__btn-unirme" onClick={() => setSimulada(true)}>
+        🤝 Solicitar unirme al equipo
+      </button>
+    )
+  }
+
+  if (!listo) {
+    return (
+      <Link to={`/login?volver=/proyecto/${proyecto.id}`} className="proyecto__btn-unirme">
+        🤝 Inicia sesión para unirte al equipo
+      </Link>
+    )
+  }
+
+  if (proyecto.autorUid === usuario.uid) {
+    const pendientes = recibidas.filter((s) => s.proyectoId === proyecto.id && s.estado === 'pendiente').length
+    return (
+      <Link to={`/perfil/${usuario.usuario}?tab=solicitudes`} className="proyecto__btn-unirme">
+        📬 {pendientes ? `${pendientes} solicitud${pendientes > 1 ? 'es' : ''} pendiente${pendientes > 1 ? 's' : ''}` : 'Ver solicitudes de tu equipo'}
+      </Link>
+    )
+  }
+
+  const mia = enviadas.find((s) => s.proyectoId === proyecto.id)
+  if (mia) {
+    if (mia.estado === 'aceptada') {
+      return (
+        <div className="proyecto__ok-banner">
+          🎉 @{proyecto.autor} aceptó tu solicitud. <Link to={`/mensajes?con=${proyecto.autor}`}>Ir al chat →</Link>
+        </div>
+      )
+    }
+    if (mia.estado === 'rechazada') {
+      return <div className="proyecto__solicitud-estado">El creador no aceptó la solicitud esta vez. ¡Sigue dando feedback!</div>
+    }
+    return (
+      <div className="proyecto__ok-banner">
+        ✓ Solicitud enviada a @{proyecto.autor}. Te avisaremos cuando responda.
+        <button type="button" className="proyecto__link-btn" onClick={() => servicio.cancelarSolicitud(mia.id)}>
+          Cancelar
+        </button>
+      </div>
+    )
+  }
+
+  if (!abierto) {
+    return (
+      <button type="button" className="proyecto__btn-unirme" onClick={() => setAbierto(true)}>
+        🤝 Solicitar unirme al equipo
+      </button>
+    )
+  }
+
+  const enviar = async (e) => {
+    e.preventDefault()
+    setEnviando(true)
+    setError('')
+    try {
+      await servicio.enviarSolicitud(proyecto, usuario, mensaje.trim())
+    } catch (err) {
+      setError(mensajeError(err))
+    } finally {
+      setEnviando(false)
+    }
+  }
+
+  return (
+    <form className="proyecto__solicitud-form" onSubmit={enviar}>
+      <label htmlFor="solicitud-mensaje" className="proyecto__label">
+        Cuéntale a @{proyecto.autor} qué aportarías (opcional)
+      </label>
+      <textarea
+        id="solicitud-mensaje"
+        className="proyecto__textarea"
+        rows={3}
+        maxLength={500}
+        value={mensaje}
+        onChange={(e) => setMensaje(e.target.value)}
+        placeholder={`Ej: Soy ${usuario.rol || 'artista 2D'} y me encantaría ayudar con…`}
+      />
+      {error && (
+        <p className="proyecto__error" role="alert">
+          {error}
+        </p>
+      )}
+      <div className="proyecto__dueno-acciones">
+        <button type="submit" className="proyecto__btn-unirme" disabled={enviando}>
+          {enviando ? 'Enviando…' : 'Enviar solicitud'}
+        </button>
+        <button type="button" className="proyecto__action-btn" onClick={() => setAbierto(false)}>
+          Cancelar
+        </button>
+      </div>
+    </form>
+  )
+}
+
 function Proyecto() {
   const { id } = useParams()
   const proyecto = useProyecto(id)
@@ -44,7 +157,6 @@ function Proyecto() {
   const [calificacion, setCalificacion] = useState(5)
   const [comentario, setComentario] = useState('')
   const [recienActualizado, setRecienActualizado] = useState(false)
-  const [solicitado, setSolicitado] = useState(false)
   const [jugando, setJugando] = useState(false)
   const [mensajeSinDemo, setMensajeSinDemo] = useState(false)
   const playerContainerRef = useRef(null)
@@ -420,19 +532,7 @@ function Proyecto() {
               ))}
             </ul>
 
-            {solicitado ? (
-              <div className="proyecto__ok-banner">
-                ✓ ¡Solicitud enviada a @{proyecto.autor}!
-              </div>
-            ) : (
-              <button
-                type="button"
-                className="proyecto__btn-unirme"
-                onClick={() => setSolicitado(true)}
-              >
-                🤝 Solicitar unirme al equipo
-              </button>
-            )}
+            <UnirmeAlEquipo proyecto={proyecto} />
           </div>
 
           {/* Tarjeta 3: Creador del Proyecto */}

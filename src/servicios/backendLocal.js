@@ -7,7 +7,7 @@
 import { ErrorDevNet, normalizarUsuario, perfilInicial } from './comun.js'
 
 const CLAVE = 'devnet-local-v1'
-const vacio = { cuentas: {}, perfiles: {}, sesion: null, proyectos: [], resenas: [] }
+const vacio = { cuentas: {}, perfiles: {}, sesion: null, proyectos: [], resenas: [], conversaciones: {}, mensajes: {}, solicitudes: {} }
 
 function leer() {
   try {
@@ -127,4 +127,88 @@ export async function crearResena({ proyectoId, texto, estrellas }, autor) {
   guardar({
     resenas: [{ id: nuevoId(), proyectoId, texto, estrellas, autor: autor.usuario, autorUid: autor.uid, fecha: Date.now() }, ...datos.resenas],
   })
+}
+
+/* ---------------- Mensajes entre usuarios ---------------- */
+
+export const idConversacion = (uidA, uidB) => [uidA, uidB].sort().join('_')
+
+export function escucharConversaciones(uid, callback) {
+  return escuchar(() => callback(Object.values(datos.conversaciones).filter((c) => c.participantes.includes(uid))))
+}
+
+export function escucharMensajes(idConv, callback) {
+  return escuchar(() => callback(datos.mensajes[idConv] ?? []))
+}
+
+export async function abrirConversacion(yo, otro) {
+  const id = idConversacion(yo.uid, otro.uid)
+  if (!datos.conversaciones[id]) {
+    guardar({
+      conversaciones: {
+        ...datos.conversaciones,
+        [id]: { id, participantes: [yo.uid, otro.uid].sort(), nombres: { [yo.uid]: yo.usuario, [otro.uid]: otro.usuario }, ultimo: null, leido: {}, actualizado: Date.now() },
+      },
+    })
+  }
+  return id
+}
+
+export async function enviarMensaje(idConv, yo, texto) {
+  const ahora = Date.now()
+  const conv = datos.conversaciones[idConv]
+  guardar({
+    mensajes: { ...datos.mensajes, [idConv]: [...(datos.mensajes[idConv] ?? []), { id: nuevoId(), autorUid: yo.uid, texto, fecha: ahora }] },
+    conversaciones: {
+      ...datos.conversaciones,
+      [idConv]: { ...conv, ultimo: { texto: texto.slice(0, 120), autorUid: yo.uid, fecha: ahora }, actualizado: ahora, leido: { ...conv.leido, [yo.uid]: ahora } },
+    },
+  })
+}
+
+export async function marcarLeida(idConv, uid) {
+  const conv = datos.conversaciones[idConv]
+  if (!conv) return
+  guardar({ conversaciones: { ...datos.conversaciones, [idConv]: { ...conv, leido: { ...conv.leido, [uid]: Date.now() } } } })
+}
+
+/* ---------------- Solicitudes para unirse a un proyecto ---------------- */
+
+export function escucharSolicitudes(uid, callback) {
+  return escuchar(() => {
+    const todas = Object.values(datos.solicitudes)
+    callback({ recibidas: todas.filter((s) => s.paraUid === uid), enviadas: todas.filter((s) => s.deUid === uid) })
+  })
+}
+
+export async function enviarSolicitud(proyecto, yo, mensaje) {
+  const id = `${proyecto.id}_${yo.uid}`
+  if (datos.solicitudes[id]) throw new ErrorDevNet('permission-denied')
+  guardar({
+    solicitudes: {
+      ...datos.solicitudes,
+      [id]: {
+        id,
+        proyectoId: proyecto.id,
+        proyectoTitulo: proyecto.titulo,
+        deUid: yo.uid,
+        deUsuario: yo.usuario,
+        deRol: yo.rol ?? '',
+        paraUid: proyecto.autorUid,
+        paraUsuario: proyecto.autor,
+        mensaje: mensaje.slice(0, 500),
+        estado: 'pendiente',
+        fecha: Date.now(),
+      },
+    },
+  })
+}
+
+export async function responderSolicitud(id, estado) {
+  guardar({ solicitudes: { ...datos.solicitudes, [id]: { ...datos.solicitudes[id], estado } } })
+}
+
+export async function cancelarSolicitud(id) {
+  const { [id]: _borrada, ...resto } = datos.solicitudes
+  guardar({ solicitudes: resto })
 }

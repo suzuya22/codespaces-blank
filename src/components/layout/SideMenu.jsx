@@ -4,12 +4,14 @@ import { useAuth } from '../../auth/AuthContext.jsx'
 import Avatar from '../ui/Avatar/Avatar.jsx'
 import Icon from '../ui/Icon.jsx'
 import { NAV_PRINCIPAL, NAV_SECUNDARIA } from './navegacion.js'
+import { useContadores, textoContador } from './useContadores.js'
 import './SideMenu.css'
 
 // Menú lateral (hamburguesa). Se cierra con Escape, con el fondo o al navegar.
 export default function SideMenu({ open, onClose }) {
   const { usuario, listo, salir } = useAuth()
   const navigate = useNavigate()
+  const contadores = useContadores()
   useEffect(() => {
     if (!open) return
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -40,6 +42,7 @@ export default function SideMenu({ open, onClose }) {
               <NavLink to={item.to} end={item.to === '/'} onClick={onClose} className="sidemenu__link">
                 <Icon name={item.icon} size={20} />
                 {item.label}
+                {contadores[item.to] > 0 && <span className="nav-badge">{textoContador(contadores[item.to])}</span>}
               </NavLink>
             </li>
           ))}

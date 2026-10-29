@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter, Routes, Route, Navigate } from 'react-router'
 import './index.css'
+import { ActividadProvider } from './auth/ActividadContext.jsx'
 import { AuthProvider } from './auth/AuthContext.jsx'
 
 import Layout from './components/layout/Layout.jsx'
@@ -20,6 +21,7 @@ import Creditos from './pages/creditos/Creditos.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
+    <ActividadProvider>
     <HashRouter>
       <Routes>
         <Route element={<Layout />}>
@@ -38,6 +40,7 @@ createRoot(document.getElementById('root')).render(
         </Route>
       </Routes>
     </HashRouter>
+    </ActividadProvider>
     </AuthProvider>
   </StrictMode>,
 )

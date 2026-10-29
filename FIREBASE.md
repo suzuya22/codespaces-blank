@@ -58,8 +58,13 @@ Qué permiten las reglas:
 - Solo el dueño puede editar su perfil o borrar sus proyectos y reseñas.
 - Los nombres de usuario son únicos y no se pueden cambiar.
 
-Las colecciones se crean solas la primera vez que alguien se registra o publica:
-`usuarios`, `usuariosPorNombre`, `proyectos` y `resenas`.
+- Los mensajes privados solo los leen las dos personas de la conversación.
+- Las solicitudes para unirse solo las ven quien las envía y el creador del proyecto.
+
+Las colecciones se crean solas la primera vez que alguien se registra, publica o escribe:
+`usuarios`, `usuariosPorNombre`, `proyectos`, `resenas`, `conversaciones` y `solicitudes`.
+
+> **Cada vez que cambie `firestore.rules`** hay que volver a pegarlo en la pestaña **Reglas** y pulsar **Publicar**.
 
 ## 4. Cloudinary para los archivos 3D e imágenes
 

@@ -968,3 +968,43 @@
   background: #e04f6c;
   color: #fff;
 }
+
+/* ---------- Solicitudes para unirse ---------- */
+a.proyecto__btn-unirme {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+.proyecto__btn-unirme:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.proyecto__dueno-acciones .proyecto__btn-unirme {
+  width: auto;
+  flex: 1;
+}
+.proyecto__ok-banner a {
+  color: #fff;
+}
+.proyecto__link-btn {
+  display: block;
+  margin: 6px auto 0;
+  background: none;
+  border: none;
+  color: #c9bce3;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.proyecto__solicitud-estado {
+  padding: 10px;
+  border: 1px dashed #3c2f57;
+  border-radius: 6px;
+  color: #c9bce3;
+  font-size: 0.85rem;
+  text-align: center;
+}
+.proyecto__solicitud-form {
+  display: grid;
+  gap: 8px;
+}

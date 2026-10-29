@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router'
 import ProjectCard from '../../components/ui/ProjectCard/ProjectCard.jsx'
 import Button from '../../components/ui/Button/Button.jsx'
 import Avatar from '../../components/ui/Avatar/Avatar.jsx'
@@ -7,6 +7,7 @@ import RatingStars from '../../components/ui/RatingStars/RatingStars.jsx'
 import { USUARIOS } from '../../data/proyectos.js'
 import { useProyectos } from '../../data/store.js'
 import { useAuth } from '../../auth/AuthContext.jsx'
+import { useActividad } from '../../auth/ActividadContext.jsx'
 import { servicio, subirArchivo, validarArchivo, mensajeError, normalizarUsuario } from '../../servicios/index.js'
 import './Perfil.css'
 
@@ -157,6 +158,88 @@ function EditarPerfil({ perfil, onGuardar, onCancelar }) {
   )
 }
 
+const fechaCorta = (ms) => (ms ? new Date(ms).toLocaleDateString('es-CO', { day: 'numeric', month: 'short' }) : '')
+const ESTADO_SOLICITUD = { pendiente: 'Pendiente', aceptada: 'Aceptada', rechazada: 'Rechazada' }
+
+// Solicitudes que otras cuentas enviaron para unirse a tus proyectos
+function SolicitudesRecibidas({ solicitudes, yo }) {
+  const navigate = useNavigate()
+  const [ocupada, setOcupada] = useState(null)
+  const [error, setError] = useState('')
+
+  const responder = async (s, estado) => {
+    setOcupada(s.id)
+    setError('')
+    try {
+      await servicio.responderSolicitud(s.id, estado)
+      if (estado === 'aceptada') {
+        // Abre el chat con la persona y le deja un primer mensaje
+        const id = await servicio.abrirConversacion(yo, { uid: s.deUid, usuario: s.deUsuario })
+        await servicio.enviarMensaje(id, yo, `¡Hola @${s.deUsuario}! Acepté tu solicitud para unirte a “${s.proyectoTitulo}”. Hablemos del proyecto 🙌`)
+        navigate(`/mensajes?chat=${id}`)
+      }
+    } catch (err) {
+      setError(mensajeError(err))
+    } finally {
+      setOcupada(null)
+    }
+  }
+
+  if (!solicitudes.length) {
+    return (
+      <div className="perfil__assets-info card">
+        <p>Aún no tienes solicitudes. Cuando alguien pulse “Solicitar unirme al equipo” en uno de tus proyectos, aparecerá aquí.</p>
+      </div>
+    )
+  }
+
+  return (
+    <>
+      {error && (
+        <p className="perfil__error" role="alert">
+          {error}
+        </p>
+      )}
+      <ul className="perfil__feedbacks">
+        {solicitudes.map((s) => (
+          <li key={s.id} className={`perfil__solicitud card perfil__solicitud--${s.estado}`}>
+            <div className="perfil__solicitud-head">
+              <Link to={`/perfil/${s.deUsuario}`} className="perfil__solicitud-autor">
+                <Avatar usuario={s.deUsuario} size={40} />
+                <span>
+                  <strong>@{s.deUsuario}</strong>
+                  {s.deRol && <small>{s.deRol}</small>}
+                </span>
+              </Link>
+              <span className={`perfil__solicitud-estado perfil__solicitud-estado--${s.estado}`}>{ESTADO_SOLICITUD[s.estado]}</span>
+            </div>
+            <p>
+              Quiere unirse a <Link to={`/proyecto/${s.proyectoId}`}>{s.proyectoTitulo}</Link> · {fechaCorta(s.fecha)}
+            </p>
+            {s.mensaje && <blockquote className="perfil__solicitud-msg">“{s.mensaje}”</blockquote>}
+            <div className="perfil__editar-acciones">
+              {s.estado === 'pendiente' ? (
+                <>
+                  <button type="button" className="perfil__action-btn perfil__action-btn--edit" disabled={ocupada === s.id} onClick={() => responder(s, 'rechazada')}>
+                    Rechazar
+                  </button>
+                  <button type="button" className="perfil__action-btn perfil__action-btn--msg" disabled={ocupada === s.id} onClick={() => responder(s, 'aceptada')}>
+                    ✓ Aceptar y abrir chat
+                  </button>
+                </>
+              ) : (
+                <Link to={`/mensajes?con=${s.deUsuario}`} className="perfil__action-btn perfil__action-btn--msg">
+                  ✉️ Escribir a @{s.deUsuario}
+                </Link>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </>
+  )
+}
+
 const enlaceExterno = (texto) => (/^https?:\/\//.test(texto) ? texto : `https://${texto}`)
 
 function Perfil() {
@@ -166,7 +249,13 @@ function Perfil() {
   const esPropio = listo && nombre === sesion.usuario
   const { perfil, cargando } = usePerfil(nombre, esPropio ? sesion : null)
   const todos = useProyectos()
-  const [activeTab, setActiveTab] = useState('proyectos')
+  const [busqueda] = useSearchParams()
+  const [activeTab, setActiveTab] = useState(busqueda.get('tab') ?? 'proyectos')
+  const { recibidas, pendientes } = useActividad()
+  const tabUrl = busqueda.get('tab')
+  useEffect(() => {
+    if (tabUrl) setActiveTab(tabUrl)
+  }, [tabUrl])
   const [editando, setEditando] = useState(false)
 
   // /perfil sin sesión: invitar a entrar
@@ -261,9 +350,14 @@ function Perfil() {
               </Link>
             </>
           ) : (
-            <Link to="/mensajes" className="perfil__action-btn perfil__action-btn--msg">
-              ✉️ Enviar mensaje
-            </Link>
+            perfil.uid && (
+              <Link
+                to={listo ? `/mensajes?con=${perfil.usuario}` : `/login?volver=${encodeURIComponent(`/mensajes?con=${perfil.usuario}`)}`}
+                className="perfil__action-btn perfil__action-btn--msg"
+              >
+                ✉️ Enviar mensaje
+              </Link>
+            )
           )}
         </div>
       </div>
@@ -340,7 +434,20 @@ function Perfil() {
             >
               Feedbacks otorgados ({feedbacks.length})
             </button>
+            {esPropio && (
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === 'solicitudes'}
+                className={`perfil__tab-btn ${activeTab === 'solicitudes' ? 'perfil__tab-btn--active' : ''}`}
+                onClick={() => setActiveTab('solicitudes')}
+              >
+                Solicitudes{pendientes > 0 && <span className="nav-badge">{pendientes > 9 ? '9+' : pendientes}</span>}
+              </button>
+            )}
           </div>
+
+          {activeTab === 'solicitudes' && esPropio && <SolicitudesRecibidas solicitudes={recibidas} yo={sesion} />}
 
           {activeTab === 'proyectos' &&
             (proyectos.length ? (

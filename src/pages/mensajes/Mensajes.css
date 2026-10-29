@@ -418,3 +418,43 @@
     color: #fff;
   }
 }
+
+/* ---------- Mensajes reales ---------- */
+.mensajes__gate {
+  display: grid;
+  gap: var(--s-3);
+}
+.mensajes__aviso {
+  display: block;
+  margin: 0 0 var(--s-3);
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #7254d1;
+  background: rgba(114, 84, 209, 0.18);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.mensajes__aviso:hover {
+  background: rgba(114, 84, 209, 0.3);
+}
+.mensajes__error {
+  margin: 0;
+  padding: 6px 16px;
+  color: #ff9db0;
+  font-size: 0.85rem;
+}
+.mensajes__sin-chat {
+  flex: 1;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  text-align: center;
+  color: #a496bd;
+}
+.mensajes__burbujas .mensajes__vacio {
+  text-align: center;
+}

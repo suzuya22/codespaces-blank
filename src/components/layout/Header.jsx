@@ -4,12 +4,14 @@ import Icon from '../ui/Icon.jsx'
 import Avatar from '../ui/Avatar/Avatar.jsx'
 import { useAuth } from '../../auth/AuthContext.jsx'
 import { NAV_PRINCIPAL } from './navegacion.js'
+import { useContadores, textoContador } from './useContadores.js'
 import './Header.css'
 
 export default function Header({ onMenu }) {
   const [q, setQ] = useState('')
   const { usuario, listo } = useAuth()
   const navigate = useNavigate()
+  const contadores = useContadores()
 
   const handleSearch = (e) => {
     e.preventDefault()
@@ -34,6 +36,7 @@ export default function Header({ onMenu }) {
           {NAV_PRINCIPAL.map((item) => (
             <NavLink key={item.to} to={item.to} end={item.to === '/'} className="header__link">
               {item.label}
+              {contadores[item.to] > 0 && <span className="nav-badge">{textoContador(contadores[item.to])}</span>}
             </NavLink>
           ))}
           <NavLink to="/creditos" className="header__link">
@@ -61,6 +64,11 @@ export default function Header({ onMenu }) {
             <Link to={`/perfil/${usuario.usuario}`} className="header__profile-chip" title="Ver mi perfil">
               <Avatar perfil={usuario} size={26} className="header__profile-avatar" />
               <span className="header__profile-name">@{usuario.usuario}</span>
+              {contadores['/perfil'] > 0 && (
+                <span className="nav-badge" aria-label={`${contadores['/perfil']} solicitudes nuevas`}>
+                  {textoContador(contadores['/perfil'])}
+                </span>
+              )}
             </Link>
           ) : (
             <Link to="/login" className="header__login">
