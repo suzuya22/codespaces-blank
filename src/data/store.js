@@ -1,17 +1,16 @@
 // =========================================================
-// Almacén global de DevNet (sin backend)
-// Guarda en el navegador (localStorage) lo que el usuario crea:
-//   - proyectos publicados
-//   - reseñas de cada proyecto
-//   - mensajes del chat
-// Cualquier componente que use estos hooks se actualiza al instante
-// cuando algo cambia, en todas las páginas (e incluso en otras pestañas).
+// Almacén global de DevNet
+//   - Proyectos y reseñas: vienen del servicio activo (Firebase o modo local,
+//     ver src/servicios). Todas las cuentas ven los proyectos de las demás.
+//   - Mensajes del chat: se guardan en este navegador (localStorage).
+// Cualquier componente que use estos hooks se actualiza al instante.
 // =========================================================
 import { useMemo, useSyncExternalStore } from 'react'
 import { PROYECTOS, CONVERSACIONES, USUARIOS } from './proyectos.js'
+import { servicio } from '../servicios/index.js'
 
 const CLAVE = 'devnet-datos-v1'
-const ESTADO_INICIAL = { publicados: [], resenas: {}, chats: null, leidos: {} }
+const ESTADO_INICIAL = { chats: null, leidos: {} }
 
 function cargar() {
   try {
@@ -22,13 +21,32 @@ function cargar() {
   }
 }
 
-let estado = cargar()
+let estado = { ...cargar(), remotos: [], resenas: [], errorRemoto: null, cargado: false }
 const suscriptores = new Set()
+
+// Datos en vivo desde el servicio (se conectan una sola vez, al primer uso)
+let conectado = false
+function conectarServicio() {
+  if (conectado) return
+  conectado = true
+  const alError = (error) => {
+    estado = { ...estado, errorRemoto: error?.code ?? 'error', cargado: true }
+    suscriptores.forEach((fn) => fn())
+  }
+  servicio.escucharProyectos((remotos) => {
+    estado = { ...estado, remotos, errorRemoto: null, cargado: true }
+    suscriptores.forEach((fn) => fn())
+  }, alError)
+  servicio.escucharResenas((resenas) => {
+    estado = { ...estado, resenas }
+    suscriptores.forEach((fn) => fn())
+  }, alError)
+}
 
 function actualizar(cambio) {
   estado = { ...estado, ...cambio(estado) }
   try {
-    localStorage.setItem(CLAVE, JSON.stringify(estado))
+    localStorage.setItem(CLAVE, JSON.stringify({ chats: estado.chats, leidos: estado.leidos }))
   } catch {
     // Almacenamiento lleno o bloqueado: los datos viven solo en esta sesión
   }
@@ -36,11 +54,12 @@ function actualizar(cambio) {
 }
 
 function suscribir(fn) {
+  conectarServicio()
   suscriptores.add(fn)
   // Sincroniza si el usuario tiene el sitio abierto en otra pestaña
   const alCambiarOtraPestana = (e) => {
     if (e.key === CLAVE) {
-      estado = cargar()
+      estado = { ...estado, ...cargar() }
       fn()
     }
   }
@@ -57,21 +76,28 @@ function useEstado() {
 
 /* ---------------- Proyectos ---------------- */
 
-// Combina los datos base del proyecto con las reseñas que dejó la comunidad
+const SIETE_DIAS = 7 * 24 * 60 * 60 * 1000
+
+// Combina los datos base del proyecto con las reseñas de la comunidad
 function conEstadisticas(proyecto, resenas = []) {
-  const totalFeedbacks = proyecto.feedbacks + resenas.length
-  const sumaEstrellas = proyecto.rating * proyecto.feedbacks + resenas.reduce((acc, r) => acc + r.estrellas, 0)
+  const base = proyecto.feedbacks ?? 0
+  const totalFeedbacks = base + resenas.length
+  const sumaEstrellas = (proyecto.rating ?? 0) * base + resenas.reduce((acc, r) => acc + r.estrellas, 0)
   const rating = totalFeedbacks ? Math.round((sumaEstrellas / totalFeedbacks) * 10) / 10 : 0
-  return { ...proyecto, feedbacks: totalFeedbacks, rating, resenas }
+  const esNuevo = Boolean(proyecto.creadoEn && Date.now() - proyecto.creadoEn < SIETE_DIAS)
+  return { ...proyecto, feedbacks: totalFeedbacks, rating, resenas, nuevo: proyecto.nuevo || esNuevo, esNuevo }
 }
 
-// Lista completa: primero los publicados por el usuario (más recientes arriba) y luego los del sitio
+// Lista completa: proyectos de todas las cuentas (más recientes arriba) + los de ejemplo del sitio
 export function useProyectos() {
-  const { publicados, resenas } = useEstado()
-  return useMemo(
-    () => [...publicados, ...PROYECTOS].map((p) => conEstadisticas(p, resenas[p.id])),
-    [publicados, resenas],
-  )
+  const { remotos, resenas } = useEstado()
+  return useMemo(() => {
+    const porProyecto = {}
+    for (const r of [...resenas].sort((a, b) => (b.fecha ?? 0) - (a.fecha ?? 0))) {
+      ;(porProyecto[r.proyectoId] ??= []).push(r)
+    }
+    return [...remotos, ...PROYECTOS].map((p) => conEstadisticas(p, porProyecto[p.id]))
+  }, [remotos, resenas])
 }
 
 export function useProyecto(id) {
@@ -79,51 +105,44 @@ export function useProyecto(id) {
   return proyectos.find((p) => p.id === id)
 }
 
-function crearId(titulo) {
-  const base = titulo
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
-  return `${base || 'proyecto'}-${Date.now().toString(36)}`
+// true cuando ya llegaron los proyectos de la base de datos
+export function useProyectosCargados() {
+  return useEstado().cargado
 }
 
-export function publicarProyecto({ titulo, sinopsis, etiquetas, motor, portada, archivo }) {
-  const proyecto = {
-    id: crearId(titulo),
-    titulo: titulo.trim(),
-    autor: 'suzuya',
-    motor,
-    estado: 'test',
-    version: 'Prototipo',
-    generos: etiquetas.length ? etiquetas : ['Indie'],
-    feedbacks: 0,
-    rating: 0,
-    nuevo: true,
-    publicadoPorUsuario: true,
-    creadoEn: Date.now(),
-    portada: portada || undefined,
-    paleta: ['#1a0f2e', '#6b2fb3', '#e04f6c', '#f2c14e'],
-    sinopsis: sinopsis.trim(),
-    busca: ['Playtesters'],
-    build: archivo || undefined,
-  }
-  actualizar((s) => ({ publicados: [proyecto, ...s.publicados] }))
-  return proyecto.id
+// Error al leer de Firebase (por ejemplo, reglas sin publicar)
+export function useErrorRemoto() {
+  return useEstado().errorRemoto
 }
 
-export function eliminarProyecto(id) {
-  actualizar((s) => ({ publicados: s.publicados.filter((p) => p.id !== id) }))
+/** Publica un proyecto de la cuenta actual. Devuelve el id. */
+export function publicarProyecto(datos, autor) {
+  return servicio.crearProyecto(
+    {
+      titulo: datos.titulo.trim(),
+      sinopsis: datos.sinopsis.trim(),
+      generos: datos.etiquetas?.length ? datos.etiquetas : ['Indie'],
+      motor: datos.motor,
+      estado: datos.estado ?? 'test',
+      version: datos.version?.trim() || 'Prototipo',
+      portada: datos.portada ?? null,
+      modelo: datos.modelo ?? null,
+      enlaceJuego: datos.enlaceJuego?.trim() || null,
+      busca: datos.busca?.length ? datos.busca : ['Playtesters'],
+      paleta: ['#1a0f2e', '#6b2fb3', '#e04f6c', '#f2c14e'],
+      feedbacks: 0,
+      rating: 0,
+    },
+    autor,
+  )
 }
+
+export const eliminarProyecto = (id) => servicio.eliminarProyecto(id)
 
 /* ---------------- Reseñas ---------------- */
 
-export function agregarResena(proyectoId, { texto, estrellas }) {
-  const nueva = { texto, estrellas, autor: 'suzuya', fecha: Date.now() }
-  actualizar((s) => ({
-    resenas: { ...s.resenas, [proyectoId]: [nueva, ...(s.resenas[proyectoId] ?? [])] },
-  }))
+export function agregarResena(proyectoId, { texto, estrellas }, autor) {
+  return servicio.crearResena({ proyectoId, texto, estrellas }, autor)
 }
 
 /* ---------------- Chat ---------------- */

@@ -835,3 +835,136 @@
   border-color: #8b6ecc;
   color: #fff;
 }
+
+/* ---------- Firebase: modelo 3D, reseñas con autor y acciones del dueño ---------- */
+.proyecto__vista-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.proyecto__vista-tabs button {
+  min-height: 36px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  border: 1px solid #3c2f57;
+  background: #1e172e;
+  color: #ded7f0;
+  font-family: var(--btn-font);
+  font-weight: var(--btn-weight);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.proyecto__vista-tabs button[aria-selected='true'] {
+  background: var(--c-primary);
+  border-color: var(--c-primary);
+  color: #fff;
+}
+.proyecto__vista-info {
+  margin-left: auto;
+  color: #a496bd;
+  font-size: 0.78rem;
+}
+.proyecto__media--3d {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+@media (min-width: 700px) {
+  .proyecto__media--3d {
+    aspect-ratio: 16 / 9;
+  }
+}
+.proyecto__media--3d .visor3d {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+}
+.proyecto__cargando-3d {
+  color: #d9c8ff;
+}
+
+.proyecto__feedback-gate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border: 1px dashed #3c2f57;
+  border-radius: 6px;
+}
+.proyecto__feedback-gate p {
+  flex: 1 1 100%;
+  margin: 0;
+  color: #d1c5e8;
+  font-size: 0.9rem;
+}
+.proyecto__error {
+  color: #ff9db0;
+  font-size: 0.85rem;
+  margin: 0;
+}
+.proyecto__form-actions {
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+.proyecto__como {
+  color: #a496bd;
+  font-size: 0.8rem;
+  margin-right: auto;
+  align-self: center;
+}
+.proyecto__comentario-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.proyecto__comentario-autor {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-decoration: none;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.proyecto__comentario-autor:hover {
+  color: var(--c-primary-hover);
+}
+.proyecto__comentario-fecha {
+  margin-left: auto;
+  color: #8a7ca6;
+  font-size: 0.75rem;
+}
+.proyecto__publicado {
+  margin-top: 8px;
+  color: #8a7ca6;
+  font-size: 0.78rem;
+}
+.proyecto__spec-card--dueno {
+  border-color: #6b2f45;
+}
+.proyecto__dueno-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.proyecto__btn-borrar {
+  min-height: 40px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #e04f6c;
+  background: transparent;
+  color: #ff9db0;
+  font-family: var(--btn-font);
+  font-weight: var(--btn-weight);
+  cursor: pointer;
+}
+.proyecto__btn-borrar:hover {
+  background: #e04f6c;
+  color: #fff;
+}

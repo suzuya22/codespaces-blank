@@ -1,16 +1,46 @@
-import { useState, useRef, useEffect } from 'react'
-import { Link, useParams } from 'react-router'
+import { Suspense, useState, useRef, useEffect } from 'react'
+import { Link, useNavigate, useParams } from 'react-router'
 import { PixelCover } from '../../components/ui/PixelArt.jsx'
 import Icon from '../../components/ui/Icon.jsx'
 import Button from '../../components/ui/Button/Button.jsx'
 import RatingStars from '../../components/ui/RatingStars/RatingStars.jsx'
 import { nombreMotor, USUARIOS } from '../../data/proyectos.js'
-import { useProyecto, agregarResena } from '../../data/store.js'
+import { useProyecto, useProyectosCargados, agregarResena, eliminarProyecto } from '../../data/store.js'
+import { Visor3D } from '../../components/ui/Visor3D/index.js'
+import Avatar from '../../components/ui/Avatar/Avatar.jsx'
+import { useAuth } from '../../auth/AuthContext.jsx'
+import { servicio, formatoPeso, mensajeError } from '../../servicios/index.js'
 import './Proyecto.css'
+
+const fechaCorta = (ms) => (ms ? new Date(ms).toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric' }) : '')
+
+// Perfil del autor: los de ejemplo vienen en USUARIOS; los reales se leen de la base de datos
+function usePerfilAutor(usuario) {
+  const [remoto, setRemoto] = useState(null)
+  useEffect(() => {
+    if (!usuario || USUARIOS[usuario]) return
+    let vivo = true
+    servicio
+      .obtenerPerfil(usuario)
+      .then((p) => vivo && setRemoto(p))
+      .catch(() => {})
+    return () => {
+      vivo = false
+    }
+  }, [usuario])
+  return USUARIOS[usuario] ?? (remoto?.usuario === usuario ? remoto : null)
+}
 
 function Proyecto() {
   const { id } = useParams()
   const proyecto = useProyecto(id)
+  const cargado = useProyectosCargados()
+  const navigate = useNavigate()
+  const { usuario, listo } = useAuth()
+  const [vista, setVista] = useState('modelo') // modelo | portada (cuando hay modelo 3D)
+  const [enviandoResena, setEnviandoResena] = useState(false)
+  const [errorResena, setErrorResena] = useState('')
+  const [confirmarBorrado, setConfirmarBorrado] = useState(false)
   const [calificacion, setCalificacion] = useState(5)
   const [comentario, setComentario] = useState('')
   const [recienActualizado, setRecienActualizado] = useState(false)
@@ -18,6 +48,7 @@ function Proyecto() {
   const [jugando, setJugando] = useState(false)
   const [mensajeSinDemo, setMensajeSinDemo] = useState(false)
   const playerContainerRef = useRef(null)
+  const perfilAutor = usePerfilAutor(proyecto?.autor)
 
   const tieneDemo = Boolean(proyecto?.juegoUrl)
   const puedePantallaCompleta = typeof document !== 'undefined' && Boolean(document.fullscreenEnabled)
@@ -40,6 +71,7 @@ function Proyecto() {
   }, [jugando, tieneDemo])
 
   if (!proyecto) {
+    if (!cargado) return <div className="page page--narrow muted">Cargando proyecto…</div>
     return (
       <div className="page page--narrow">
         <h1>Proyecto no encontrado</h1>
@@ -49,6 +81,10 @@ function Proyecto() {
   }
 
   const handlePlayClick = () => {
+    if (!tieneDemo && proyecto.enlaceJuego) {
+      window.open(proyecto.enlaceJuego, '_blank', 'noopener')
+      return
+    }
     if (tieneDemo) {
       setJugando(true)
       setMensajeSinDemo(false)
@@ -83,13 +119,29 @@ function Proyecto() {
   const totalFeedbacks = proyecto.feedbacks
   const ratingActual = totalFeedbacks ? proyecto.rating.toFixed(1) : '—'
 
-  const enviarFeedback = (e) => {
+  const enviarFeedback = async (e) => {
     e.preventDefault()
     if (!comentario.trim()) return
-    agregarResena(proyecto.id, { texto: comentario.trim(), estrellas: calificacion })
-    setComentario('')
-    setRecienActualizado(true)
-    setTimeout(() => setRecienActualizado(false), 1000)
+    setErrorResena('')
+    setEnviandoResena(true)
+    try {
+      await agregarResena(proyecto.id, { texto: comentario.trim(), estrellas: calificacion }, usuario)
+      setComentario('')
+      setRecienActualizado(true)
+      setTimeout(() => setRecienActualizado(false), 1000)
+    } catch (err) {
+      setErrorResena(mensajeError(err))
+    } finally {
+      setEnviandoResena(false)
+    }
+  }
+
+  const esDueno = listo && proyecto.autorUid && proyecto.autorUid === usuario.uid
+  const tieneModelo = Boolean(proyecto.modelo?.url)
+  const verModelo = tieneModelo && vista === 'modelo'
+  const borrar = async () => {
+    await eliminarProyecto(proyecto.id)
+    navigate(`/perfil/${usuario.usuario}`)
   }
 
   const claseValor = recienActualizado ? 'proyecto__spec-value--updated' : undefined
@@ -124,6 +176,22 @@ function Proyecto() {
               {tieneDemo && <span className="proyecto__chip-demo">● DEMO PLAYTEST</span>}
             </div>
           </div>
+
+          {/* Selector modelo 3D / portada */}
+          {tieneModelo && !jugando && (
+            <div className="proyecto__vista-tabs" role="tablist" aria-label="Vista del proyecto">
+              <button type="button" role="tab" aria-selected={vista === 'modelo'} onClick={() => setVista('modelo')}>
+                ◆ Modelo 3D
+              </button>
+              <button type="button" role="tab" aria-selected={vista === 'portada'} onClick={() => setVista('portada')}>
+                Portada
+              </button>
+              <span className="proyecto__vista-info">
+                {proyecto.modelo.formato?.toUpperCase()}
+                {proyecto.modelo.bytes ? ` · ${formatoPeso(proyecto.modelo.bytes)}` : ''}
+              </span>
+            </div>
+          )}
 
           {/* WebGL Player o Portada */}
           <div className="proyecto__viewport-container">
@@ -177,6 +245,13 @@ function Proyecto() {
                 </p>
               </div>
             ) : (
+              verModelo ? (
+              <div className="proyecto__media proyecto__media--3d">
+                <Suspense fallback={<p className="proyecto__cargando-3d">Cargando visor 3D…</p>}>
+                  <Visor3D url={proyecto.modelo.url} formato={proyecto.modelo.formato} nombre={proyecto.titulo} />
+                </Suspense>
+              </div>
+              ) : (
               <div className="proyecto__media">
                 {proyecto.portada ? (
                   <img src={proyecto.portada} alt={proyecto.titulo} className="proyecto__cover-img" />
@@ -195,6 +270,8 @@ function Proyecto() {
                   </svg>
                   {tieneDemo ? (
                     <span className="proyecto__play-badge">¡Iniciar playtest (WebGL)!</span>
+                  ) : proyecto.enlaceJuego ? (
+                    <span className="proyecto__play-badge">Jugar la build ↗</span>
                   ) : (
                     <span className="proyecto__play-badge">Demo próximamente</span>
                   )}
@@ -202,10 +279,11 @@ function Proyecto() {
 
                 {mensajeSinDemo && (
                   <div className="proyecto__no-demo-toast" role="alert">
-                    🔒 Este proyecto aún no cuenta con una build web pública. ¡Solo <strong>Bit Scape</strong> tiene prototipo jugable activo!
+                    🔒 Este proyecto aún no cuenta con una build jugable pública.
                   </div>
                 )}
               </div>
+              )
             )}
           </div>
 
@@ -230,6 +308,15 @@ function Proyecto() {
               </div>
             </div>
 
+            {!listo ? (
+              <div className="proyecto__feedback-gate">
+                <p>Inicia sesión para calificar y dejar feedback con tu nombre de usuario.</p>
+                <Button to={`/login?volver=/proyecto/${proyecto.id}`}>Iniciar sesión</Button>
+                <Button to={`/registro?volver=/proyecto/${proyecto.id}`} variant="ghost">
+                  Crear cuenta
+                </Button>
+              </div>
+            ) : (
             <form onSubmit={enviarFeedback} className="proyecto__feedback-form">
               <div className="proyecto__field-group">
                 <label htmlFor="comentario-input" className="proyecto__label">
@@ -245,18 +332,35 @@ function Proyecto() {
                   required
                 />
               </div>
+              {errorResena && (
+                <p className="proyecto__error" role="alert">
+                  {errorResena}
+                </p>
+              )}
               <div className="proyecto__form-actions">
-                <button type="submit" className="proyecto__btn-submit">
-                  Enviar feedback al desarrollador
+                <span className="proyecto__como">Comentas como @{usuario.usuario}</span>
+                <button type="submit" className="proyecto__btn-submit" disabled={enviandoResena}>
+                  {enviandoResena ? 'Enviando…' : 'Enviar feedback al desarrollador'}
                 </button>
               </div>
             </form>
+            )}
 
             {comentarios.length > 0 && (
               <ul className="proyecto__comentarios-list" aria-live="polite">
                 {comentarios.map((c, i) => (
-                  <li key={c.fecha ?? i} className="proyecto__comentario-item">
-                    <RatingStars value={c.estrellas} />
+                  <li key={c.id ?? c.fecha ?? i} className="proyecto__comentario-item">
+                    <div className="proyecto__comentario-head">
+                      {c.autor ? (
+                        <Link to={`/perfil/${c.autor}`} className="proyecto__comentario-autor">
+                          <Avatar usuario={c.autor} size={24} />@{c.autor}
+                        </Link>
+                      ) : (
+                        <span className="proyecto__comentario-autor">Anónimo</span>
+                      )}
+                      <RatingStars value={c.estrellas} />
+                      {c.fecha && <time className="proyecto__comentario-fecha">{fechaCorta(c.fecha)}</time>}
+                    </div>
                     <p>{c.texto}</p>
                   </li>
                 ))}
@@ -335,20 +439,40 @@ function Proyecto() {
           <div className="proyecto__spec-card">
             <h4 className="proyecto__creator-heading">CREADOR DEL PROYECTO</h4>
             <div className="proyecto__creator-profile">
-              <img
-                src={USUARIOS[proyecto.autor]?.avatar ?? 'images/avatares/suzuya.png'}
-                alt={proyecto.autor}
-                className="proyecto__creator-avatar"
-              />
+              <Avatar perfil={perfilAutor ?? undefined} usuario={proyecto.autor} size={44} className="proyecto__creator-avatar" />
               <div>
                 <h4 className="proyecto__creator-name">@{proyecto.autor}</h4>
-                <p className="proyecto__creator-role">{USUARIOS[proyecto.autor]?.rol ?? 'Lead Dev & Diseñador'}</p>
+                <p className="proyecto__creator-role">{perfilAutor?.rol ?? 'Creador indie'}</p>
               </div>
             </div>
             <Link to={`/perfil/${proyecto.autor}`} className="proyecto__creator-link">
               Ver perfil completo y proyectos ↗
             </Link>
+            {proyecto.creadoEn && <p className="proyecto__publicado">Publicado el {fechaCorta(proyecto.creadoEn)}</p>}
           </div>
+
+          {esDueno && (
+            <div className="proyecto__spec-card proyecto__spec-card--dueno">
+              <h4 className="proyecto__creator-heading">TU PROYECTO</h4>
+              {confirmarBorrado ? (
+                <>
+                  <p className="proyecto__recruit-desc">¿Seguro? Se borrará para todas las cuentas.</p>
+                  <div className="proyecto__dueno-acciones">
+                    <button type="button" className="proyecto__btn-borrar" onClick={borrar}>
+                      Sí, eliminar
+                    </button>
+                    <button type="button" className="proyecto__action-btn" onClick={() => setConfirmarBorrado(false)}>
+                      Cancelar
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <button type="button" className="proyecto__btn-borrar" onClick={() => setConfirmarBorrado(true)}>
+                  Eliminar proyecto
+                </button>
+              )}
+            </div>
+          )}
         </aside>
       </div>
     </div>

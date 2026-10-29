@@ -44,3 +44,9 @@
 .btn--ghost:hover {
   border-color: var(--c-primary-hover);
 }
+.btn:disabled,
+.login__social-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+}

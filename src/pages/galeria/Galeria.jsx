@@ -13,13 +13,14 @@ function Galeria() {
   const [motor, setMotor] = useState('todos')
   const [estado, setEstado] = useState('todos')
   const [orden, setOrden] = useState('recientes')
+  const [solo3D, setSolo3D] = useState(false)
   const [filtrosAbiertos, setFiltrosAbiertos] = useState(true)
 
   const resultados = useMemo(() => {
     const q = busqueda.trim().toLowerCase()
     let lista = proyectos.filter((p) => {
-      const coincide = !q || [p.titulo, p.autor, ...p.generos].join(' ').toLowerCase().includes(q)
-      return coincide && (motor === 'todos' || p.motor === motor) && (estado === 'todos' || p.estado === estado)
+      const coincide = !q || [p.titulo, p.autor, ...(p.generos ?? [])].join(' ').toLowerCase().includes(q)
+      return coincide && (motor === 'todos' || p.motor === motor) && (estado === 'todos' || p.estado === estado) && (!solo3D || Boolean(p.modelo?.url))
     })
 
     if (orden === 'recientes') {
@@ -32,12 +33,13 @@ function Galeria() {
     }
 
     return lista
-  }, [proyectos, busqueda, motor, estado, orden])
+  }, [proyectos, busqueda, motor, estado, orden, solo3D])
 
   const limpiarFiltros = () => {
     setBusqueda('')
     setMotor('todos')
     setEstado('todos')
+    setSolo3D(false)
     setOrden('recientes')
     setParams({})
   }
@@ -159,6 +161,12 @@ function Galeria() {
                 </div>
               </div>
 
+              {/* Solo proyectos con modelo 3D */}
+              <label className="galeria__check-3d">
+                <input type="checkbox" checked={solo3D} onChange={(e) => setSolo3D(e.target.checked)} />
+                <span>◆ Solo con modelo 3D ({proyectos.filter((p) => p.modelo?.url).length})</span>
+              </label>
+
               {/* Acciones de filtro */}
               <div className="galeria__filter-actions">
                 <button
@@ -179,7 +187,7 @@ function Galeria() {
             <span className="galeria__count">
               Mostrando <strong>{resultados.length}</strong> de <strong>{proyectos.length}</strong> proyectos
             </span>
-            {(motor !== 'todos' || estado !== 'todos' || busqueda) && (
+            {(motor !== 'todos' || estado !== 'todos' || busqueda || solo3D) && (
               <button type="button" className="galeria__reset-tag" onClick={limpiarFiltros}>
                 Restablecer filtros ✕
               </button>

@@ -232,3 +232,27 @@
     padding: 3px;
   }
 }
+
+/* Botón "Iniciar sesión" cuando no hay cuenta activa (desde tablet) */
+.header__login {
+  display: none;
+}
+@media (min-width: 768px) {
+  .header__login {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    color: #fff;
+    font-family: var(--btn-font);
+    font-weight: var(--btn-weight);
+    font-size: 0.85rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .header__login:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}

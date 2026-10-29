@@ -389,3 +389,18 @@
   color: #796c94;
   font-size: 0.9rem;
 }
+
+.galeria__check-3d {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: #ded7f0;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.galeria__check-3d input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--c-primary);
+}

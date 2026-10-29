@@ -83,3 +83,27 @@
   background: var(--c-primary-soft);
   color: #fff;
 }
+
+.sidemenu__cuenta {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3);
+  margin-bottom: var(--s-3);
+  border-radius: var(--radius);
+  background: var(--c-surface-2);
+}
+.sidemenu__cuenta strong,
+.sidemenu__cuenta small {
+  display: block;
+}
+.sidemenu__cuenta small {
+  color: var(--c-text-muted);
+}
+.sidemenu__salir {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: #ff9db0;
+}

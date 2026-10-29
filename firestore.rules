@@ -1,0 +1,104 @@
+rules_version = '2';
+
+// Reglas de seguridad de DevNet.
+// Cópialas en Firebase Console → Firestore Database → Reglas → Publicar.
+// Todo es de lectura pública (cualquiera ve los proyectos), pero solo
+// el dueño de una cuenta puede crear, editar o borrar lo suyo.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function sesion() {
+      return request.auth != null;
+    }
+    function esDueno(uid) {
+      return sesion() && request.auth.uid == uid;
+    }
+    // Nombre de usuario registrado por la cuenta que hace la petición
+    function miUsuario() {
+      return get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.usuario;
+    }
+    function textoEntre(valor, min, max) {
+      return valor is string && valor.size() >= min && valor.size() <= max;
+    }
+    function opcional(datos, campo, max) {
+      return !(campo in datos) || datos[campo] == null || (datos[campo] is string && datos[campo].size() <= max);
+    }
+
+    // ---------- Nombres de usuario únicos: usuariosPorNombre/{nombre} → { uid } ----------
+    match /usuariosPorNombre/{nombre} {
+      allow read: if true;
+      allow create: if sesion()
+        && nombre.matches('^[a-z0-9_]{3,20}$')
+        && request.resource.data.keys().hasOnly(['uid'])
+        && request.resource.data.uid == request.auth.uid
+        // El perfil se crea en la misma transacción con este mismo nombre
+        && getAfter(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.usuario == nombre;
+      allow update, delete: if false;
+    }
+
+    // ---------- Perfiles: usuarios/{uid} ----------
+    match /usuarios/{uid} {
+      function perfilValido(d) {
+        return textoEntre(d.usuario, 3, 20)
+          && textoEntre(d.nombre, 0, 40)
+          && textoEntre(d.rol, 0, 40)
+          && textoEntre(d.sobreMi, 0, 500)
+          && d.habilidades is list && d.habilidades.size() <= 12
+          && opcional(d, 'avatar', 900000)
+          && (!('enlaces' in d) || d.enlaces is map);
+      }
+
+      allow read: if true;
+      allow create: if esDueno(uid)
+        && request.resource.data.uid == uid
+        && perfilValido(request.resource.data)
+        // El nombre debe quedar reservado para esta cuenta en la misma transacción
+        && getAfter(/databases/$(database)/documents/usuariosPorNombre/$(request.resource.data.usuario)).data.uid == uid;
+      allow update: if esDueno(uid)
+        && perfilValido(request.resource.data)
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['usuario', 'uid', 'creadoEn']);
+      allow delete: if false;
+    }
+
+    // ---------- Proyectos: proyectos/{id} ----------
+    match /proyectos/{id} {
+      function proyectoValido(d) {
+        return textoEntre(d.titulo, 1, 80)
+          && textoEntre(d.sinopsis, 1, 2000)
+          && d.motor is string
+          && d.generos is list && d.generos.size() <= 10
+          && opcional(d, 'version', 30)
+          && opcional(d, 'enlaceJuego', 300)
+          && opcional(d, 'portada', 900000)
+          && (!('modelo' in d) || d.modelo == null || (d.modelo is map && d.modelo.url is string && d.modelo.url.matches('^https://.*')));
+      }
+
+      allow read: if true;
+      allow create: if sesion()
+        && request.resource.data.autorUid == request.auth.uid
+        && request.resource.data.autor == miUsuario()
+        && request.resource.data.creadoEn == request.time
+        && proyectoValido(request.resource.data);
+      allow update: if esDueno(resource.data.autorUid)
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['autor', 'autorUid', 'creadoEn'])
+        && proyectoValido(request.resource.data);
+      allow delete: if esDueno(resource.data.autorUid);
+    }
+
+    // ---------- Reseñas / feedback: resenas/{id} ----------
+    match /resenas/{id} {
+      allow read: if true;
+      allow create: if sesion()
+        && request.resource.data.keys().hasOnly(['proyectoId', 'texto', 'estrellas', 'autor', 'autorUid', 'fecha'])
+        && request.resource.data.autorUid == request.auth.uid
+        && request.resource.data.autor == miUsuario()
+        && request.resource.data.fecha == request.time
+        && request.resource.data.proyectoId is string
+        && textoEntre(request.resource.data.texto, 1, 1000)
+        && request.resource.data.estrellas is int
+        && request.resource.data.estrellas >= 1 && request.resource.data.estrellas <= 5;
+      allow update: if false;
+      allow delete: if esDueno(resource.data.autorUid);
+    }
+  }
+}

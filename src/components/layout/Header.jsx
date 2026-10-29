@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router'
 import Icon from '../ui/Icon.jsx'
+import Avatar from '../ui/Avatar/Avatar.jsx'
+import { useAuth } from '../../auth/AuthContext.jsx'
 import { NAV_PRINCIPAL } from './navegacion.js'
 import './Header.css'
 
 export default function Header({ onMenu }) {
   const [q, setQ] = useState('')
+  const { usuario, listo } = useAuth()
   const navigate = useNavigate()
 
   const handleSearch = (e) => {
@@ -54,10 +57,16 @@ export default function Header({ onMenu }) {
             <Icon name="plus" size={16} /> Publicar
           </Link>
 
-          <Link to="/perfil/suzuya" className="header__profile-chip" title="Ver mi perfil">
-            <img src="images/avatares/suzuya.png" alt="Suzuya" className="header__profile-avatar" />
-            <span className="header__profile-name">@suzuya</span>
-          </Link>
+          {listo ? (
+            <Link to={`/perfil/${usuario.usuario}`} className="header__profile-chip" title="Ver mi perfil">
+              <Avatar perfil={usuario} size={26} className="header__profile-avatar" />
+              <span className="header__profile-name">@{usuario.usuario}</span>
+            </Link>
+          ) : (
+            <Link to="/login" className="header__login">
+              Iniciar sesión
+            </Link>
+          )}
 
           <button type="button" className="header__menu" onClick={onMenu} aria-label="Abrir menú">
             <Icon name="menu" size={26} />

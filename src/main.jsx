@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter, Routes, Route, Navigate } from 'react-router'
 import './index.css'
+import { AuthProvider } from './auth/AuthContext.jsx'
 
 import Layout from './components/layout/Layout.jsx'
 import Home from './pages/home/Home.jsx'
@@ -18,6 +19,7 @@ import Creditos from './pages/creditos/Creditos.jsx'
 // HashRouter: las rutas quedan como /#/galeria, lo que funciona en GitHub Pages sin configuración extra
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <AuthProvider>
     <HashRouter>
       <Routes>
         <Route element={<Layout />}>
@@ -36,5 +38,6 @@ createRoot(document.getElementById('root')).render(
         </Route>
       </Routes>
     </HashRouter>
+    </AuthProvider>
   </StrictMode>,
 )

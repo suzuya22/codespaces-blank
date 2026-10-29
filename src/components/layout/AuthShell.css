@@ -137,3 +137,13 @@
     border-radius: var(--radius-lg);
   }
 }
+
+/* Mensaje de error en formularios de acceso */
+.auth__error {
+  padding: var(--s-3);
+  border-radius: var(--radius);
+  border: 1px solid var(--c-danger);
+  background: rgba(255, 107, 129, 0.12);
+  color: #ffc2cc;
+  font-size: 0.9rem;
+}
